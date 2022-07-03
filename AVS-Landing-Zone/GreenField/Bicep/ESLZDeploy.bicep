@@ -20,8 +20,6 @@ param PrivateCloudAddressSpace string = ''
 param PrivateCloudSKU string = 'AV36'
 @description('The number of nodes to be deployed in the first/default cluster, ensure you have quota before deploying')
 param PrivateCloudHostCount int = 3
-@description('Set this to true if you are redeploying, and the Private Cloud already exists')
-param PrivateCloudExists bool = false
 @description('Existing Private Cloud Name')
 param ExistingPrivateCloudName string = ''
 @description('Existing Private Cloud Id')
@@ -138,8 +136,8 @@ module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployPrivateCloud) {
     GatewayName: DeployNetworking ? AzureNetworking.outputs.GatewayName : 'none'
     NetworkResourceGroup: DeployNetworking ? AzureNetworking.outputs.NetworkResourceGroup : 'none'
     VNetPrefix: Prefix
-    PrivateCloudName: PrivateCloudExists ? ExistingPrivateCloudName : AVSCore.outputs.PrivateCloudName
-    PrivateCloudResourceGroup: PrivateCloudExists ? ExistingPrivateCloudResourceGroup : AVSCore.outputs.PrivateCloudResourceGroupName
+    PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
+    PrivateCloudResourceGroup: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceGroupName : ExistingPrivateCloudResourceGroup 
     Location: Location
   }
 }
@@ -180,8 +178,8 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashbord : DeployDashbord
-    PrimaryPrivateCloudName : PrivateCloudExists ? ExistingPrivateCloudName : AVSCore.outputs.PrivateCloudName
-    PrimaryPrivateCloudResourceId : PrivateCloudExists ? ExistingPrivateCloudId : AVSCore.outputs.PrivateCloudResourceId
+    PrimaryPrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
+    PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudId
     ExRConnectionResourceId : VNetConnection.outputs.ExRConnectionResourceId
     JumpboxResourceId: DeployJumpbox ? Jumpbox.outputs.JumpboxResourceId : ''
     VNetResourceId: AzureNetworking.outputs.VNetResourceId
@@ -191,8 +189,8 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
 module Addons 'Modules/AVSAddons.bicep' = if (DeployPrivateCloud) {
   name: '${deploymentPrefix}-AVSAddons'
   params: {
-    PrivateCloudName: PrivateCloudExists ? ExistingPrivateCloudName : AVSCore.outputs.PrivateCloudName
-    PrivateCloudResourceGroup: PrivateCloudExists ? ExistingPrivateCloudResourceGroup : AVSCore.outputs.PrivateCloudResourceGroupName
+    PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
+    PrivateCloudResourceGroup: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceGroupName : ExistingPrivateCloudResourceGroup
     DeployHCX: DeployHCX
     DeploySRM: DeploySRM
     SRMLicenseKey: SRMLicenseKey

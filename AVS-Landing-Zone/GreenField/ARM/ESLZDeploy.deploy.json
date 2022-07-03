@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "3771589294305473820"
+      "templateHash": "18350242101291586027"
     }
   },
   "parameters": {
@@ -55,13 +55,6 @@
       "defaultValue": 3,
       "metadata": {
         "description": "The number of nodes to be deployed in the first/default cluster, ensure you have quota before deploying"
-      }
-    },
-    "PrivateCloudExists": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Set this to true if you are redeploying, and the Private Cloud already exists"
       }
     },
     "ExistingPrivateCloudName": {
@@ -935,10 +928,10 @@
             "value": "[parameters('Prefix')]"
           },
           "PrivateCloudName": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudName'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
           },
           "PrivateCloudResourceGroup": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudResourceGroup'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceGroupName.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceGroupName.value, parameters('ExistingPrivateCloudResourceGroup'))]"
           },
           "Location": {
             "value": "[parameters('Location')]"
@@ -1786,10 +1779,10 @@
             "value": "[parameters('DeployDashbord')]"
           },
           "PrimaryPrivateCloudName": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudName'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
           },
           "PrimaryPrivateCloudResourceId": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudId'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceId.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceId.value, parameters('ExistingPrivateCloudId'))]"
           },
           "ExRConnectionResourceId": {
             "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNet', variables('deploymentPrefix'))), '2020-10-01').outputs.ExRConnectionResourceId.value]"
@@ -2617,10 +2610,10 @@
         "mode": "Incremental",
         "parameters": {
           "PrivateCloudName": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudName'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
           },
           "PrivateCloudResourceGroup": {
-            "value": "[if(parameters('PrivateCloudExists'), parameters('ExistingPrivateCloudResourceGroup'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceGroupName.value)]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix'))), '2020-10-01').outputs.PrivateCloudResourceGroupName.value, parameters('ExistingPrivateCloudResourceGroup'))]"
           },
           "DeployHCX": {
             "value": "[parameters('DeployHCX')]"
