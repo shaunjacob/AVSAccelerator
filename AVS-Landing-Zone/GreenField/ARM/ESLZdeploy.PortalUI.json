@@ -222,10 +222,10 @@
                             "elements": [
                                 {
                                     "name": "existingAVSResourceGroupSelector",
-                                    "type": "Microsoft.Resources/resourceGroups",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
                                     "label": "Select the Resource Group of the Existing AVS Private Cloud",
-                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "resourceType": "Microsoft.Resources/resourceGroups",
                                     "options": {
                                         "filter": {
                                             "subscription": "onBasics",
