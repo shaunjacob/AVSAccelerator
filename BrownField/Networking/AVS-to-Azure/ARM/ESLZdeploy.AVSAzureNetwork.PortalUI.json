@@ -293,23 +293,13 @@
                         {
                             "name": "GWSubnetExistsTrue",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, true)]",
+                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
                             "options": {
-                                "text": "Mandatory: If a GatewaySubnet does not exist, this deployment will fail",
+                                "text": "Ensure subnet prefix is correct and available in your virtual network",
                                 "uri": "",
                                 "style": "Warning"
                             }
-                        },
-                        {
-                            "name": "GWSubnetExistsFalseInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
-                            "options": {
-                                "text": "Mandatory: Add a GatewaySubnet to the selected Virtual Network",
-                                "uri": "",
-                                "style": "Error"
-                            }
-                        }                       
+                        }                    
                     ]
                 }
             ]

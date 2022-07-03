@@ -217,7 +217,7 @@
                 },
                 {
                     "name": "azureNetwork",
-                    "label": "AVS Connectivity",
+                    "label": "Azure Connectivity",
                     "bladeTitle": "azureNetworkingSettings",
                     "elements": [
                         {

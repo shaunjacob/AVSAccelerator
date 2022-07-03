@@ -1,5 +1,8 @@
 targetScope = 'subscription'
 
+param DeployMetricAlerts bool
+param DeployServiceHealth bool
+param DeployDashbord bool
 param Prefix string
 param PrimaryLocation string
 param AlertEmails string
@@ -14,7 +17,7 @@ resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01
   location: PrimaryLocation
 }
 
-module ActionGroup 'Monitoring/ActionGroup.bicep' = {
+module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-ActionGroup'
   params: {
@@ -23,7 +26,7 @@ module ActionGroup 'Monitoring/ActionGroup.bicep' = {
   }
 }
 
-module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = {
+module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAlerts) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-MetricAlerts'
   params: {
@@ -33,7 +36,7 @@ module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = {
   }
 }
 
-module ServiceHealth 'Monitoring/ServiceHealth.bicep' = {
+module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-ServiceHealth'
   params: {
@@ -43,7 +46,7 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = {
   }
 }
 
-module Dashboard 'Monitoring/Dashboard.bicep' = {
+module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashbord) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-Dashboard'
   params:{
