@@ -223,7 +223,7 @@
                                 {
                                     "name": "existingAVSResourceGroupSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
+                                    "visible": false,
                                     "label": "Select the Resource Group of the Existing AVS Private Cloud",
                                     "resourceType": "Microsoft.Resources/resourceGroups"
                                 },
