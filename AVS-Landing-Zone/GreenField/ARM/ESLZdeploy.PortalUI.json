@@ -211,6 +211,41 @@
                                         "required": true
                                     }
                                 }
+                                
+                            ]
+                        },
+                        {
+                            "name": "existingAVSPrivateCloudSettings",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('PrivateCloud').DeployPrivateCloud, false)]",
+                            "label": "Existing Private Cloud details",
+                            "elements": [
+                                {
+                                    "name": "existingAVSResourceGroupSelector",
+                                    "type": "Microsoft.Resources/resourceGroups",
+                                    "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
+                                    "label": "Select the Resource Group of the Existing AVS Private Cloud",
+                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "existingAVSSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
+                                    "label": "Select the Existing AVS Private Cloud",
+                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
                             ]
                         }
                     ]
@@ -395,25 +430,54 @@
                             }
                         },
                         {
-                            "name": "GWSubnetExistsTrue",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, true)]",
-                            "options": {
-                                "text": "Mandatory: If a GatewaySubnet does not exist, this deployment will fail",
-                                "uri": "",
-                                "style": "Warning"
+                            "name": "gatewaySubnetApi",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('azureNetwork').VnetSelectorId.id, '/subnets?api-version=2021-03-01')]"
                             }
                         },
                         {
-                            "name": "GWSubnetExistsFalse",
+                            "name": "gatewaySubnetSubnetSelectorName",
+                            "label": "Subnet",
+                            "type": "Microsoft.Common.DropDown",
+                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, true)]",
+                            "defaultValue": "",
+                            "toolTip": "Select the subnet.",
+                            "multiselect": false,
+                            "selectAll": false,
+                            "filter": true,
+                            "filterPlaceholder": "Filter items ...",
+                            "multiLine": true,
+                            "constraints": {
+                                "allowedValues": "[map(steps('azureNetwork').gatewaySubnetApi.value,(item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\",\"description\":\"', 'Resource Group: ', last(take(split(item.id, '/'), 5)), '\"}')))]",
+                                "required": true
+                            }
+                        },
+                        {
+                            "name": "ExistingVnetNewGatewaySubnetPrefix",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
+                            "label": "Gateway Subnet Prefix",
+                            "toolTip": "Enter the address prefix for the new GatewaySubnet",
+                            "defaultValue": "192.168.0.0/24",
+                            "placeholder": "Example: 192.168.0.0/27",
+                            "constraints": {
+                                "required": true,
+                                "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(2[0-9]))$",
+                                "validationMessage": "Invalid CIDR range. The address prefix must be in the range 20 to 29."
+                            }
+                        },
+                        {
+                            "name": "GWSubnetExistsTrue",
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, false)]",
                             "options": {
-                                "text": "Mandatory: Add a GatewaySubnet to the selected Virtual Network",
+                                "text": "Ensure subnet prefix is correct and available in your virtual network",
                                 "uri": "",
-                                "style": "Error"
+                                "style": "Warning"
                             }
-                        },
+                        },                    
                         {
                             "name": "jumpboxinfo",
                             "type": "Microsoft.Common.Section",
@@ -939,19 +1003,33 @@
                 "PrivateCloudAddressSpace": "[steps('PrivateCloud').avsPrivateCloudSettings.avsAddressSpace]",
                 "PrivateCloudSKU": "[steps('PrivateCloud').avsPrivateCloudSettings.avsSkuType]",
                 "PrivateCloudHostCount": "[steps('PrivateCloud').avsPrivateCloudSettings.avsHostCount]",
+                "PrivateCloudExists": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), 'True', 'none')]",
+                "ExistingPrivateCloudResourceGroup": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSResourceGroupSelector.name, 'none')]",
+                "ExistingPrivateCloudName": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSSelector.name, 'none')]",
+                "ExistingPrivateCloudResourceId": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSSelector.id, 'none')]",
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
-                "VNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
-                "VNetGatewaySubnet": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
+                "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
+                "GatewayExists": "[steps('azureNetwork').GatewayExists]",
+                "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
+                "GatewaySubnetExists": "[steps('azureNetwork').GatewaySubnetExists]",
+                "ExistingGatewaySubnetId": "[steps('azureNetwork').gatewaySubnetSubnetSelectorName]",
+                "NewVNetAddressSpace": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').vNetAddressSpace, 'none')]",
+                "NewVnetNewGatewaySubnetAddressPrefix": "[if(equals(steps('azureNetwork').VNetExists, false), steps('azureNetwork').GatewaySubnet, 'none')]",
+                "ExistingVnetNewGatewaySubnetPrefix": "[if(equals(steps('azureNetwork').GatewaySubnetExists, false), steps('azureNetwork').ExistingVnetNewGatewaySubnetPrefix, 'none')]",
                 "BastionSubnet": "[steps('azureNetwork').BastionSubnet]",
                 "JumpboxSubnet": "[steps('azureNetwork').createJumpbox]",
                 "DeployJumpbox": "[steps('azureNetwork').createJumpbox]",
                 "JumpboxSku": "[steps('azureNetwork').vmSkuSelector]",
                 "JumpboxUsername": "[steps('azureNetwork').jumpboxCredentials.jumpboxLocalUserName]",
                 "JumpboxPassword": "[steps('azureNetwork').jumpboxCredentials.JumpboxPassword.password]",
-                "OnPremConnectivity": "[steps('onpremises').OnpremiseConnect]",
-                "DeployRouteServer": "[steps('onpremises').DeployRouteServer]",
-                "RouteServerSubnetExists": "[steps('onpremises').RouteServerSubnetExists]",
-                "RouteServerSubnetPrefix": "[if(equals(steps('onpremises').RouteServerSubnetExists, false), steps('onpremises').RouteServerSubnetPrefix, 'none')]",
+                "VNetName": "[steps('azureNetwork').VnetSelectorId.name]",
+                "OnPremConnectivity": "[steps('azureNetwork').OnpremiseConnect]",
+                "DeployRouteServer": "[steps('azureNetwork').DeployRouteServer]",
+                "RouteServerSubnetExists": "[steps('azureNetwork').RouteServerSubnetExists]",
+                "RouteServerSubnetPrefix": "[if(equals(steps('azureNetwork').RouteServerSubnetExists, false), steps('azureNetwork').RouteServerSubnetPrefix, 'none')]",
+                "DeployDashbord": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
+                "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
+                "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
                 "DeployHCX": "[steps('Addons').deployHCX]",
                 "DeploySRM": "[steps('Addons').deploySRM]",
