@@ -139,7 +139,7 @@ module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployPrivateCloud) {
     NetworkResourceGroup: DeployNetworking ? AzureNetworking.outputs.NetworkResourceGroup : 'none'
     VNetPrefix: Prefix
     PrivateCloudName: PrivateCloudExists ? ExistingPrivateCloudName : AVSCore.outputs.PrivateCloudName
-    PrivateCloudResourceGroup: AVSCore.outputs.PrivateCloudResourceGroupName
+    PrivateCloudResourceGroup: PrivateCloudExists ? ExistingPrivateCloudResourceGroup : AVSCore.outputs.PrivateCloudResourceGroupName
     Location: Location
   }
 }
@@ -192,7 +192,7 @@ module Addons 'Modules/AVSAddons.bicep' = if (DeployPrivateCloud) {
   name: '${deploymentPrefix}-AVSAddons'
   params: {
     PrivateCloudName: PrivateCloudExists ? ExistingPrivateCloudName : AVSCore.outputs.PrivateCloudName
-    PrivateCloudResourceGroup: AVSCore.outputs.PrivateCloudResourceGroupName
+    PrivateCloudResourceGroup: PrivateCloudExists ? ExistingPrivateCloudResourceGroup : AVSCore.outputs.PrivateCloudResourceGroupName
     DeployHCX: DeployHCX
     DeploySRM: DeploySRM
     SRMLicenseKey: SRMLicenseKey
