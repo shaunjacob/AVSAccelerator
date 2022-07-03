@@ -1,0 +1,304 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.8.2.30886",
+      "templateHash": "15361757765803372249"
+    }
+  },
+  "parameters": {
+    "Prefix": {
+      "type": "string",
+      "defaultValue": "SJAVS",
+      "maxLength": 20,
+      "minLength": 1,
+      "metadata": {
+        "description": "The prefix to use on resources inside this template"
+      }
+    },
+    "Location": {
+      "type": "string",
+      "defaultValue": "[deployment().location]",
+      "metadata": {
+        "description": "Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment"
+      }
+    },
+    "VNetName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The subnet CIDR used for the Gateway Subnet. Must be a /24 or greater within the VNetAddressSpace"
+      }
+    },
+    "DeployRouteServer": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "A boolean flag to deploy a Route Serrver or skip"
+      }
+    },
+    "RouteServerSubnetExists": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Does a RouteServerSubnet exists?"
+      }
+    },
+    "OnPremConnectivity": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "RouteServerSubnetPrefix": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The subnet CIDR used for the RouteServer Subnet"
+      }
+    }
+  },
+  "variables": {
+    "deploymentPrefix": "[format('AVS-{0}', uniqueString(deployment().name, parameters('Location')))]"
+  },
+  "resources": [
+    {
+      "condition": "[or(equals(parameters('OnPremConnectivity'), 'ExpressRoute'), not(parameters('DeployRouteServer')))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('{0}-SkipRouteServer', variables('deploymentPrefix'))]",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.8.2.30886",
+              "templateHash": "15419533773683886955"
+            }
+          },
+          "resources": []
+        }
+      }
+    },
+    {
+      "condition": "[and(equals(parameters('OnPremConnectivity'), 'VPN'), parameters('DeployRouteServer'))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('{0}-VNet', variables('deploymentPrefix'))]",
+      "location": "[deployment().location]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "Prefix": {
+            "value": "[parameters('Prefix')]"
+          },
+          "Location": {
+            "value": "[parameters('Location')]"
+          },
+          "VNetName": {
+            "value": "[parameters('VNetName')]"
+          },
+          "RouteServerSubnetPrefix": {
+            "value": "[parameters('RouteServerSubnetPrefix')]"
+          },
+          "RouteServerSubnetExists": {
+            "value": "[parameters('RouteServerSubnetExists')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.8.2.30886",
+              "templateHash": "6772526023915156165"
+            }
+          },
+          "parameters": {
+            "Location": {
+              "type": "string"
+            },
+            "Prefix": {
+              "type": "string"
+            },
+            "VNetName": {
+              "type": "string"
+            },
+            "RouteServerSubnetPrefix": {
+              "type": "string"
+            },
+            "RouteServerSubnetExists": {
+              "type": "bool"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Resources/resourceGroups",
+              "apiVersion": "2021-04-01",
+              "name": "[format('{0}-Network', parameters('Prefix'))]",
+              "location": "[parameters('Location')]"
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-Network', deployment().name)]",
+              "resourceGroup": "[format('{0}-Network', parameters('Prefix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "Prefix": {
+                    "value": "[parameters('Prefix')]"
+                  },
+                  "Location": {
+                    "value": "[parameters('Location')]"
+                  },
+                  "VNetName": {
+                    "value": "[parameters('VNetName')]"
+                  },
+                  "RouteServerSubnetPrefix": {
+                    "value": "[parameters('RouteServerSubnetPrefix')]"
+                  },
+                  "RouteServerSubnetExists": {
+                    "value": "[parameters('RouteServerSubnetExists')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.8.2.30886",
+                      "templateHash": "3210911173664742511"
+                    }
+                  },
+                  "parameters": {
+                    "Location": {
+                      "type": "string"
+                    },
+                    "Prefix": {
+                      "type": "string"
+                    },
+                    "VNetName": {
+                      "type": "string"
+                    },
+                    "RouteServerSubnetPrefix": {
+                      "type": "string"
+                    },
+                    "RouteServerSubnetExists": {
+                      "type": "bool"
+                    }
+                  },
+                  "variables": {
+                    "RouteServerName": "[format('{0}-RS', parameters('Prefix'))]"
+                  },
+                  "resources": [
+                    {
+                      "condition": "[not(parameters('RouteServerSubnetExists'))]",
+                      "type": "Microsoft.Network/virtualNetworks/subnets",
+                      "apiVersion": "2021-02-01",
+                      "name": "[format('{0}/{1}', parameters('VNetName'), 'RouteServerSubnet')]",
+                      "properties": {
+                        "addressPrefix": "[parameters('RouteServerSubnetPrefix')]"
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Network/publicIPAddresses",
+                      "apiVersion": "2021-05-01",
+                      "name": "[format('{0}-PIP', variables('RouteServerName'))]",
+                      "location": "[parameters('Location')]",
+                      "properties": {
+                        "publicIPAllocationMethod": "Static"
+                      },
+                      "sku": {
+                        "name": "Standard",
+                        "tier": "Regional"
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Network/virtualHubs",
+                      "apiVersion": "2021-05-01",
+                      "name": "[variables('RouteServerName')]",
+                      "location": "[parameters('Location')]",
+                      "properties": {
+                        "allowBranchToBranchTraffic": true,
+                        "sku": "Standard"
+                      }
+                    },
+                    {
+                      "type": "Microsoft.Network/virtualHubs/ipConfigurations",
+                      "apiVersion": "2021-05-01",
+                      "name": "[format('{0}/{1}', variables('RouteServerName'), format('{0}-pipconfig', variables('RouteServerName')))]",
+                      "properties": {
+                        "subnet": {
+                          "id": "[if(not(parameters('RouteServerSubnetExists')), resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), 'RouteServerSubnet'), resourceId('Microsoft.Network/virtualNetworks/subnets', split(format('{0}/RouteServerSubnet', parameters('VNetName')), '/')[0], split(format('{0}/RouteServerSubnet', parameters('VNetName')), '/')[1]))]"
+                        },
+                        "publicIPAddress": {
+                          "id": "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-PIP', variables('RouteServerName')))]"
+                        }
+                      },
+                      "dependsOn": [
+                        "[resourceId('Microsoft.Network/virtualHubs', variables('RouteServerName'))]",
+                        "[resourceId('Microsoft.Network/publicIPAddresses', format('{0}-PIP', variables('RouteServerName')))]",
+                        "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), 'RouteServerSubnet')]"
+                      ]
+                    }
+                  ],
+                  "outputs": {
+                    "RouteServer": {
+                      "type": "string",
+                      "value": "[variables('RouteServerName')]"
+                    },
+                    "NewRouteServerSubnetId": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('VNetName'), 'RouteServerSubnet')]"
+                    },
+                    "ExistingRouteServerSubnetId": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Network/virtualNetworks/subnets', split(format('{0}/RouteServerSubnet', parameters('VNetName')), '/')[0], split(format('{0}/RouteServerSubnet', parameters('VNetName')), '/')[1])]"
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Network', parameters('Prefix')))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "RouteServer": {
+              "type": "string",
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Network', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Network', deployment().name))).outputs.RouteServer.value]"
+            },
+            "RouteServerSubnetId": {
+              "type": "string",
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Network', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Network', deployment().name))).outputs.NewRouteServerSubnetId.value]"
+            },
+            "ExistingRouteServerSubnetId": {
+              "type": "string",
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Network', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Network', deployment().name))).outputs.ExistingRouteServerSubnetId.value]"
+            },
+            "NetworkResourceGroup": {
+              "type": "string",
+              "value": "[format('{0}-Network', parameters('Prefix'))]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
