@@ -82,7 +82,7 @@ param DeployMetricAlerts bool = false
 @description('Deploy Service Health Alerts for AVS')
 param DeployServiceHealth bool = false
 @description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
-param AlertEmails string
+param AlertEmails string = ''
 
 //Addons
 @description('Should HCX be deployed as part of the deployment')
