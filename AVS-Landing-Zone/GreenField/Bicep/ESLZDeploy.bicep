@@ -114,7 +114,7 @@ module AVSCore 'Modules/AVSCore.bicep' =  if (DeployPrivateCloud) {
 }
 
 module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
-  name: '${deploymentPrefix}-Network'
+  name: '${deploymentPrefix}-AzureNetworking'
   params: {
     Prefix: Prefix
     Location: Location
@@ -131,7 +131,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
 }
 
 module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployPrivateCloud) {
-  name: '${deploymentPrefix}-VNet'
+  name: '${deploymentPrefix}-VNetConnection'
   params: {
     GatewayName: DeployNetworking ? AzureNetworking.outputs.GatewayName : 'none'
     NetworkResourceGroup: DeployNetworking ? AzureNetworking.outputs.NetworkResourceGroup : 'none'
@@ -143,7 +143,7 @@ module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployPrivateCloud) {
 }
 
 module RouteServer 'Modules/RouteServer.bicep' = if ((OnPremConnectivity == 'VPN') && (DeployRouteServer)) {
-  name: '${deploymentPrefix}-VNet'
+  name: '${deploymentPrefix}-RouteServer'
   params: {
     Prefix: Prefix
     Location: Location
