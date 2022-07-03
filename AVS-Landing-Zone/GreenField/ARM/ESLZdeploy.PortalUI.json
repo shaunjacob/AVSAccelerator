@@ -33,16 +33,16 @@
                             "name": "avsWorkloadSubscription",
                             "type": "Microsoft.Common.Section",
                             "visible": true,
-                            "label": "Deployment",
+                            "label": "Deployment Prefix",
                             "elements": [
                                 {
                                     "name": "info",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "Azure AVS Landing Zones will create the resource group hierarchy under the subscriptions with the prefix provided at this step.",
+                                        "text": "This AVS Landing Zone Accelerator will create a defined resource group hierarchy in the chosen subscription with the prefix provided at this step. Each resource created as part of the deployment will also utilize this prefix in the name. For more details, click the link below ",
                                         "link": {
                                             "label": "Learn more",
-                                            "uri": "https://docs.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/management-group-and-subscription-organization"
+                                            "uri": "https://github.com/Azure/Enterprise-Scale-for-AVS/tree/main/AVS-Landing-Zone/GreenField"
                                         }
                                     }
                                 }
@@ -270,7 +270,7 @@
                                     "name": "networkinfo2",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "This deployment with allow you to specify a new or select an existing Virtual Network, input the subnets required and deploy the ExpressRoute Gateway if one does not already exist. At the end of this deployment, a connection will automatically be created from AVS to this Gateway, allowing Azure Resource in this vNet to communicate with AVS. See link below for more information.",
+                                        "text": "This deployment with allow you to select a new or existing Virtual Network, input the subnets required and deploy the ExpressRoute Gateway if one does not already exist. At the end of this deployment, a connection will automatically be created from this gateway to your AVS Private Cloud, allowing Azure Resources in this vNet to communicate with AVS. See link below for more information.",
                                         "link": {
                                             "label": "Learn more",
                                             "uri": "https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking"
@@ -285,7 +285,7 @@
                             "visible": true,
                             "label": "Connect AVS to Azure",
                             "defaultValue": "Yes",
-                            "toolTip": "Connect AVS to Azure",
+                            "toolTip": "Select Yes to continue with this step, or No to Skip",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -306,7 +306,7 @@
                             "visible": "[equals(steps('azureNetwork').DeployNetworking, true)]",
                             "label": "Virtual Network",
                             "defaultValue": "New",
-                            "toolTip": "Select New to deploy a new virtual network, or choose and existing VNet",
+                            "toolTip": "Select New to deploy a new virtual network, or choose an existing VNet",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -371,7 +371,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, true)]",
                             "label": "ExpressRoute Gateway",
                             "defaultValue": "None",
-                            "toolTip": "Deploy a new ExpressRoute Gateway or choose existing",
+                            "toolTip": "Deploy a new ExpressRoute Gateway or choose an existing gateway. Gateway must be of type ExpressRoute",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -437,7 +437,7 @@
                             "type": "Microsoft.Common.DropDown",
                             "visible": "[equals(steps('azureNetwork').GatewaySubnetExists, true)]",
                             "defaultValue": "",
-                            "toolTip": "Select the subnet.",
+                            "toolTip": "Select the existing GatewaySubnet",
                             "multiselect": false,
                             "selectAll": false,
                             "filter": true,
@@ -482,7 +482,7 @@
                                     "name": "jumpboxinfo1",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "Once AVS connectivity to Azure Native has been established, you will want to connect to vCenter. Choose the options below to deploy a Jumpbox and Azure Bastion into the new virtual network as specified above, or skip if one already exists ",
+                                        "text": "Once AVS connectivity to Azure Native has been established, you will want to connect to vCenter. Choose the options below to deploy a Jumpbox and Azure Bastion into the new virtual network specified above, or skip if one already exists ",
                                         "link": {
                                             "label": "",
                                             "uri": ""
@@ -493,7 +493,7 @@
                                     "name": "jumpboxinfo2",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "You will need to specify the subnets for these resources to be deployed into",
+                                        "text": "You will need to specify the subnets for these resources to be deployed into, ensure these are from the same address space of the new virtual network",
                                         "link": {
                                             "label": "",
                                             "uri": ""
@@ -508,7 +508,7 @@
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Deploy Jumpbox and Azure Bastion",
                             "defaultValue": "false",
-                            "toolTip": "",
+                            "toolTip": "Deploy a Jumpbox and Azure Bastion",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -528,13 +528,13 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Azure Bastion Subnet Prefix",
-                            "toolTip": "Virtual network subnet for AVS virtual machines",
+                            "toolTip": "The Bastion host is deployed in the virtual network that contains the AzureBastionSubnet subnet that has a minimum /26 prefix.",
                             "defaultValue": "192.168.1.0/24",
                             "placeholder": "Example: 192.168.1.0/24",
                             "constraints": {
                                 "required": true,
-                                "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(1[0-9]|2[0-4]))$",
-                                "validationMessage": "Invalid CIDR range. The address prefix must be in the range 10 to 24."
+                                "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(2[0-4]|2[0-6]))$",
+                                "validationMessage": "Invalid CIDR range. The address prefix must be in the range 24 to 26."
                             }
                         },
                         {
@@ -542,13 +542,13 @@
                             "type": "Microsoft.Common.TextBox",
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox Subnet Prefix",
-                            "toolTip": "Virtual network subnet for AVS virtual machines",
+                            "toolTip": "New Subnet for the Jumpbox",
                             "defaultValue": "192.168.2.0/24",
                             "placeholder": "Example: 192.168.2.0/24",
                             "constraints": {
                                 "required": true,
-                                "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(1[0-9]|2[0-4]))$",
-                                "validationMessage": "Invalid CIDR range. The address prefix must be in the range 10 to 24."
+                                "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(1[0-9]|2[0-8]))$",
+                                "validationMessage": "Invalid CIDR range. The address prefix must be in the range 10 to 28."
                             }
                         },
                         {
@@ -556,7 +556,7 @@
                             "type": "Microsoft.Compute.SizeSelector",
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox SKU",
-                            "toolTip": "",
+                            "toolTip": "Select a VM SKU for the Jumpbox",
                             "recommendedSizes": [
                                 "Standard_D1",
                                 "Standard_D2",
@@ -587,7 +587,7 @@
                                     "name": "jumpboxLocalUserName",
                                     "type": "Microsoft.Common.TextBox",
                                     "label": "Username",
-                                    "toolTip": "Provide username for session host local admin account.",
+                                    "toolTip": "Provide username for the Jumpbox local admin account.",
                                     "placeholder": "Example: avsadmin",
                                     "defaultValue": "",
                                     "constraints": {
@@ -603,12 +603,12 @@
                                         "confirmPassword": "Confirm password"
                                     },
                                     "toolTip": {
-                                        "password": "The password must be alphanumeric, contain at least 12 characters, have at least 1 letter,1 number and 1 special character."
+                                        "password": "The password must be alphanumeric, contain at least 8 characters, have at least 1 letter, 1 number and 1 special character."
                                     },
                                     "constraints": {
                                         "required": true,
-                                        "customPasswordRegex": "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=_!*<>()])(?=\\S+$).{12,123}$",
-                                        "customValidationMessage": "Password must include 1 special character."
+                                        "customPasswordRegex": "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=_!*<>()])(?=\\S+$).{12,123}$",
+                                        "customValidationMessage": "Password must include at least 8 characters, have at least 1 letter, 1 number and 1 special character."
                                     },
                                     "options": {
                                         "hideConfirmation": false
@@ -660,7 +660,7 @@
                             "visible": "",
                             "label": "How does Azure connect to On-premises?",
                             "defaultValue": "Null",
-                            "toolTip": "",
+                            "toolTip": "Choose the current method of Azure to On-premise connectivity",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -691,7 +691,7 @@
                             "visible": "[equals(steps('onpremises').OnpremiseConnect, 'VPN')]",
                             "label": "Deploy an Azure Route Server",
                             "defaultValue": "Null",
-                            "toolTip": "Azure Route Server is required for VPN to AVS connectivity",
+                            "toolTip": "Deploy an Azure Route Server or Skip to come back to this step later",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -721,6 +721,7 @@
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
                             "label": "Existing Virtual Network",
+                            "toolTip": "Choose the existing Virtual Network that contains the VPN Gateway",
                             "resourceType": "Microsoft.Network/virtualNetworks",
                             "constraints": {
                                 "required": true
@@ -737,8 +738,8 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
                             "label": "RouteServer Subnet",
+                            "toolTip": "Deploy new RouteServerSubnet or choose Existing",
                             "defaultValue": "No",
-                            "toolTip": "",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -803,7 +804,7 @@
                                     "name": "AVSAlertInfo1",
                                     "type": "Microsoft.Common.TextBlock",
                                     "options": {
-                                        "text": "It is crucial to monitor the resource utilization in order to take timely action. This tutorial walks through setting up Azure Monitor alerts for Azure VMware Solution Private Cloud. Action owners will receive email notifications if utilization metrics exceeds set threshold.This scenario also includes service health alerts to ensure you don't miss any updates or events that may impact the target Private Cloud. ",
+                                        "text": "Monitoring is a crucial aspect to any service and ensures that teams are alerted for any failures, maintenance events, performance degradation etc. As part of this deployment, you will have the option to deploy an Azure Dashboard to visualize metrics from your Private Cloud, deploy some Azure Monitor Metric alerts and also setup some Azure Service Health Alerts for AVS",
                                         "link": {
                                             "label": "",
                                             "uri": ""
@@ -839,7 +840,7 @@
                             "visible": "",
                             "label": "Enable AVS Metric Alerts",
                             "defaultValue": "Yes",
-                            "toolTip": "Enable AVS Metric Alerts",
+                            "toolTip": "Enable AVS Metric Alerts (CPU, Memory, Storage etc)",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -860,7 +861,7 @@
                             "visible": "Enable AVS Service Health Alerts",
                             "label": "Enable Service Health alerts",
                             "defaultValue": "Yes",
-                            "toolTip": "Enable Service Health alerts",
+                            "toolTip": "Enable Service Health alerts for AVS",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -880,13 +881,13 @@
                             "type": "Microsoft.Common.TextBox",
                             "label": "Action Group Email",
                             "visible": "[or(equals(steps('Monitoring').DeployAVSAlerts, true), equals(steps('Monitoring').DeployServiceHealth, true))]",
-                            "toolTip": "Provide an email address to send the service health alerts to, email address must be in quotes",
+                            "toolTip": "Provide an email address to send the service health alerts to",
                             "placeholder": "Example: alerts@company.com",
                             "defaultValue": "alerts@company.com",
                             "constraints": {
                                 "required": true,
                                 "regex": "",
-                                "validationMessage": "Please provide a valid email address. Email must be in quotes"
+                                "validationMessage": "Please provide a valid email address"
                             }
                         }
                     ]
