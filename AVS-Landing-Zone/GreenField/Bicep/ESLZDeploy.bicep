@@ -16,6 +16,7 @@ param PrivateCloudAddressSpace string = ''
 @allowed([
   'AV36'
   'AV36T'
+  'AV36P'
 ])
 param PrivateCloudSKU string = 'AV36'
 @description('The number of nodes to be deployed in the first/default cluster, ensure you have quota before deploying')
@@ -147,7 +148,7 @@ module RouteServer 'Modules/RouteServer.bicep' = if ((OnPremConnectivity == 'VPN
   params: {
     Prefix: Prefix
     Location: Location
-    VNetName: AzureNetworking.outputs.VNetName
+    VNetName: DeployNetworking ? AzureNetworking.outputs.VNetName : ''
     RouteServerSubnetPrefix : RouteServerSubnetPrefix
     RouteServerSubnetExists : RouteServerSubnetExists
   }
@@ -161,8 +162,8 @@ module Jumpbox 'Modules/JumpBox.bicep' = if (DeployJumpbox) {
     Location: Location
     Username: JumpboxUsername
     Password: JumpboxPassword
-    VNetName: AzureNetworking.outputs.VNetName
-    VNetResourceGroup: AzureNetworking.outputs.NetworkResourceGroup
+    VNetName: DeployNetworking ? AzureNetworking.outputs.VNetName : ''
+    VNetResourceGroup: DeployNetworking ? AzureNetworking.outputs.NetworkResourceGroup : ''
     BastionSubnet: BastionSubnet
     JumpboxSubnet: JumpboxSubnet
     JumpboxSku: JumpboxSku
