@@ -109,6 +109,7 @@ module AVSCore 'Modules/AVSCore.bicep' = {
     PrivateCloudHostCount: PrivateCloudHostCount
     PrivateCloudSKU: PrivateCloudSKU
     TelemetryOptOut: TelemetryOptOut
+    DeployPrivateCloud : DeployPrivateCloud
     ExistingPrivateCloudId : ExistingPrivateCloudId
   }
 }

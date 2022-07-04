@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "2287871155861427699"
+      "templateHash": "1471893775631450126"
     }
   },
   "parameters": {
@@ -322,7 +322,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "18045790270711688658"
+              "templateHash": "10147059235884075777"
             }
           },
           "parameters": {
@@ -353,14 +353,14 @@
           },
           "resources": [
             {
-              "condition": "[variables('DeployNew')]",
+              "condition": "[not(variables('DeployNew'))]",
               "type": "Microsoft.Resources/resourceGroups",
               "apiVersion": "2021-04-01",
               "name": "[format('{0}-PrivateCloud', parameters('Prefix'))]",
               "location": "[parameters('Location')]"
             },
             {
-              "condition": "[variables('DeployNew')]",
+              "condition": "[not(variables('DeployNew'))]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-PrivateCloud', deployment().name)]",

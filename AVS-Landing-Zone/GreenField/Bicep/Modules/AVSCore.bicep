@@ -6,16 +6,17 @@ param PrivateCloudAddressSpace string
 param PrivateCloudSKU string
 param PrivateCloudHostCount int
 param TelemetryOptOut bool
+param DeployPrivateCloud bool
 param ExistingPrivateCloudId string
 
-var DeployNew = empty(ExistingPrivateCloudId)
+//var DeployNew = empty(ExistingPrivateCloudId)
 
-resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = if (DeployNew) {
+resource PrivateCloudResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = if (DeployPrivateCloud) {
   name: '${Prefix}-PrivateCloud'
   location: Location
 }
 
-module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployNew) {
+module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployPrivateCloud) {
   scope: PrivateCloudResourceGroup
   name: '${deployment().name}-PrivateCloud'
   params: {
@@ -30,5 +31,5 @@ module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployNew) {
 
 
 output PrivateCloudName string = PrivateCloud.outputs.PrivateCloudName
-output PrivateCloudResourceGroupName string = DeployNew ? PrivateCloudResourceGroup.name : split(ExistingPrivateCloudId,'/')[4]
+output PrivateCloudResourceGroupName string = DeployPrivateCloud ? PrivateCloudResourceGroup.name : split(ExistingPrivateCloudId,'/')[4]
 output PrivateCloudResourceId string = PrivateCloud.outputs.PrivateCloudResourceId
