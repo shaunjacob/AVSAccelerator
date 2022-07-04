@@ -25,8 +25,6 @@ param PrivateCloudHostCount int = 3
 param ExistingPrivateCloudName string = ''
 @description('Existing Private Cloud Id')
 param ExistingPrivateCloudId string = ''
-@description('Existing Private Cloud Resource Group')
-param ExistingPrivateCloudResourceGroup string = ''
 
 //Azure Networking
 @description('Set this to true if you are redeploying, and the VNet already exists')
@@ -111,6 +109,7 @@ module AVSCore 'Modules/AVSCore.bicep' =  if (DeployPrivateCloud) {
     PrivateCloudHostCount: PrivateCloudHostCount
     PrivateCloudSKU: PrivateCloudSKU
     TelemetryOptOut: TelemetryOptOut
+    ExistingPrivateCloudId : ExistingPrivateCloudId
   }
 }
 
@@ -138,7 +137,7 @@ module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployNetworking) {
     NetworkResourceGroup: DeployNetworking ? AzureNetworking.outputs.NetworkResourceGroup : 'none'
     VNetPrefix: Prefix
     PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
-    PrivateCloudResourceGroup: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceGroupName : ExistingPrivateCloudResourceGroup 
+    PrivateCloudResourceGroup: AVSCore.outputs.PrivateCloudResourceGroupName 
     Location: Location
   }
 }
@@ -191,7 +190,7 @@ module Addons 'Modules/AVSAddons.bicep' = if (DeployPrivateCloud) {
   name: '${deploymentPrefix}-AVSAddons'
   params: {
     PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
-    PrivateCloudResourceGroup: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceGroupName : ExistingPrivateCloudResourceGroup
+    PrivateCloudResourceGroup: AVSCore.outputs.PrivateCloudResourceGroupName
     DeployHCX: DeployHCX
     DeploySRM: DeploySRM
     SRMLicenseKey: SRMLicenseKey

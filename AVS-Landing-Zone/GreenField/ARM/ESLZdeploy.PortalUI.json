@@ -221,13 +221,6 @@
                             "label": "Existing Private Cloud details",
                             "elements": [
                                 {
-                                    "name": "existingAVSResourceGroupSelector",
-                                    "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": false,
-                                    "label": "Select the Resource Group of the Existing AVS Private Cloud",
-                                    "resourceType": "Microsoft.Resources/resourceGroups"
-                                },
-                                {
                                     "name": "existingAVSSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "",
@@ -998,7 +991,6 @@
                 "PrivateCloudAddressSpace": "[steps('PrivateCloud').avsPrivateCloudSettings.avsAddressSpace]",
                 "PrivateCloudSKU": "[steps('PrivateCloud').avsPrivateCloudSettings.avsSkuType]",
                 "PrivateCloudHostCount": "[steps('PrivateCloud').avsPrivateCloudSettings.avsHostCount]",
-                "ExistingPrivateCloudResourceGroup": "HR418-PrivateCloud",
                 "ExistingPrivateCloudName": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.name, 'none')]",
                 "ExistingPrivateCloudResourceId": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.id, 'none')]",
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
