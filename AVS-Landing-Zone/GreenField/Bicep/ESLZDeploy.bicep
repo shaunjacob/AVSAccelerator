@@ -100,7 +100,7 @@ param TelemetryOptOut bool = false
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
-module AVSCore 'Modules/AVSCore.bicep' =  if (DeployPrivateCloud) {
+module AVSCore 'Modules/AVSCore.bicep' = {
   name: '${deploymentPrefix}-AVS'
   params: {
     Prefix: Prefix
