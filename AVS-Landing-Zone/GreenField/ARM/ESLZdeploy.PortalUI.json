@@ -507,7 +507,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
                             "label": "Deploy Jumpbox and Azure Bastion",
-                            "defaultValue": "false",
+                            "defaultValue": "No",
                             "toolTip": "Deploy a Jumpbox and Azure Bastion",
                             "constraints": {
                                 "required": true,
@@ -659,7 +659,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "",
                             "label": "How does Azure connect to On-premises?",
-                            "defaultValue": "Null",
+                            "defaultValue": "ExpressRoute",
                             "toolTip": "Choose the current method of Azure to On-premise connectivity",
                             "constraints": {
                                 "required": true,
@@ -998,7 +998,7 @@
                 "PrivateCloudAddressSpace": "[steps('PrivateCloud').avsPrivateCloudSettings.avsAddressSpace]",
                 "PrivateCloudSKU": "[steps('PrivateCloud').avsPrivateCloudSettings.avsSkuType]",
                 "PrivateCloudHostCount": "[steps('PrivateCloud').avsPrivateCloudSettings.avsHostCount]",
-                "ExistingPrivateCloudResourceGroup": "SJAVS-PrivateCloud",
+                "ExistingPrivateCloudResourceGroup": "HR418-PrivateCloud",
                 "ExistingPrivateCloudName": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.name, 'none')]",
                 "ExistingPrivateCloudResourceId": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.id, 'none')]",
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
