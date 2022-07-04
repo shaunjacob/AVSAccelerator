@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "1471893775631450126"
+      "templateHash": "7603990195704745193"
     }
   },
   "parameters": {
@@ -311,6 +311,9 @@
           "TelemetryOptOut": {
             "value": "[parameters('TelemetryOptOut')]"
           },
+          "DeployPrivateCloud": {
+            "value": "[parameters('DeployPrivateCloud')]"
+          },
           "ExistingPrivateCloudId": {
             "value": "[parameters('ExistingPrivateCloudId')]"
           }
@@ -322,7 +325,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "10147059235884075777"
+              "templateHash": "10077525566682342399"
             }
           },
           "parameters": {
@@ -344,23 +347,23 @@
             "TelemetryOptOut": {
               "type": "bool"
             },
+            "DeployPrivateCloud": {
+              "type": "bool"
+            },
             "ExistingPrivateCloudId": {
               "type": "string"
             }
           },
-          "variables": {
-            "DeployNew": "[empty(parameters('ExistingPrivateCloudId'))]"
-          },
           "resources": [
             {
-              "condition": "[not(variables('DeployNew'))]",
+              "condition": "[parameters('DeployPrivateCloud')]",
               "type": "Microsoft.Resources/resourceGroups",
               "apiVersion": "2021-04-01",
               "name": "[format('{0}-PrivateCloud', parameters('Prefix'))]",
               "location": "[parameters('Location')]"
             },
             {
-              "condition": "[not(variables('DeployNew'))]",
+              "condition": "[parameters('DeployPrivateCloud')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-PrivateCloud', deployment().name)]",
@@ -476,7 +479,7 @@
             },
             "PrivateCloudResourceGroupName": {
               "type": "string",
-              "value": "[if(variables('DeployNew'), format('{0}-PrivateCloud', parameters('Prefix')), split(parameters('ExistingPrivateCloudId'), '/')[4])]"
+              "value": "[if(parameters('DeployPrivateCloud'), format('{0}-PrivateCloud', parameters('Prefix')), split(parameters('ExistingPrivateCloudId'), '/')[4])]"
             },
             "PrivateCloudResourceId": {
               "type": "string",
