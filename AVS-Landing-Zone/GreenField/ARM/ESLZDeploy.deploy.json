@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "17992290721587881122"
+      "templateHash": "5064923877857180802"
     }
   },
   "parameters": {
@@ -65,7 +65,7 @@
         "description": "Existing Private Cloud Name"
       }
     },
-    "ExistingPrivateCloudId": {
+    "ExistingPrivateCloudResourceId": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
@@ -314,8 +314,8 @@
           "DeployPrivateCloud": {
             "value": "[parameters('DeployPrivateCloud')]"
           },
-          "ExistingPrivateCloudId": {
-            "value": "[parameters('ExistingPrivateCloudId')]"
+          "ExistingPrivateCloudResourceId": {
+            "value": "[parameters('ExistingPrivateCloudResourceId')]"
           }
         },
         "template": {
@@ -325,7 +325,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "1360209376077362923"
+              "templateHash": "10037864184768939466"
             }
           },
           "parameters": {
@@ -350,7 +350,7 @@
             "DeployPrivateCloud": {
               "type": "bool"
             },
-            "ExistingPrivateCloudId": {
+            "ExistingPrivateCloudResourceId": {
               "type": "string"
             }
           },
@@ -479,7 +479,7 @@
             },
             "PrivateCloudResourceGroupName": {
               "type": "string",
-              "value": "[if(parameters('DeployPrivateCloud'), format('{0}-PrivateCloud', parameters('Prefix')), split(parameters('ExistingPrivateCloudId'), '/')[4])]"
+              "value": "[if(parameters('DeployPrivateCloud'), format('{0}-PrivateCloud', parameters('Prefix')), split(parameters('ExistingPrivateCloudResourceId'), '/')[4])]"
             },
             "PrivateCloudResourceId": {
               "type": "string",
@@ -1790,7 +1790,7 @@
             "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))).outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
           },
           "PrimaryPrivateCloudResourceId": {
-            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))).outputs.PrivateCloudResourceId.value, parameters('ExistingPrivateCloudId'))]"
+            "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))).outputs.PrivateCloudResourceId.value, parameters('ExistingPrivateCloudResourceId'))]"
           },
           "ExRConnectionResourceId": {
             "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNetConnection', variables('deploymentPrefix'))), '2020-10-01').outputs.ExRConnectionResourceId.value]"

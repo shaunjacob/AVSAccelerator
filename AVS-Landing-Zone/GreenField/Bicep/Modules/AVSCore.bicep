@@ -7,7 +7,7 @@ param PrivateCloudSKU string
 param PrivateCloudHostCount int
 param TelemetryOptOut bool
 param DeployPrivateCloud bool
-param ExistingPrivateCloudId string
+param ExistingPrivateCloudResourceId string
 
 //var DeployNew = empty(ExistingPrivateCloudId)
 
@@ -31,5 +31,5 @@ module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployPrivateCloud) {
 
 
 output PrivateCloudName string = DeployPrivateCloud ? PrivateCloud.outputs.PrivateCloudName : ''
-output PrivateCloudResourceGroupName string = DeployPrivateCloud ? PrivateCloudResourceGroup.name : split(ExistingPrivateCloudId,'/')[4]
+output PrivateCloudResourceGroupName string = DeployPrivateCloud ? PrivateCloudResourceGroup.name : split(ExistingPrivateCloudResourceId,'/')[4]
 output PrivateCloudResourceId string = DeployPrivateCloud ? PrivateCloud.outputs.PrivateCloudResourceId : ''

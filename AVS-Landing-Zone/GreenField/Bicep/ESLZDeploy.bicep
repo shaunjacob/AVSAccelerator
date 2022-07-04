@@ -24,7 +24,7 @@ param PrivateCloudHostCount int = 3
 @description('Existing Private Cloud Name')
 param ExistingPrivateCloudName string = ''
 @description('Existing Private Cloud Id')
-param ExistingPrivateCloudId string = ''
+param ExistingPrivateCloudResourceId string = ''
 
 //Azure Networking
 @description('Set this to true if you are redeploying, and the VNet already exists')
@@ -110,7 +110,7 @@ module AVSCore 'Modules/AVSCore.bicep' = {
     PrivateCloudSKU: PrivateCloudSKU
     TelemetryOptOut: TelemetryOptOut
     DeployPrivateCloud : DeployPrivateCloud
-    ExistingPrivateCloudId : ExistingPrivateCloudId
+    ExistingPrivateCloudResourceId : ExistingPrivateCloudResourceId
   }
 }
 
@@ -180,7 +180,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     DeployServiceHealth : DeployServiceHealth
     DeployDashbord : DeployDashbord
     PrimaryPrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
-    PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudId
+    PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
     ExRConnectionResourceId : VNetConnection.outputs.ExRConnectionResourceId
     JumpboxResourceId: DeployJumpbox ? Jumpbox.outputs.JumpboxResourceId : ''
     VNetResourceId: AzureNetworking.outputs.VNetResourceId
