@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "5064923877857180802"
+      "templateHash": "3518386909686157885"
     }
   },
   "parameters": {
@@ -325,7 +325,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "10037864184768939466"
+              "templateHash": "6617673973242017271"
             }
           },
           "parameters": {
@@ -484,6 +484,10 @@
             "PrivateCloudResourceId": {
               "type": "string",
               "value": "[if(parameters('DeployPrivateCloud'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-PrivateCloud', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-PrivateCloud', deployment().name)), '2020-10-01').outputs.PrivateCloudResourceId.value, '')]"
+            },
+            "ExistingPrivateCloudResourceGroupName": {
+              "type": "string",
+              "value": "[split(parameters('ExistingPrivateCloudResourceId'), '/')[4]]"
             }
           }
         }
@@ -1793,13 +1797,13 @@
             "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))).outputs.PrivateCloudResourceId.value, parameters('ExistingPrivateCloudResourceId'))]"
           },
           "ExRConnectionResourceId": {
-            "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNetConnection', variables('deploymentPrefix'))), '2020-10-01').outputs.ExRConnectionResourceId.value]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNetConnection', variables('deploymentPrefix'))), '2020-10-01').outputs.ExRConnectionResourceId.value, '')]"
           },
           "JumpboxResourceId": {
             "value": "[if(parameters('DeployJumpbox'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-Jumpbox', variables('deploymentPrefix'))), '2020-10-01').outputs.JumpboxResourceId.value, '')]"
           },
           "VNetResourceId": {
-            "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetResourceId.value]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetResourceId.value, '')]"
           }
         },
         "template": {

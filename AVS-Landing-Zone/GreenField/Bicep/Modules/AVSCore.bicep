@@ -33,3 +33,4 @@ module PrivateCloud 'AVSCore/PrivateCloud.bicep' = if (DeployPrivateCloud) {
 output PrivateCloudName string = DeployPrivateCloud ? PrivateCloud.outputs.PrivateCloudName : ''
 output PrivateCloudResourceGroupName string = DeployPrivateCloud ? PrivateCloudResourceGroup.name : split(ExistingPrivateCloudResourceId,'/')[4]
 output PrivateCloudResourceId string = DeployPrivateCloud ? PrivateCloud.outputs.PrivateCloudResourceId : ''
+output ExistingPrivateCloudResourceGroupName string = split(ExistingPrivateCloudResourceId,'/')[4]

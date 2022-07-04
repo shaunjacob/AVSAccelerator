@@ -181,9 +181,9 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     DeployDashbord : DeployDashbord
     PrimaryPrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
     PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
-    ExRConnectionResourceId : VNetConnection.outputs.ExRConnectionResourceId
+    ExRConnectionResourceId : DeployNetworking ? VNetConnection.outputs.ExRConnectionResourceId : ''
     JumpboxResourceId: DeployJumpbox ? Jumpbox.outputs.JumpboxResourceId : ''
-    VNetResourceId: AzureNetworking.outputs.VNetResourceId
+    VNetResourceId: DeployNetworking ? AzureNetworking.outputs.VNetResourceId : ''
   }
 }
 
