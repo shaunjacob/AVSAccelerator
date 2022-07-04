@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "15289443162446861029"
+      "templateHash": "12951758937399053066"
     }
   },
   "parameters": {
@@ -44,7 +44,8 @@
       "defaultValue": "AV36",
       "allowedValues": [
         "AV36",
-        "AV36T"
+        "AV36T",
+        "AV36P"
       ],
       "metadata": {
         "description": "The SKU that should be used for the first cluster, ensure you have quota for the given SKU before deploying"
@@ -908,7 +909,7 @@
       }
     },
     {
-      "condition": "[parameters('DeployPrivateCloud')]",
+      "condition": "[parameters('DeployNetworking')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-VNetConnection', variables('deploymentPrefix'))]",
@@ -1148,7 +1149,7 @@
             "value": "[parameters('Location')]"
           },
           "VNetName": {
-            "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value, '')]"
           },
           "RouteServerSubnetPrefix": {
             "value": "[parameters('RouteServerSubnetPrefix')]"
@@ -1370,10 +1371,10 @@
             "value": "[parameters('JumpboxPassword')]"
           },
           "VNetName": {
-            "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value, '')]"
           },
           "VNetResourceGroup": {
-            "value": "[reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.NetworkResourceGroup.value]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.NetworkResourceGroup.value, '')]"
           },
           "BastionSubnet": {
             "value": "[parameters('BastionSubnet')]"

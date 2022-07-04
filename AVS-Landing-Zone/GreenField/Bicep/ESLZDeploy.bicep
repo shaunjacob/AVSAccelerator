@@ -131,7 +131,7 @@ module AzureNetworking 'Modules/AzureNetworking.bicep' = if (DeployNetworking) {
   }
 }
 
-module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployPrivateCloud) {
+module VNetConnection 'Modules/VNetConnection.bicep' = if (DeployNetworking) {
   name: '${deploymentPrefix}-VNetConnection'
   params: {
     GatewayName: DeployNetworking ? AzureNetworking.outputs.GatewayName : 'none'
