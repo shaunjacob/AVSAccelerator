@@ -230,7 +230,7 @@
                                 {
                                     "name": "existingAVSSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
+                                    "visible": "",
                                     "label": "Select the Existing AVS Private Cloud",
                                     "resourceType": "Microsoft.AVS/privateClouds",
                                     "options": {
