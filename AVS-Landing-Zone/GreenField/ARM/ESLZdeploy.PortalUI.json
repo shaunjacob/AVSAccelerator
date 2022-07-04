@@ -811,7 +811,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "",
                             "label": "Deploy AVS Dashboard",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "toolTip": "Deploy AVS Dashboard",
                             "constraints": {
                                 "required": true,
@@ -832,7 +832,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "",
                             "label": "Enable AVS Metric Alerts",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "toolTip": "Enable AVS Metric Alerts (CPU, Memory, Storage etc)",
                             "constraints": {
                                 "required": true,
@@ -853,7 +853,7 @@
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "Enable AVS Service Health Alerts",
                             "label": "Enable Service Health alerts",
-                            "defaultValue": "Yes",
+                            "defaultValue": "No",
                             "toolTip": "Enable Service Health alerts for AVS",
                             "constraints": {
                                 "required": true,
