@@ -1002,6 +1002,7 @@
                 "ExistingPrivateCloudName": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.name, 'none')]",
                 "ExistingPrivateCloudResourceId": "[if(equals(steps('PrivateCloud').DeployPrivateCloud, false), steps('PrivateCloud').existingAVSPrivateCloudSettings.existingAVSSelector.id, 'none')]",
                 "VNetExists": "[steps('azureNetwork').VNetExists]",
+                "DeployNetworking": "[steps('azureNetwork').DeployNetworking]",
                 "ExistingVnetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "GatewayExists": "[steps('azureNetwork').GatewayExists]",
                 "ExistingGatewayName": "[steps('azureNetwork').gatewaySelectorId.name]",
