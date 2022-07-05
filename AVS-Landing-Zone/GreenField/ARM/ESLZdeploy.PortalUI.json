@@ -710,7 +710,7 @@
                             }
                         },
                         {
-                            "name": "VnetSelectorId",
+                            "name": "RouteServerVnetSelector",
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
                             "label": "Existing Virtual Network",
@@ -776,8 +776,8 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('onpremises').RouteServerSubnetExists, true)]",
                             "options": {
-                                "text": "Mandatory: If a RouteServer Subnet does not exist, this deployment will fail",
-                                "uri": "",
+                                "text": "Ensure that a subnet called RouteServerSubnet exists in the chosen Virtual Network or else the deployment will fail. Click here for more information",
+                                "uri": "https://docs.microsoft.com/en-us/azure/route-server/quickstart-configure-route-server-portal#create-a-route-server",
                                 "style": "Warning"
                             }
                         }
@@ -1012,9 +1012,10 @@
                 "VNetName": "[steps('azureNetwork').VnetSelectorId.name]",
                 "OnPremConnectivity": "[steps('onpremises').OnpremiseConnect]",
                 "DeployRouteServer": "[steps('onpremises').DeployRouteServer]",
+                "RouteServerVNetName": "[steps('onpremises').RouteServerVnetSelector.name]",
                 "RouteServerSubnetExists": "[steps('onpremises').RouteServerSubnetExists]",
                 "RouteServerSubnetPrefix": "[if(equals(steps('onpremises').RouteServerSubnetExists, false), steps('onpremises').RouteServerSubnetPrefix, 'none')]",
-                "DeployDashbord": "[steps('Monitoring').DeployDashboard]",
+                "DeployDashboard": "[steps('Monitoring').DeployDashboard]",
                 "DeployMetricAlerts": "[steps('Monitoring').DeployAVSAlerts]",
                 "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",

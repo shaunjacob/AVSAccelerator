@@ -66,6 +66,8 @@ param BastionSubnet string = ''
 //On-premise Networking
 @description('A boolean flag to deploy a Route Serrver or skip')
 param DeployRouteServer bool = false
+@description('A boolean flag to deploy a Route Serrver or skip')
+param RouteServerVNetName string = ''
 @description('Does a RouteServerSubnet exists?')
 param RouteServerSubnetExists bool = false
 @description('Flag to check onpremise connectivity method, ExpressRoute or VPN')
@@ -148,7 +150,7 @@ module RouteServer 'Modules/RouteServer.bicep' = if ((OnPremConnectivity == 'VPN
   params: {
     Prefix: Prefix
     Location: Location
-    VNetName: DeployNetworking ? AzureNetworking.outputs.VNetName : ''
+    VNetName: DeployNetworking ? AzureNetworking.outputs.VNetName : RouteServerVNetName
     RouteServerSubnetPrefix : RouteServerSubnetPrefix
     RouteServerSubnetExists : RouteServerSubnetExists
   }

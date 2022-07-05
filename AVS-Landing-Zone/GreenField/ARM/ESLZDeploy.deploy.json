@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "3518386909686157885"
+      "templateHash": "16251771256858470183"
     }
   },
   "parameters": {
@@ -187,6 +187,13 @@
     "DeployRouteServer": {
       "type": "bool",
       "defaultValue": false,
+      "metadata": {
+        "description": "A boolean flag to deploy a Route Serrver or skip"
+      }
+    },
+    "RouteServerVNetName": {
+      "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "A boolean flag to deploy a Route Serrver or skip"
       }
@@ -1159,7 +1166,7 @@
             "value": "[parameters('Location')]"
           },
           "VNetName": {
-            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value, '')]"
+            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetName.value, parameters('RouteServerVNetName'))]"
           },
           "RouteServerSubnetPrefix": {
             "value": "[parameters('RouteServerSubnetPrefix')]"
