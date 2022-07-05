@@ -700,16 +700,6 @@
                             }
                         },
                         {
-                            "name": "DeployRouteServerInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
-                            "options": {
-                                "text": "Existing Azure VPN gateway must be configured in active-active mode, this is usually not done by default. If not set to active-active, this deployment will fail",
-                                "uri": "https://docs.microsoft.com/en-us/azure/route-server/expressroute-vpn-support",
-                                "style": "Info"
-                            }
-                        },
-                        {
                             "name": "RouteServerVnetSelector",
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
@@ -724,6 +714,16 @@
                                     "subscription": "onBasics",
                                     "location": "onBasics"
                                 }
+                            }
+                        },
+                        {
+                            "name": "DeployRouteServerInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
+                            "options": {
+                                "text": "Existing Azure VPN gateway must be configured in active-active mode, this is usually not done by default. If not set to active-active, this deployment will fail",
+                                "uri": "https://docs.microsoft.com/en-us/azure/route-server/expressroute-vpn-support",
+                                "style": "Info"
                             }
                         },
                         {
