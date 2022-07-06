@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "10702823633700688782"
+      "templateHash": "730064661582767019"
     }
   },
   "parameters": {
@@ -1410,7 +1410,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "4941376696445595081"
+              "templateHash": "5911192732004055729"
             }
           },
           "parameters": {
@@ -1649,7 +1649,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.8.2.30886",
-                      "templateHash": "6290069739086755459"
+                      "templateHash": "5474164826540310285"
                     }
                   },
                   "parameters": {
@@ -1724,7 +1724,7 @@
                           "osDisk": {
                             "createOption": "FromImage",
                             "managedDisk": {
-                              "storageAccountType": "Premium_LRS"
+                              "storageAccountType": "Standard_SSD"
                             }
                           }
                         },
