@@ -550,7 +550,11 @@
                             "visible": "[equals(steps('azureNetwork').createJumpbox, true)]",
                             "label": "Jumpbox SKU",
                             "toolTip": "Select a VM SKU for the Jumpbox",
-                            "recommendedSizes": {},
+                            "recommendedSizes": [
+                                "Standard_D1",
+                                "Standard_D2",
+                                "Standard_D3"
+                            ],
                             "constraints": {
                                 "allowedSizes": [],
                                 "excludedSizes": [],
