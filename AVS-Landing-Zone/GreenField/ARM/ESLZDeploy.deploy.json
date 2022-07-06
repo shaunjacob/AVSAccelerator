@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.9.13224",
-      "templateHash": "5141787402741943570"
+      "templateHash": "9493333998976759052"
     }
   },
   "parameters": {
@@ -1820,7 +1820,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.9.13224",
-              "templateHash": "4650490924317218589"
+              "templateHash": "15617071307660244867"
             }
           },
           "parameters": {
@@ -2310,7 +2310,7 @@
               ]
             },
             {
-              "condition": "[or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth'))]",
+              "condition": "[not(parameters('DeployDashboard'))]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-ActionGroup', deployment().name)]",

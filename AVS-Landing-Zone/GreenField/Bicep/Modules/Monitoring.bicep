@@ -30,7 +30,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
   }
 }
 
-module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
+module ActionGroup 'Monitoring/ActionGroup.bicep' = if (!DeployDashboard) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-ActionGroup'
   params: {
