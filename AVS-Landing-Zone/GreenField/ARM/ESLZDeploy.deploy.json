@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "11065799170960138684"
+      "templateHash": "10702823633700688782"
     }
   },
   "parameters": {
@@ -2617,6 +2617,7 @@
       ]
     },
     {
+      "condition": "[or(parameters('DeployHCX'), parameters('DeploySRM'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-AVSAddons', variables('deploymentPrefix'))]",
