@@ -4,8 +4,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.8.2.30886",
-      "templateHash": "12126754999117215431"
+      "version": "0.8.9.13224",
+      "templateHash": "5141787402741943570"
     }
   },
   "parameters": {
@@ -331,8 +331,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "11325780019841519039"
+              "version": "0.8.9.13224",
+              "templateHash": "13927814599625965439"
             }
           },
           "parameters": {
@@ -406,8 +406,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "12538351998498913864"
+                      "version": "0.8.9.13224",
+                      "templateHash": "8896949074412948394"
                     }
                   },
                   "parameters": {
@@ -552,8 +552,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "451982416452018924"
+              "version": "0.8.9.13224",
+              "templateHash": "10245303427895349085"
             }
           },
           "parameters": {
@@ -629,8 +629,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "10373472999420291616"
+                      "version": "0.8.9.13224",
+                      "templateHash": "3196098191154039424"
                     }
                   },
                   "parameters": {
@@ -785,8 +785,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "18383197244295172775"
+                      "version": "0.8.9.13224",
+                      "templateHash": "2093150853957873838"
                     }
                   },
                   "parameters": {
@@ -962,8 +962,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "9646494209658570361"
+              "version": "0.8.9.13224",
+              "templateHash": "16420393180155695568"
             }
           },
           "parameters": {
@@ -1015,8 +1015,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "2422646138301630198"
+                      "version": "0.8.9.13224",
+                      "templateHash": "1515537628270861084"
                     }
                   },
                   "parameters": {
@@ -1080,8 +1080,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "1336330694863010802"
+                      "version": "0.8.9.13224",
+                      "templateHash": "6025036195034280107"
                     }
                   },
                   "parameters": {
@@ -1181,8 +1181,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "6772526023915156165"
+              "version": "0.8.9.13224",
+              "templateHash": "7690545718361773025"
             }
           },
           "parameters": {
@@ -1242,8 +1242,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "3210911173664742511"
+                      "version": "0.8.9.13224",
+                      "templateHash": "8595763680656051483"
                     }
                   },
                   "parameters": {
@@ -1409,8 +1409,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "8003238701056427347"
+              "version": "0.8.9.13224",
+              "templateHash": "3555190416939922270"
             }
           },
           "parameters": {
@@ -1476,8 +1476,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "9297599924597490302"
+                      "version": "0.8.9.13224",
+                      "templateHash": "14524662931660786226"
                     }
                   },
                   "parameters": {
@@ -1552,8 +1552,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "3777069513052037476"
+                      "version": "0.8.9.13224",
+                      "templateHash": "3494574494094398857"
                     }
                   },
                   "parameters": {
@@ -1648,8 +1648,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "15988681709666059183"
+                      "version": "0.8.9.13224",
+                      "templateHash": "12572035402376807226"
                     }
                   },
                   "parameters": {
@@ -1819,8 +1819,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "12601711192946095368"
+              "version": "0.8.9.13224",
+              "templateHash": "4650490924317218589"
             }
           },
           "parameters": {
@@ -1866,303 +1866,6 @@
               "location": "[parameters('PrimaryLocation')]"
             },
             {
-              "condition": "[or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth'))]",
-              "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2020-10-01",
-              "name": "[format('{0}-ActionGroup', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
-              "properties": {
-                "expressionEvaluationOptions": {
-                  "scope": "inner"
-                },
-                "mode": "Incremental",
-                "parameters": {
-                  "Prefix": {
-                    "value": "[parameters('Prefix')]"
-                  },
-                  "ActionGroupEmails": {
-                    "value": "[parameters('AlertEmails')]"
-                  }
-                },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "metadata": {
-                    "_generator": {
-                      "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "1613827332586557858"
-                    }
-                  },
-                  "parameters": {
-                    "Prefix": {
-                      "type": "string"
-                    },
-                    "ActionGroupEmails": {
-                      "type": "string"
-                    }
-                  },
-                  "resources": [
-                    {
-                      "type": "microsoft.insights/actionGroups",
-                      "apiVersion": "2019-06-01",
-                      "name": "[format('{0}-ActionGroup', parameters('Prefix'))]",
-                      "location": "Global",
-                      "properties": {
-                        "enabled": true,
-                        "groupShortName": "[substring(format('avs{0}', uniqueString(parameters('Prefix'))), 0, 12)]",
-                        "emailReceivers": [
-                          {
-                            "emailAddress": "[parameters('ActionGroupEmails')]",
-                            "name": "[split(parameters('ActionGroupEmails'), '@')[0]]",
-                            "useCommonAlertSchema": false
-                          }
-                        ]
-                      }
-                    }
-                  ],
-                  "outputs": {
-                    "ActionGroupResourceId": {
-                      "type": "string",
-                      "value": "[resourceId('microsoft.insights/actionGroups', format('{0}-ActionGroup', parameters('Prefix')))]"
-                    }
-                  }
-                }
-              },
-              "dependsOn": [
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
-              ]
-            },
-            {
-              "condition": "[parameters('DeployMetricAlerts')]",
-              "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2020-10-01",
-              "name": "[format('{0}-MetricAlerts', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
-              "properties": {
-                "expressionEvaluationOptions": {
-                  "scope": "inner"
-                },
-                "mode": "Incremental",
-                "parameters": {
-                  "ActionGroupResourceId": {
-                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2020-10-01').outputs.ActionGroupResourceId.value]"
-                  },
-                  "AlertPrefix": {
-                    "value": "[parameters('PrimaryPrivateCloudName')]"
-                  },
-                  "PrivateCloudResourceId": {
-                    "value": "[parameters('PrimaryPrivateCloudResourceId')]"
-                  }
-                },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "metadata": {
-                    "_generator": {
-                      "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "3984653658625060378"
-                    }
-                  },
-                  "parameters": {
-                    "AlertPrefix": {
-                      "type": "string"
-                    },
-                    "ActionGroupResourceId": {
-                      "type": "string"
-                    },
-                    "PrivateCloudResourceId": {
-                      "type": "string"
-                    }
-                  },
-                  "variables": {
-                    "Alerts": [
-                      {
-                        "Name": "CPU",
-                        "Description": "CPU Usage per Cluster",
-                        "Metric": "EffectiveCpuAverage",
-                        "SplitDimension": "clustername",
-                        "Threshold": 80,
-                        "Severity": 2
-                      },
-                      {
-                        "Name": "Memory",
-                        "Description": "Memory Usage per Cluster",
-                        "Metric": "UsageAverage",
-                        "SplitDimension": "clustername",
-                        "Threshold": 80,
-                        "Severity": 2
-                      },
-                      {
-                        "Name": "Storage",
-                        "Description": "Storage Usage per Datastore",
-                        "Metric": "DiskUsedPercentage",
-                        "SplitDimension": "dsname",
-                        "Threshold": 70,
-                        "Severity": 2
-                      },
-                      {
-                        "Name": "StorageCritical",
-                        "Description": "Storage Usage per Datastore",
-                        "Metric": "DiskUsedPercentage",
-                        "SplitDimension": "dsname",
-                        "Threshold": 75,
-                        "Severity": 0
-                      }
-                    ]
-                  },
-                  "resources": [
-                    {
-                      "copy": {
-                        "name": "MetricAlert",
-                        "count": "[length(variables('Alerts'))]"
-                      },
-                      "type": "Microsoft.Insights/metricAlerts",
-                      "apiVersion": "2018-03-01",
-                      "name": "[format('{0}-{1}', parameters('AlertPrefix'), variables('Alerts')[copyIndex()].Name)]",
-                      "location": "Global",
-                      "properties": {
-                        "description": "[variables('Alerts')[copyIndex()].Description]",
-                        "criteria": {
-                          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
-                          "allOf": [
-                            {
-                              "name": "Metric1",
-                              "operator": "GreaterThan",
-                              "threshold": "[variables('Alerts')[copyIndex()].Threshold]",
-                              "timeAggregation": "Average",
-                              "criterionType": "StaticThresholdCriterion",
-                              "metricName": "[variables('Alerts')[copyIndex()].Metric]",
-                              "dimensions": [
-                                {
-                                  "name": "[variables('Alerts')[copyIndex()].SplitDimension]",
-                                  "operator": "Include",
-                                  "values": [
-                                    "*"
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "scopes": [
-                          "[parameters('PrivateCloudResourceId')]"
-                        ],
-                        "severity": "[variables('Alerts')[copyIndex()].Severity]",
-                        "evaluationFrequency": "PT5M",
-                        "windowSize": "PT30M",
-                        "autoMitigate": true,
-                        "enabled": true,
-                        "actions": [
-                          {
-                            "actionGroupId": "[parameters('ActionGroupResourceId')]"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
-              ]
-            },
-            {
-              "condition": "[parameters('DeployServiceHealth')]",
-              "type": "Microsoft.Resources/deployments",
-              "apiVersion": "2020-10-01",
-              "name": "[format('{0}-ServiceHealth', deployment().name)]",
-              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
-              "properties": {
-                "expressionEvaluationOptions": {
-                  "scope": "inner"
-                },
-                "mode": "Incremental",
-                "parameters": {
-                  "ActionGroupResourceId": {
-                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2020-10-01').outputs.ActionGroupResourceId.value]"
-                  },
-                  "AlertPrefix": {
-                    "value": "[parameters('PrimaryPrivateCloudName')]"
-                  },
-                  "PrivateCloudResourceId": {
-                    "value": "[parameters('PrimaryPrivateCloudResourceId')]"
-                  }
-                },
-                "template": {
-                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-                  "contentVersion": "1.0.0.0",
-                  "metadata": {
-                    "_generator": {
-                      "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "12568056239676403107"
-                    }
-                  },
-                  "parameters": {
-                    "AlertPrefix": {
-                      "type": "string"
-                    },
-                    "ActionGroupResourceId": {
-                      "type": "string"
-                    },
-                    "PrivateCloudResourceId": {
-                      "type": "string"
-                    }
-                  },
-                  "resources": [
-                    {
-                      "type": "Microsoft.Insights/activityLogAlerts",
-                      "apiVersion": "2020-10-01",
-                      "name": "[format('{0}-ServiceHealth', parameters('AlertPrefix'))]",
-                      "location": "Global",
-                      "properties": {
-                        "description": "Service Health Alerts",
-                        "condition": {
-                          "allOf": [
-                            {
-                              "field": "category",
-                              "equals": "ServiceHealth"
-                            },
-                            {
-                              "field": "properties.impactedServices[*].ServiceName",
-                              "containsAny": [
-                                "Azure VMware Solution"
-                              ]
-                            },
-                            {
-                              "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
-                              "containsAny": [
-                                "[reference(parameters('PrivateCloudResourceId'), '2021-06-01', 'Full').location]",
-                                "Global"
-                              ]
-                            }
-                          ]
-                        },
-                        "scopes": [
-                          "[subscription().id]"
-                        ],
-                        "enabled": true,
-                        "actions": {
-                          "actionGroups": [
-                            {
-                              "actionGroupId": "[parameters('ActionGroupResourceId')]"
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-                }
-              },
-              "dependsOn": [
-                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
-                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
-              ]
-            },
-            {
               "condition": "[parameters('DeployDashboard')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
@@ -2199,8 +1902,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "8216072766754975840"
+                      "version": "0.8.9.13224",
+                      "templateHash": "65372975133885649"
                     }
                   },
                   "parameters": {
@@ -2605,6 +2308,303 @@
               "dependsOn": [
                 "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
               ]
+            },
+            {
+              "condition": "[or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth'))]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-ActionGroup', deployment().name)]",
+              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "Prefix": {
+                    "value": "[parameters('Prefix')]"
+                  },
+                  "ActionGroupEmails": {
+                    "value": "[parameters('AlertEmails')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.8.9.13224",
+                      "templateHash": "2776308478473413108"
+                    }
+                  },
+                  "parameters": {
+                    "Prefix": {
+                      "type": "string"
+                    },
+                    "ActionGroupEmails": {
+                      "type": "string"
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "microsoft.insights/actionGroups",
+                      "apiVersion": "2019-06-01",
+                      "name": "[format('{0}-ActionGroup', parameters('Prefix'))]",
+                      "location": "Global",
+                      "properties": {
+                        "enabled": true,
+                        "groupShortName": "[substring(format('avs{0}', uniqueString(parameters('Prefix'))), 0, 12)]",
+                        "emailReceivers": [
+                          {
+                            "emailAddress": "[parameters('ActionGroupEmails')]",
+                            "name": "[split(parameters('ActionGroupEmails'), '@')[0]]",
+                            "useCommonAlertSchema": false
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "outputs": {
+                    "ActionGroupResourceId": {
+                      "type": "string",
+                      "value": "[resourceId('microsoft.insights/actionGroups', format('{0}-ActionGroup', parameters('Prefix')))]"
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+              ]
+            },
+            {
+              "condition": "[parameters('DeployMetricAlerts')]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-MetricAlerts', deployment().name)]",
+              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "ActionGroupResourceId": {
+                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2020-10-01').outputs.ActionGroupResourceId.value]"
+                  },
+                  "AlertPrefix": {
+                    "value": "[parameters('PrimaryPrivateCloudName')]"
+                  },
+                  "PrivateCloudResourceId": {
+                    "value": "[parameters('PrimaryPrivateCloudResourceId')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.8.9.13224",
+                      "templateHash": "18248580094637330618"
+                    }
+                  },
+                  "parameters": {
+                    "AlertPrefix": {
+                      "type": "string"
+                    },
+                    "ActionGroupResourceId": {
+                      "type": "string"
+                    },
+                    "PrivateCloudResourceId": {
+                      "type": "string"
+                    }
+                  },
+                  "variables": {
+                    "Alerts": [
+                      {
+                        "Name": "CPU",
+                        "Description": "CPU Usage per Cluster",
+                        "Metric": "EffectiveCpuAverage",
+                        "SplitDimension": "clustername",
+                        "Threshold": 80,
+                        "Severity": 2
+                      },
+                      {
+                        "Name": "Memory",
+                        "Description": "Memory Usage per Cluster",
+                        "Metric": "UsageAverage",
+                        "SplitDimension": "clustername",
+                        "Threshold": 80,
+                        "Severity": 2
+                      },
+                      {
+                        "Name": "Storage",
+                        "Description": "Storage Usage per Datastore",
+                        "Metric": "DiskUsedPercentage",
+                        "SplitDimension": "dsname",
+                        "Threshold": 70,
+                        "Severity": 2
+                      },
+                      {
+                        "Name": "StorageCritical",
+                        "Description": "Storage Usage per Datastore",
+                        "Metric": "DiskUsedPercentage",
+                        "SplitDimension": "dsname",
+                        "Threshold": 75,
+                        "Severity": 0
+                      }
+                    ]
+                  },
+                  "resources": [
+                    {
+                      "copy": {
+                        "name": "MetricAlert",
+                        "count": "[length(variables('Alerts'))]"
+                      },
+                      "type": "Microsoft.Insights/metricAlerts",
+                      "apiVersion": "2018-03-01",
+                      "name": "[format('{0}-{1}', parameters('AlertPrefix'), variables('Alerts')[copyIndex()].Name)]",
+                      "location": "Global",
+                      "properties": {
+                        "description": "[variables('Alerts')[copyIndex()].Description]",
+                        "criteria": {
+                          "odata.type": "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+                          "allOf": [
+                            {
+                              "name": "Metric1",
+                              "operator": "GreaterThan",
+                              "threshold": "[variables('Alerts')[copyIndex()].Threshold]",
+                              "timeAggregation": "Average",
+                              "criterionType": "StaticThresholdCriterion",
+                              "metricName": "[variables('Alerts')[copyIndex()].Metric]",
+                              "dimensions": [
+                                {
+                                  "name": "[variables('Alerts')[copyIndex()].SplitDimension]",
+                                  "operator": "Include",
+                                  "values": [
+                                    "*"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "scopes": [
+                          "[parameters('PrivateCloudResourceId')]"
+                        ],
+                        "severity": "[variables('Alerts')[copyIndex()].Severity]",
+                        "evaluationFrequency": "PT5M",
+                        "windowSize": "PT30M",
+                        "autoMitigate": true,
+                        "enabled": true,
+                        "actions": [
+                          {
+                            "actionGroupId": "[parameters('ActionGroupResourceId')]"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+              ]
+            },
+            {
+              "condition": "[parameters('DeployServiceHealth')]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-ServiceHealth', deployment().name)]",
+              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "ActionGroupResourceId": {
+                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name)), '2020-10-01').outputs.ActionGroupResourceId.value]"
+                  },
+                  "AlertPrefix": {
+                    "value": "[parameters('PrimaryPrivateCloudName')]"
+                  },
+                  "PrivateCloudResourceId": {
+                    "value": "[parameters('PrimaryPrivateCloudResourceId')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.8.9.13224",
+                      "templateHash": "4726979985646009935"
+                    }
+                  },
+                  "parameters": {
+                    "AlertPrefix": {
+                      "type": "string"
+                    },
+                    "ActionGroupResourceId": {
+                      "type": "string"
+                    },
+                    "PrivateCloudResourceId": {
+                      "type": "string"
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.Insights/activityLogAlerts",
+                      "apiVersion": "2020-10-01",
+                      "name": "[format('{0}-ServiceHealth', parameters('AlertPrefix'))]",
+                      "location": "Global",
+                      "properties": {
+                        "description": "Service Health Alerts",
+                        "condition": {
+                          "allOf": [
+                            {
+                              "field": "category",
+                              "equals": "ServiceHealth"
+                            },
+                            {
+                              "field": "properties.impactedServices[*].ServiceName",
+                              "containsAny": [
+                                "Azure VMware Solution"
+                              ]
+                            },
+                            {
+                              "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                              "containsAny": [
+                                "[reference(parameters('PrivateCloudResourceId'), '2021-06-01', 'Full').location]",
+                                "Global"
+                              ]
+                            }
+                          ]
+                        },
+                        "scopes": [
+                          "[subscription().id]"
+                        ],
+                        "enabled": true,
+                        "actions": {
+                          "actionGroups": [
+                            {
+                              "actionGroupId": "[parameters('ActionGroupResourceId')]"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-ActionGroup', deployment().name))]",
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+              ]
             }
           ]
         }
@@ -2653,8 +2653,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.8.2.30886",
-              "templateHash": "14899184095875092013"
+              "version": "0.8.9.13224",
+              "templateHash": "6881436580612479626"
             }
           },
           "parameters": {
@@ -2702,8 +2702,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "4670182216623429959"
+                      "version": "0.8.9.13224",
+                      "templateHash": "9134327683351865553"
                     }
                   },
                   "parameters": {
@@ -2753,8 +2753,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.8.2.30886",
-                      "templateHash": "9158613996249438106"
+                      "version": "0.8.9.13224",
+                      "templateHash": "2406418508034114002"
                     }
                   },
                   "parameters": {

@@ -12,9 +12,22 @@ param JumpboxResourceId string
 param VNetResourceId string
 param ExRConnectionResourceId string
 
-resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' ={
+resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: '${Prefix}-Operational'
   location: PrimaryLocation
+}
+
+module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
+  scope: OperationalResourceGroup
+  name: '${deployment().name}-Dashboard'
+  params:{
+    Prefix: Prefix
+    Location: PrimaryLocation
+    PrivateCloudResourceId: PrimaryPrivateCloudResourceId
+    JumpboxResourceId: JumpboxResourceId
+    ExRConnectionResourceId: ExRConnectionResourceId
+    VNetResourceId: VNetResourceId
+  }
 }
 
 module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
@@ -46,15 +59,3 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth)
   }
 }
 
-module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
-  scope: OperationalResourceGroup
-  name: '${deployment().name}-Dashboard'
-  params:{
-    Prefix: Prefix
-    Location: PrimaryLocation
-    PrivateCloudResourceId: PrimaryPrivateCloudResourceId
-    JumpboxResourceId: JumpboxResourceId
-    ExRConnectionResourceId: ExRConnectionResourceId
-    VNetResourceId: VNetResourceId
-  }
-}
