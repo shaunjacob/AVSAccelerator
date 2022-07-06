@@ -50,7 +50,7 @@ resource VM 'Microsoft.Compute/virtualMachines@2021-03-01' = {
       osDisk: {
         createOption: 'FromImage'
         managedDisk: {
-          storageAccountType: 'Standard_SSD'
+          storageAccountType: 'Standard_LRS'
         }
       }
     }

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "730064661582767019"
+      "templateHash": "12126754999117215431"
     }
   },
   "parameters": {
@@ -332,7 +332,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "6617673973242017271"
+              "templateHash": "11325780019841519039"
             }
           },
           "parameters": {
@@ -407,7 +407,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.8.2.30886",
-                      "templateHash": "10283088146348665136"
+                      "templateHash": "12538351998498913864"
                     }
                   },
                   "parameters": {
@@ -451,7 +451,7 @@
                       "condition": "[not(parameters('TelemetryOptOut'))]",
                       "type": "Microsoft.Resources/deployments",
                       "apiVersion": "2021-04-01",
-                      "name": "pid-754599a0-0a6f-424a-b4c5-1b12be198ae8",
+                      "name": "pid-1cf4a3e3-529c-4fb2-ba6a-63dff7d71586",
                       "properties": {
                         "mode": "Incremental",
                         "template": {
@@ -1410,7 +1410,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "5911192732004055729"
+              "templateHash": "8003238701056427347"
             }
           },
           "parameters": {
@@ -1649,7 +1649,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.8.2.30886",
-                      "templateHash": "5474164826540310285"
+                      "templateHash": "15988681709666059183"
                     }
                   },
                   "parameters": {
@@ -1724,7 +1724,7 @@
                           "osDisk": {
                             "createOption": "FromImage",
                             "managedDisk": {
-                              "storageAccountType": "Standard_SSD"
+                              "storageAccountType": "Standard_LRS"
                             }
                           }
                         },
