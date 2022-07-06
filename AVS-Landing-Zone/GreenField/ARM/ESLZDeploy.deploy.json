@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "16251771256858470183"
+      "templateHash": "13328040059260736305"
     }
   },
   "parameters": {
@@ -219,7 +219,7 @@
         "description": "The subnet CIDR used for the RouteServer Subnet"
       }
     },
-    "DeployDashbord": {
+    "DeployDashboard": {
       "type": "bool",
       "defaultValue": false,
       "metadata": {
@@ -1768,7 +1768,7 @@
       ]
     },
     {
-      "condition": "[or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashbord'))]",
+      "condition": "[or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashboard'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-Monitoring', variables('deploymentPrefix'))]",
@@ -1794,8 +1794,8 @@
           "DeployServiceHealth": {
             "value": "[parameters('DeployServiceHealth')]"
           },
-          "DeployDashbord": {
-            "value": "[parameters('DeployDashbord')]"
+          "DeployDashboard": {
+            "value": "[parameters('DeployDashboard')]"
           },
           "PrimaryPrivateCloudName": {
             "value": "[if(parameters('DeployPrivateCloud'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))).outputs.PrivateCloudName.value, parameters('ExistingPrivateCloudName'))]"
@@ -1820,7 +1820,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.2.30886",
-              "templateHash": "10874566391155604587"
+              "templateHash": "12601711192946095368"
             }
           },
           "parameters": {
@@ -1830,7 +1830,7 @@
             "DeployServiceHealth": {
               "type": "bool"
             },
-            "DeployDashbord": {
+            "DeployDashboard": {
               "type": "bool"
             },
             "Prefix": {
@@ -2163,7 +2163,7 @@
               ]
             },
             {
-              "condition": "[parameters('DeployDashbord')]",
+              "condition": "[parameters('DeployDashboard')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-Dashboard', deployment().name)]",

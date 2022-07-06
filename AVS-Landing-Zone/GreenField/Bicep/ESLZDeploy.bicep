@@ -77,7 +77,7 @@ param RouteServerSubnetPrefix string = ''
 
 //Monitoring
 @description('Deploy AVS Dashboard')
-param DeployDashbord bool = false
+param DeployDashboard bool = false
 @description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
 param DeployMetricAlerts bool = false
 @description('Deploy Service Health Alerts for AVS')
@@ -172,7 +172,7 @@ module Jumpbox 'Modules/JumpBox.bicep' = if (DeployJumpbox) {
   }
 }
 
-module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashbord)) {
+module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashboard)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
     AlertEmails: AlertEmails
@@ -180,7 +180,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     PrimaryLocation: Location
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
-    DeployDashbord : DeployDashbord
+    DeployDashboard : DeployDashboard
     PrimaryPrivateCloudName : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
     PrimaryPrivateCloudResourceId : DeployPrivateCloud ? AVSCore.outputs.PrivateCloudResourceId : ExistingPrivateCloudResourceId
     ExRConnectionResourceId : DeployNetworking ? VNetConnection.outputs.ExRConnectionResourceId : ''
