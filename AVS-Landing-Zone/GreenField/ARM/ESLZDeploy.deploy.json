@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.9.13224",
-      "templateHash": "16804046448693374484"
+      "templateHash": "11851634454150646892"
     }
   },
   "parameters": {
@@ -1780,7 +1780,7 @@
         "mode": "Incremental",
         "parameters": {
           "AlertEmails": {
-            "value": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('AlertEmails'), '')]"
+            "value": "[parameters('AlertEmails')]"
           },
           "Prefix": {
             "value": "[parameters('Prefix')]"

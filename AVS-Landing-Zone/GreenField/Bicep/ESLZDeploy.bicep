@@ -175,7 +175,7 @@ module Jumpbox 'Modules/JumpBox.bicep' = if (DeployJumpbox) {
 module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashboard)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
-    AlertEmails: ((DeployMetricAlerts) || (DeployServiceHealth)) ? AlertEmails : ''
+    AlertEmails: AlertEmails
     Prefix: Prefix
     PrimaryLocation: Location
     DeployMetricAlerts : DeployMetricAlerts
