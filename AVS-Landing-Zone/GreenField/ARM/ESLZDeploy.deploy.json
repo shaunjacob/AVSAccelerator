@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.2.30886",
-      "templateHash": "13328040059260736305"
+      "templateHash": "11065799170960138684"
     }
   },
   "parameters": {
@@ -1780,7 +1780,7 @@
         "mode": "Incremental",
         "parameters": {
           "AlertEmails": {
-            "value": "[parameters('AlertEmails')]"
+            "value": "[if(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('AlertEmails'), '')]"
           },
           "Prefix": {
             "value": "[parameters('Prefix')]"
@@ -2617,7 +2617,6 @@
       ]
     },
     {
-      "condition": "[parameters('DeployPrivateCloud')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-AVSAddons', variables('deploymentPrefix'))]",
