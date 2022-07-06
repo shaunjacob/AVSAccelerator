@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.9.13224",
-      "templateHash": "11851634454150646892"
+      "templateHash": "7676497279880286086"
     }
   },
   "parameters": {
@@ -1805,12 +1805,6 @@
           },
           "ExRConnectionResourceId": {
             "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNetConnection', variables('deploymentPrefix'))), '2020-10-01').outputs.ExRConnectionResourceId.value, '')]"
-          },
-          "JumpboxResourceId": {
-            "value": "[if(parameters('DeployJumpbox'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-Jumpbox', variables('deploymentPrefix'))), '2020-10-01').outputs.JumpboxResourceId.value, '')]"
-          },
-          "VNetResourceId": {
-            "value": "[if(parameters('DeployNetworking'), reference(subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix'))), '2020-10-01').outputs.VNetResourceId.value, '')]"
           }
         },
         "template": {
@@ -1820,7 +1814,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.9.13224",
-              "templateHash": "7181674659817661185"
+              "templateHash": "10940611846724206879"
             }
           },
           "parameters": {
@@ -1846,12 +1840,6 @@
               "type": "string"
             },
             "PrimaryPrivateCloudResourceId": {
-              "type": "string"
-            },
-            "JumpboxResourceId": {
-              "type": "string"
-            },
-            "VNetResourceId": {
               "type": "string"
             },
             "ExRConnectionResourceId": {
@@ -1886,14 +1874,8 @@
                   "PrivateCloudResourceId": {
                     "value": "[parameters('PrimaryPrivateCloudResourceId')]"
                   },
-                  "JumpboxResourceId": {
-                    "value": "[parameters('JumpboxResourceId')]"
-                  },
                   "ExRConnectionResourceId": {
                     "value": "[parameters('ExRConnectionResourceId')]"
-                  },
-                  "VNetResourceId": {
-                    "value": "[parameters('VNetResourceId')]"
                   }
                 },
                 "template": {
@@ -1903,7 +1885,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.8.9.13224",
-                      "templateHash": "65372975133885649"
+                      "templateHash": "14051640298139847680"
                     }
                   },
                   "parameters": {
@@ -1913,13 +1895,7 @@
                     "Location": {
                       "type": "string"
                     },
-                    "JumpboxResourceId": {
-                      "type": "string"
-                    },
                     "PrivateCloudResourceId": {
-                      "type": "string"
-                    },
-                    "VNetResourceId": {
                       "type": "string"
                     },
                     "ExRConnectionResourceId": {
@@ -1940,80 +1916,18 @@
                         "settings": {
                           "content": {
                             "settings": {
-                              "content": "# AVS Private Cloud Metrics",
+                              "content": "[format('# {0}-SDDC Private Cloud Metrics', parameters('Prefix'))]",
                               "title": "",
                               "subtitle": "",
                               "markdownSource": 1
                             }
                           }
                         }
-                      }
-                    },
-                    "EmptyJumpboxLink": {
-                      "position": {
-                        "colSpan": 2,
-                        "rowSpan": 1,
-                        "x": 10,
-                        "y": 0
-                      },
-                      "metadata": {
-                        "type": "Extension/HubsExtension/PartType/MarkdownPart",
-                        "inputs": [],
-                        "settings": {
-                          "content": {
-                            "settings": {
-                              "content": "",
-                              "title": "",
-                              "subtitle": "",
-                              "markdownSource": 1
-                            }
-                          }
-                        }
-                      }
-                    },
-                    "VNetLink": {
-                      "position": {
-                        "colSpan": 2,
-                        "rowSpan": 1,
-                        "x": 8,
-                        "y": 0
-                      },
-                      "metadata": {
-                        "type": "Extension/HubsExtension/PartType/ResourcePart",
-                        "asset": {
-                          "idInputName": "id"
-                        },
-                        "inputs": [
-                          {
-                            "name": "id",
-                            "value": "[parameters('VNetResourceId')]"
-                          }
-                        ]
-                      }
-                    },
-                    "JumpboxLink": {
-                      "position": {
-                        "colSpan": 2,
-                        "rowSpan": 1,
-                        "x": 10,
-                        "y": 0
-                      },
-                      "metadata": {
-                        "type": "Extension/HubsExtension/PartType/ResourcePart",
-                        "asset": {
-                          "idInputName": "id"
-                        },
-                        "inputs": [
-                          {
-                            "name": "id",
-                            "value": "[parameters('JumpboxResourceId')]"
-                          }
-                        ]
                       }
                     },
                     "PrivateCloudLink": {
                       "position": {
-                        "colSpan": 2,
+                        "colSpan": 6,
                         "rowSpan": 1,
                         "x": 6,
                         "y": 0
@@ -2288,12 +2202,10 @@
                             "parts": {
                               "0": "[variables('DashboardHeading')]",
                               "1": "[variables('PrivateCloudLink')]",
-                              "2": "[if(empty(parameters('JumpboxResourceId')), variables('EmptyJumpboxLink'), variables('JumpboxLink'))]",
-                              "3": "[variables('VNetLink')]",
-                              "4": "[variables('PrivateCloudDiskMetric')]",
-                              "5": "[variables('PrivateCloudCPUMetric')]",
-                              "6": "[variables('PrivateCloudMemoryMetric')]",
-                              "7": "[variables('ExpressRouteConnectionsMetric')]"
+                              "2": "[variables('PrivateCloudDiskMetric')]",
+                              "3": "[variables('PrivateCloudCPUMetric')]",
+                              "4": "[variables('PrivateCloudMemoryMetric')]",
+                              "5": "[variables('ExpressRouteConnectionsMetric')]"
                             }
                           }
                         }
@@ -2611,8 +2523,6 @@
       },
       "dependsOn": [
         "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AVS', variables('deploymentPrefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-AzureNetworking', variables('deploymentPrefix')))]",
-        "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-Jumpbox', variables('deploymentPrefix')))]",
         "[subscriptionResourceId('Microsoft.Resources/deployments', format('{0}-VNetConnection', variables('deploymentPrefix')))]"
       ]
     },

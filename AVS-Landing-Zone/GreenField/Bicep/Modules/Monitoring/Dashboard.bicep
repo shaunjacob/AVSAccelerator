@@ -1,8 +1,6 @@
 param Prefix string
 param Location string
-param JumpboxResourceId string
 param PrivateCloudResourceId string
-param VNetResourceId string
 param ExRConnectionResourceId string
 
 var DashboardHeading = {
@@ -18,84 +16,19 @@ var DashboardHeading = {
     settings: {
       content: {
         settings:{
-          content: '# AVS Private Cloud Metrics'
+          content: '# ${Prefix}-SDDC Private Cloud Metrics'
           title: ''
           subtitle: ''
           markdownSource: 1
         }
       }
     }
-  }
-}
-
-var EmptyJumpboxLink = {
-  position: {
-    colSpan: 2
-    rowSpan: 1
-    x: 10
-    y: 0
-  }
-  metadata: {
-    type: 'Extension/HubsExtension/PartType/MarkdownPart'
-    inputs: []
-    settings: {
-      content: {
-        settings:{
-          content: ''
-          title: ''
-          subtitle: ''
-          markdownSource: 1
-        }
-      }
-    }
-  }
-}
-
-var VNetLink = {
-  position: {
-    colSpan: 2
-    rowSpan: 1
-    x: 8
-    y: 0
-  }
-  metadata:{
-    type: 'Extension/HubsExtension/PartType/ResourcePart'
-    asset: {
-      idInputName: 'id'
-    }
-    inputs: [
-      {
-        name: 'id'
-        value: VNetResourceId
-      }
-    ]
-  }
-}
-
-var JumpboxLink = {
-  position: {
-    colSpan: 2
-    rowSpan: 1
-    x: 10
-    y: 0
-  }
-  metadata:{
-    type: 'Extension/HubsExtension/PartType/ResourcePart'
-    asset: {
-      idInputName: 'id'
-    }
-    inputs: [
-      {
-        name: 'id'
-        value: JumpboxResourceId
-      }
-    ]
   }
 }
 
 var PrivateCloudLink = {
   position: {
-    colSpan: 2
+    colSpan: 6
     rowSpan: 1
     x: 6
     y: 0
@@ -371,12 +304,10 @@ resource Dashboard 'Microsoft.Portal/dashboards@2019-01-01-preview' = {
         parts: {
           '0': DashboardHeading
           '1': PrivateCloudLink
-          '2': empty(JumpboxResourceId) ? EmptyJumpboxLink : JumpboxLink
-          '3': VNetLink
-          '4': PrivateCloudDiskMetric
-          '5': PrivateCloudCPUMetric
-          '6': PrivateCloudMemoryMetric
-          '7': ExpressRouteConnectionsMetric
+          '2': PrivateCloudDiskMetric
+          '3': PrivateCloudCPUMetric
+          '4': PrivateCloudMemoryMetric
+          '5': ExpressRouteConnectionsMetric
         }
       }
     }

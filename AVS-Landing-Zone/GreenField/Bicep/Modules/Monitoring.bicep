@@ -8,8 +8,6 @@ param PrimaryLocation string
 param AlertEmails string
 param PrimaryPrivateCloudName string
 param PrimaryPrivateCloudResourceId string
-param JumpboxResourceId string
-param VNetResourceId string
 param ExRConnectionResourceId string
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
@@ -24,9 +22,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
     Prefix: Prefix
     Location: PrimaryLocation
     PrivateCloudResourceId: PrimaryPrivateCloudResourceId
-    JumpboxResourceId: JumpboxResourceId
     ExRConnectionResourceId: ExRConnectionResourceId
-    VNetResourceId: VNetResourceId
   }
 }
 
