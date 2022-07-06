@@ -30,7 +30,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
   }
 }
 
-module ActionGroup 'Monitoring/ActionGroup.bicep' = if (!DeployDashboard) {
+module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-ActionGroup'
   params: {
@@ -43,7 +43,7 @@ module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAle
   scope: OperationalResourceGroup
   name: '${deployment().name}-MetricAlerts'
   params: {
-    ActionGroupResourceId: ActionGroup.outputs.ActionGroupResourceId
+    ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
     AlertPrefix: PrimaryPrivateCloudName
     PrivateCloudResourceId: PrimaryPrivateCloudResourceId
   }
@@ -53,7 +53,7 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth)
   scope: OperationalResourceGroup
   name: '${deployment().name}-ServiceHealth'
   params: {
-    ActionGroupResourceId: ActionGroup.outputs.ActionGroupResourceId
+    ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
     AlertPrefix: PrimaryPrivateCloudName
     PrivateCloudResourceId: PrimaryPrivateCloudResourceId
   }
