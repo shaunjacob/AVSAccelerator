@@ -189,7 +189,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
   }
 }
 
-module Addons 'Modules/AVSAddons.bicep' = {
+module Addons 'Modules/AVSAddons.bicep' = if ((DeployHCX) || (DeploySRM)) {
   name: '${deploymentPrefix}-AVSAddons'
   params: {
     PrivateCloudName: DeployPrivateCloud ? AVSCore.outputs.PrivateCloudName : ExistingPrivateCloudName
