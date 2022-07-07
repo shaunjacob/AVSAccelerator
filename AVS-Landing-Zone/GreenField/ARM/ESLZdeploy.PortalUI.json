@@ -74,7 +74,7 @@
                 },
                 {
                     "name": "PrivateCloud",
-                    "label": "AVS Private Cloud",
+                    "label": "Private Cloud",
                     "elements": [
                         {
                             "name": "avsInfo",
