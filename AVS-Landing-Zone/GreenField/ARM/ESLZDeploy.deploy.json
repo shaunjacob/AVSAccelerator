@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.9.13224",
-      "templateHash": "7676497279880286086"
+      "templateHash": "8867038297604102104"
     }
   },
   "parameters": {
@@ -332,7 +332,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.8.9.13224",
-              "templateHash": "13927814599625965439"
+              "templateHash": "5834528418593570147"
             }
           },
           "parameters": {
@@ -491,10 +491,6 @@
             "PrivateCloudResourceId": {
               "type": "string",
               "value": "[if(parameters('DeployPrivateCloud'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-PrivateCloud', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-PrivateCloud', deployment().name)), '2020-10-01').outputs.PrivateCloudResourceId.value, '')]"
-            },
-            "ExistingPrivateCloudResourceGroupName": {
-              "type": "string",
-              "value": "[split(parameters('ExistingPrivateCloudResourceId'), '/')[4]]"
             }
           }
         }
