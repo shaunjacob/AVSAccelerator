@@ -24,11 +24,19 @@ param RouteServerSubnetPrefix string = ''
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
-module SkipRouteServer 'Modules/Deployment.bicep' = if ((OnPremConnectivity == 'ExpressRoute') || (!DeployRouteServer)) {
-  name: '${deploymentPrefix}-SkipRouteServer'
-} 
 
-module RouteServer 'Modules/Networking.bicep' = if ((OnPremConnectivity == 'VPN') && (DeployRouteServer)) {
+module VNetGateway 'Modules/Networking.bicep' = {
+  name: '${deploymentPrefix}-VNet'
+  params: {
+    Prefix: Prefix
+    Location: Location
+    VNetName: VNetName
+    RouteServerSubnetPrefix : RouteServerSubnetPrefix
+    RouteServerSubnetExists : RouteServerSubnetExists
+  }
+}
+
+module RouteServer 'Modules/RouteServer.bicep' = if (DeployRouteServer) {
   name: '${deploymentPrefix}-VNet'
   params: {
     Prefix: Prefix

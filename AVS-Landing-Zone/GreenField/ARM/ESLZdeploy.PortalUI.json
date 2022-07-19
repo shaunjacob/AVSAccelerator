@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "AVS Landing Zone Accelerator",
+            "title": "AVS Landing Zone Accelerator (Preview)",
             "steps": [
                 {
                     "name": "basics",
@@ -276,7 +276,7 @@
                             "name": "DeployNetworking",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": true,
-                            "label": "Connect AVS to Azure",
+                            "label": "Connect AVS to Azure VNet",
                             "defaultValue": "Yes",
                             "toolTip": "Select Yes to continue with this step, or No to Skip",
                             "constraints": {
@@ -287,7 +287,7 @@
                                         "value": true
                                     },
                                     {
-                                        "label": "No",
+                                        "label": "No (Skip)",
                                         "value": false
                                     }
                                 ]
@@ -673,7 +673,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('onpremises').OnpremiseConnect, 'ExpressRoute')]",
                             "options": {
-                                "text": "If ExpressRoute is already used for Azure connectivity, then you will need to request an ExpressRoute authorization key from the existing circuit to create the AVS Global Reach connection. Click here to learn more",
+                                "text": "This option does not make any changes and does not deploy any resources. When ExpressRoute is used for Azure connectivity, you will need to request an ExpressRoute authorization key from the existing circuit to create the AVS Global Reach connection This is a manual step and must be performed separately. Click here to learn more",
                                 "uri": "https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud",
                                 "style": "Info"
                             }
