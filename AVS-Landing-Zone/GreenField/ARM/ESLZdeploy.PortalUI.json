@@ -679,9 +679,40 @@
                             }
                         },
                         {
-                            "name": "DeployRouteServer",
+                            "name": "VPNExists",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "[equals(steps('onpremises').OnpremiseConnect, 'VPN')]",
+                            "label": "Does the VPN Gateway already exist?",
+                            "defaultValue": "Null",
+                            "toolTip": "Does the VPN Gateway already exist?",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "DeployRouteServerInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('onpremises').VPNExists, true)]",
+                            "options": {
+                                "text": "Existing Azure VPN gateway must be configured in active-active mode, this is usually not done by default. If not set to active-active, this deployment will fail",
+                                "uri": "https://docs.microsoft.com/en-us/azure/route-server/expressroute-vpn-support",
+                                "style": "Info"
+                            }
+                        },
+                        {
+                            "name": "DeployRouteServer",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "[equals(steps('onpremises').VPNExists, true)]",
                             "label": "Deploy an Azure Route Server",
                             "defaultValue": "Null",
                             "toolTip": "Deploy an Azure Route Server or Skip to come back to this step later",
@@ -703,7 +734,7 @@
                             "name": "RouteServerVnetSelector",
                             "type": "Microsoft.Solutions.ResourceSelector",
                             "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
-                            "label": "Existing Virtual Network",
+                            "label": "Existing Virtual Network containing the VPN Gateway",
                             "toolTip": "Choose the existing Virtual Network that contains the VPN Gateway",
                             "resourceType": "Microsoft.Network/virtualNetworks",
                             "constraints": {
@@ -714,16 +745,6 @@
                                     "subscription": "onBasics",
                                     "location": "onBasics"
                                 }
-                            }
-                        },
-                        {
-                            "name": "DeployRouteServerInfo",
-                            "type": "Microsoft.Common.InfoBox",
-                            "visible": "[equals(steps('onpremises').DeployRouteServer, true)]",
-                            "options": {
-                                "text": "Existing Azure VPN gateway must be configured in active-active mode, this is usually not done by default. If not set to active-active, this deployment will fail",
-                                "uri": "https://docs.microsoft.com/en-us/azure/route-server/expressroute-vpn-support",
-                                "style": "Info"
                             }
                         },
                         {
