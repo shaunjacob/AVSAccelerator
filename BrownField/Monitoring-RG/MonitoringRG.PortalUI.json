@@ -1,0 +1,158 @@
+{
+    "$schema": "<relative path to createFormUI.schema.json>",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "AVS Greenfield Lite",
+            "steps": [
+                {
+                    "name": "basics",
+                    "label": "Azure Scope",
+                    "subLabel": {
+                        "preValidation": "",
+                        "postValidation": "Done"
+                    },
+                    "bladeTitle": "avsBasics",
+                    "elements": [
+                        {
+                            "name": "avsDeploymentScope",
+                            "type": "Microsoft.Common.ResourceScope",
+                            "location": {
+                                "resourceTypes": []
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Monitoring",
+                    "label": "Monitoring",
+                    "elements": [
+                        {
+                            "name": "AVSBaseAlerts",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Monitoring and Alerts",
+                            "elements": [
+                                {
+                                    "name": "AVSAlertInfo1",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "Monitoring is a crucial aspect to any service and ensures that teams are alerted of any failures, maintenance events, performance degradation etc. As part of this deployment, you will have the option to deploy an Azure Dashboard to visualize metrics from your Private Cloud, deploy some Azure Monitor Metric alerts and also setup some Azure Service Health Alerts for AVS",
+                                        "link": {
+                                            "label": "",
+                                            "uri": ""
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "avsSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[or(equals(steps('Monitoring').DeployDashboard, true), equals(steps('Monitoring').DeployAVSAlerts, true))]",
+                            "label": "Select AVS Private Cloud",
+                            "resourceType": "Microsoft.AVS/privateClouds",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "onBasics"
+                                }
+                            }
+                        },
+                        {
+                            "name": "DeployDashboard",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "",
+                            "label": "Deploy AVS Dashboard",
+                            "defaultValue": "Yes",
+                            "toolTip": "Deploy AVS Dashboard",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "DeployAVSAlerts",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "",
+                            "label": "Enable AVS Metric Alerts",
+                            "defaultValue": "Yes",
+                            "toolTip": "Enable AVS Metric Alerts (CPU, Memory, Storage etc)",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "DeployServiceHealth",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "Enable AVS Service Health Alerts",
+                            "label": "Enable Service Health alerts",
+                            "defaultValue": "Yes",
+                            "toolTip": "Enable Service Health alerts for AVS",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ActionGroupEmails",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Action Group Email",
+                            "visible": "[or(equals(steps('Monitoring').DeployAVSAlerts, true), equals(steps('Monitoring').DeployServiceHealth, true))]",
+                            "toolTip": "Provide an email address to send the service health alerts to",
+                            "placeholder": "Example: alerts@company.com",
+                            "defaultValue": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Please provide a valid email address"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "outputs": {
+            "parameters": {
+                "Location": "[steps('basics').avsDeploymentScope.location.name]",
+                "PrivateCloudName": "[steps('Monitoring').avsSelector.name]",
+                "PrivateCloudResourceId": "[steps('Monitoring').avsSelector.id]",
+                "DeployDashboard": "[steps('Monitoring').DeployDashboard]",
+                "DeployMetricAlerts": "[steps('Monitoring').DeployAVSAlerts]",
+                "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
+                "AlertEmails": "[steps('Monitoring').ActionGroupEmails]"
+            },
+            "kind": "Subscription",
+            "location": "[steps('basics').avsDeploymentScope.location.name]",
+            "subscriptionId": "[steps('basics').avsDeploymentScope.subscription.id]"
+        }
+    }
+}
