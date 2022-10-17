@@ -45,7 +45,7 @@ module Dashboard 'Modules/Monitoring/Dashboard.bicep' = if (DeployDashbord) {
 }
 
 module Workbook 'Modules/Monitoring/Workbook.bicep' = if (DeployWorkbook) {
-  name: '${deployment().name}-Dashboard'
+  name: '${deployment().name}-Workbook'
   params:{
     Location: PrimaryLocation
   }
