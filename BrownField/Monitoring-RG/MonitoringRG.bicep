@@ -1,12 +1,12 @@
-param Prefix string
-param Location string
-param AlertEmails string
+param Prefix string = ''
+param Location string = resourceGroup().location
+param AlertEmails string = ''
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
 param DeployDashboard bool
 param DeployWorkbook bool
-param PrivateCloudName string
-param PrivateCloudResourceId string
+param PrivateCloudName string = ''
+param PrivateCloudResourceId string = ''
 
 
 module ActionGroup 'Modules/Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {

@@ -260,9 +260,9 @@
                 "PrivateCloudResourceId": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.id, steps('Monitoring').avsSelector2.id)]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]"
             },
-            "kind": "Subscription",
+            "kind": "ResourceGroup",
             "location": "[steps('basics').avsDeploymentScope.location.name]",
-            "subscriptionId": "[steps('basics').avsDeploymentScope.subscription.id]"
+            "resourceGroupId": "[steps('basics').avsDeploymentScope.resourceGroup.id]"
         }
     }
 }
