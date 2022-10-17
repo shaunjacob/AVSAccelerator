@@ -28,7 +28,7 @@ module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAle
   scope: OperationalResourceGroup
   name: '${deployment().name}-MetricAlerts'
   params: {
-    ActionGroupResourceId: ActionGroup.outputs.ActionGroupResourceId
+    ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
     AlertPrefix: PrivateCloudName
     PrivateCloudResourceId: PrivateCloudResourceId
   }
@@ -38,7 +38,7 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth)
   scope: OperationalResourceGroup
   name: '${deployment().name}-ServiceHealth'
   params: {
-    ActionGroupResourceId: ActionGroup.outputs.ActionGroupResourceId
+    ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
     AlertPrefix: PrivateCloudName
     PrivateCloudResourceId: PrivateCloudResourceId
   }
