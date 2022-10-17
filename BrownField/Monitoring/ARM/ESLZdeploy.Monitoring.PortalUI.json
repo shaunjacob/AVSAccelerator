@@ -124,7 +124,7 @@
                                     }
                                 }
                             ]
-                        },
+                        },                    
                         {
                             "name": "avsSelector",
                             "type": "Microsoft.Solutions.ResourceSelector",
@@ -227,6 +227,35 @@
                                 "regex": "",
                                 "validationMessage": "Please provide a valid email address. Email must be in quotes"
                             }
+                        },
+                        {
+                            "name": "AVSWorkbook",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Workbook",
+                            "elements": [
+                                {
+                                    "name": "DeployAVSWorkbook",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy AVS Workbook",
+                                    "toolTip": "Deploy AVS Workbook",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
                         }
                     ]
                 }
@@ -238,10 +267,10 @@
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
                 "DeployDashbord": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
                 "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
-                "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
+                "DeployServiceHealth": "[steps('Monitoring').AVSAlerts.DeployServiceHealth]",
+                "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
                 "PrivateCloudName": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.name, steps('Monitoring').avsSelector2.name)]",
                 "PrivateCloudResourceId": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.id, steps('Monitoring').avsSelector2.id)]",
-                "ExRConnectionResourceId": "[steps('Monitoring').exrconnectionSelector.id]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]"
             },
             "kind": "Subscription",

@@ -6,9 +6,9 @@ param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
 param DeployDashbord bool
+param DeployWorkbook bool
 param PrivateCloudName string
 param PrivateCloudResourceId string
-param ExRConnectionResourceId string
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: '${Prefix}-Operational'
@@ -48,9 +48,17 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashbord) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-Dashboard'
   params:{
-    Prefix: Prefix
     Location: PrimaryLocation
     PrivateCloudResourceId: PrivateCloudResourceId
-    ExRConnectionResourceId: ExRConnectionResourceId
+    PrivateCloudName: PrivateCloudName
   }
 }
+
+module Workbook 'Monitoring/Workbook.bicep' = if (DeployWorkbook) {
+  scope: OperationalResourceGroup
+  name: '${deployment().name}-Dashboard'
+  params:{
+    Location: PrimaryLocation
+  }
+}
+

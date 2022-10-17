@@ -17,11 +17,12 @@ param DeployMetricAlerts bool = false
 @description('Deploy Service Health Alerts for AVS')
 param DeployServiceHealth bool = false
 
+@description('Deploy the Workbook for AVS')
+param DeployWorkbook bool = false
+
 param PrivateCloudName string = ''
 
 param PrivateCloudResourceId string = ''
-
-param ExRConnectionResourceId string = ''
 
 @description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
 param AlertEmails string = ''
@@ -41,8 +42,8 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashbord : DeployDashbord
+    DeployWorkbook : DeployWorkbook
     PrivateCloudName : PrivateCloudName
     PrivateCloudResourceId : PrivateCloudResourceId
-    ExRConnectionResourceId : ExRConnectionResourceId
   }
 }
