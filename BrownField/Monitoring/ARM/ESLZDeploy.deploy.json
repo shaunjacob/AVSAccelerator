@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "9746554631123993489"
+      "templateHash": "2510621447477240769"
     }
   },
   "parameters": {
@@ -120,7 +120,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "5482938917113735662"
+              "templateHash": "17712314086142831581"
             }
           },
           "parameters": {
@@ -837,7 +837,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.11.1.770",
-                      "templateHash": "4942924641061192479"
+                      "templateHash": "5840794265381522541"
                     }
                   },
                   "parameters": {
@@ -853,6 +853,7 @@
                     }
                   },
                   "variables": {
+                    "WorkbookDisplayName": "[format('AVS-Workbook-v10-{0}', uniqueString(deployment().name, parameters('Location')))]",
                     "workbookContent": {
                       "version": "Notebook/1.0",
                       "items": [
@@ -2990,7 +2991,7 @@
                       "location": "[parameters('Location')]",
                       "kind": "shared",
                       "properties": {
-                        "displayName": "AVS-Workbook-v10",
+                        "displayName": "[variables('WorkbookDisplayName')]",
                         "serializedData": "[string(variables('workbookContent'))]",
                         "version": "1.0",
                         "sourceId": "Azure Monitor",

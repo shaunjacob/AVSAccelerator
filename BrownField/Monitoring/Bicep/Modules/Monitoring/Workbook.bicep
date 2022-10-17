@@ -3,6 +3,8 @@ param Location string
 @description('The unique guid for this workbook instance')
 param workbookId string = newGuid()
 
+var WorkbookDisplayName = 'AVS-Workbook-v10-${uniqueString(deployment().name, Location)}'
+
 var workbookContent = {
   version: 'Notebook/1.0'
   items: [
@@ -2137,7 +2139,7 @@ resource workbookId_resource 'microsoft.insights/workbooks@2021-03-08' = {
   location: Location
   kind: 'shared'
   properties: {
-    displayName: 'AVS-Workbook-v10'
+    displayName: WorkbookDisplayName
     serializedData: string(workbookContent)
     version: '1.0'
     sourceId: 'Azure Monitor'
