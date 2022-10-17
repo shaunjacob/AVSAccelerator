@@ -1,9 +1,9 @@
 param Prefix string
-param PrimaryLocation string
+param Location string
 param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
-param DeployDashbord bool
+param DeployDashboard bool
 param DeployWorkbook bool
 param PrivateCloudName string
 param PrivateCloudResourceId string
@@ -35,10 +35,10 @@ module ServiceHealth 'Modules/Monitoring/ServiceHealth.bicep' = if (DeployServic
   }
 }
 
-module Dashboard 'Modules/Monitoring/Dashboard.bicep' = if (DeployDashbord) {
+module Dashboard 'Modules/Monitoring/Dashboard.bicep' = if (DeployDashboard) {
   name: '${deployment().name}-Dashboard'
   params:{
-    Location: PrimaryLocation
+    Location: Location
     PrivateCloudResourceId: PrivateCloudResourceId
     PrivateCloudName: PrivateCloudName
   }
@@ -47,7 +47,7 @@ module Dashboard 'Modules/Monitoring/Dashboard.bicep' = if (DeployDashbord) {
 module Workbook 'Modules/Monitoring/Workbook.bicep' = if (DeployWorkbook) {
   name: '${deployment().name}-Workbook'
   params:{
-    Location: PrimaryLocation
+    Location: Location
   }
 }
 

@@ -5,14 +5,14 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "7202752874495576605"
+      "templateHash": "15321026389475393681"
     }
   },
   "parameters": {
     "Prefix": {
       "type": "string"
     },
-    "PrimaryLocation": {
+    "Location": {
       "type": "string"
     },
     "AlertEmails": {
@@ -24,7 +24,7 @@
     "DeployServiceHealth": {
       "type": "bool"
     },
-    "DeployDashbord": {
+    "DeployDashboard": {
       "type": "bool"
     },
     "DeployWorkbook": {
@@ -328,7 +328,7 @@
       ]
     },
     {
-      "condition": "[parameters('DeployDashbord')]",
+      "condition": "[parameters('DeployDashboard')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-Dashboard', deployment().name)]",
@@ -339,7 +339,7 @@
         "mode": "Incremental",
         "parameters": {
           "Location": {
-            "value": "[parameters('PrimaryLocation')]"
+            "value": "[parameters('Location')]"
           },
           "PrivateCloudResourceId": {
             "value": "[parameters('PrivateCloudResourceId')]"
@@ -693,7 +693,7 @@
         "mode": "Incremental",
         "parameters": {
           "Location": {
-            "value": "[parameters('PrimaryLocation')]"
+            "value": "[parameters('Location')]"
           }
         },
         "template": {
