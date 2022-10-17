@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "2781497769061507436"
+      "templateHash": "9746554631123993489"
     }
   },
   "parameters": {
@@ -73,31 +73,6 @@
     "deploymentPrefix": "[format('AVS-{0}', uniqueString(deployment().name, parameters('Location')))]"
   },
   "resources": [
-    {
-      "condition": "[or(or(or(not(parameters('DeployMetricAlerts')), not(parameters('DeployServiceHealth'))), not(parameters('DeployDashbord'))), not(parameters('DeployWorkbook')))]",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2020-10-01",
-      "name": "[format('{0}-SkipMonitoring', variables('deploymentPrefix'))]",
-      "location": "[deployment().location]",
-      "properties": {
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "mode": "Incremental",
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "metadata": {
-            "_generator": {
-              "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "4628845485719892056"
-            }
-          },
-          "resources": []
-        }
-      }
-    },
     {
       "condition": "[or(or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashbord')), parameters('DeployWorkbook'))]",
       "type": "Microsoft.Resources/deployments",

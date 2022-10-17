@@ -29,10 +29,6 @@ param AlertEmails string = ''
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
-module SkipMonitoring 'Modules/Deployment.bicep' = if ((!DeployMetricAlerts) || (!DeployServiceHealth) || (!DeployDashbord) || (!DeployWorkbook)) {
-  name: '${deploymentPrefix}-SkipMonitoring'
-} 
-
 module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashbord) || (DeployWorkbook)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
