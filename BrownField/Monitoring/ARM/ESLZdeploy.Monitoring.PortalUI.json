@@ -138,19 +138,6 @@
                                 }
                             }
                         },
-                        {
-                            "name": "exrconnectionSelector",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
-                            "label": "Select existing AVS ExpressRoute Gateway Connection",
-                            "resourceType": "Microsoft.Network/connections",
-                            "options": {
-                                "filter": {
-                                    "subscription": "onBasics",
-                                    "location": "onBasics"
-                                }
-                            }
-                        },
 						{
                             "name": "AVSAlerts",
                             "type": "Microsoft.Common.Section",
