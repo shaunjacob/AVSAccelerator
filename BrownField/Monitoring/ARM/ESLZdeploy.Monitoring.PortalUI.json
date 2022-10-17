@@ -267,7 +267,7 @@
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
                 "DeployDashbord": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
                 "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
-                "DeployServiceHealth": "[steps('Monitoring').AVSAlerts.DeployServiceHealth]",
+                "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
                 "PrivateCloudName": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.name, steps('Monitoring').avsSelector2.name)]",
                 "PrivateCloudResourceId": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.id, steps('Monitoring').avsSelector2.id)]",
