@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "18134857577634705932"
+      "templateHash": "3149970198601903925"
     }
   },
   "parameters": {
@@ -145,7 +145,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "5665241605563827692"
+              "templateHash": "17019697484020074438"
             }
           },
           "parameters": {
@@ -843,7 +843,7 @@
               "condition": "[parameters('DeployWorkbook')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
-              "name": "[format('{0}-Dashboard', deployment().name)]",
+              "name": "[format('{0}-Workbook', deployment().name)]",
               "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
               "properties": {
                 "expressionEvaluationOptions": {

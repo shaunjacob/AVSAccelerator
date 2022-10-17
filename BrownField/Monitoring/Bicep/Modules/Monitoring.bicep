@@ -56,7 +56,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashbord) {
 
 module Workbook 'Monitoring/Workbook.bicep' = if (DeployWorkbook) {
   scope: OperationalResourceGroup
-  name: '${deployment().name}-Dashboard'
+  name: '${deployment().name}-Workbook'
   params:{
     Location: PrimaryLocation
   }
