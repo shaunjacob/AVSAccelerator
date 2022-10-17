@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "14816124572939300956"
+      "templateHash": "6310780816345641577"
     }
   },
   "parameters": {
@@ -43,6 +43,30 @@
     }
   },
   "resources": [
+    {
+      "condition": "[or(or(or(not(parameters('DeployMetricAlerts')), not(parameters('DeployServiceHealth'))), not(parameters('DeployDashboard'))), not(parameters('DeployWorkbook')))]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "[format('{0}-SkipMonitoring', parameters('Prefix'))]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.11.1.770",
+              "templateHash": "1882150209236915071"
+            }
+          },
+          "resources": []
+        }
+      }
+    },
     {
       "condition": "[or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth'))]",
       "type": "Microsoft.Resources/deployments",

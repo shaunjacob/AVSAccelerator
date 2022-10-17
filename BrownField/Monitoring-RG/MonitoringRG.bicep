@@ -8,6 +8,9 @@ param DeployWorkbook bool
 param PrivateCloudName string = ''
 param PrivateCloudResourceId string = ''
 
+module SkipMonitoring 'Modules/Monitoring/Deployment.bicep' = if ((!DeployMetricAlerts) || (!DeployServiceHealth) || (!DeployDashboard) || (!DeployWorkbook)) {
+  name: '${Prefix}-SkipMonitoring'
+} 
 
 module ActionGroup 'Modules/Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
   name: '${deployment().name}-ActionGroup'
