@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "3149970198601903925"
+      "templateHash": "10086802666708090761"
     }
   },
   "parameters": {
@@ -74,7 +74,7 @@
   },
   "resources": [
     {
-      "condition": "[or(or(not(parameters('DeployMetricAlerts')), not(parameters('DeployServiceHealth'))), not(parameters('DeployDashbord')))]",
+      "condition": "[or(or(or(not(parameters('DeployMetricAlerts')), not(parameters('DeployServiceHealth'))), not(parameters('DeployDashbord'))), not(parameters('DeployWorkbook')))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-SkipMonitoring', variables('deploymentPrefix'))]",
@@ -99,7 +99,7 @@
       }
     },
     {
-      "condition": "[or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashbord'))]",
+      "condition": "[or(or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashbord')), parameters('DeployWorkbook'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-Monitoring', variables('deploymentPrefix'))]",
