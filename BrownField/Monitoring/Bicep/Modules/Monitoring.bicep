@@ -5,7 +5,7 @@ param PrimaryLocation string
 param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
-param DeployDashbord bool
+param DeployDashboard bool
 param DeployWorkbook bool
 param PrivateCloudName string
 param PrivateCloudResourceId string
@@ -44,7 +44,7 @@ module ServiceHealth 'Monitoring/ServiceHealth.bicep' = if (DeployServiceHealth)
   }
 }
 
-module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashbord) {
+module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-Dashboard'
   params:{

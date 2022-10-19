@@ -9,7 +9,7 @@ param Prefix string = ''
 param Location string = deployment().location
 
 @description('Deploy AVS Dashboard')
-param DeployDashbord bool = true
+param DeployDashboard bool = true
 
 @description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
 param DeployMetricAlerts bool = false
@@ -35,7 +35,7 @@ param AlertEmails string = ''
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
-module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashbord) || (DeployWorkbook)) {
+module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashboard) || (DeployWorkbook)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
     AlertEmails: AlertEmails
@@ -43,7 +43,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     PrimaryLocation: Location
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
-    DeployDashbord : DeployDashbord
+    DeployDashboard : DeployDashboard
     DeployWorkbook : DeployWorkbook
     PrivateCloudName : PrivateCloudName
     PrivateCloudResourceId : PrivateCloudResourceId
