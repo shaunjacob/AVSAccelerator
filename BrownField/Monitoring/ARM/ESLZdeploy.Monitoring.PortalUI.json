@@ -105,7 +105,7 @@
                                 {
                                     "name": "avsSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true)), equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true))]",
+                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true), equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true))]",
                                     "label": "Select AVS Private Cloud",
                                     "resourceType": "Microsoft.AVS/privateClouds",
                                     "options": {
