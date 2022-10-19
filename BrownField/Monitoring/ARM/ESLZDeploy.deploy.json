@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "3690881035227439654"
+      "templateHash": "756668761076483306"
     }
   },
   "parameters": {
@@ -78,7 +78,7 @@
     },
     "PrivateCloudResourceId": {
       "type": "string",
-      "defaultValue": ""
+      "defaultValue": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/kk-avs-PrivateCloud/providers/Microsoft.AVS/privateClouds/kk-avs-SDDC"
     },
     "AlertEmails": {
       "type": "string",
