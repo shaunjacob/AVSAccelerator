@@ -196,19 +196,6 @@
                                 ]
                             }
                         },
-						{
-                            "name": "avsSelector2",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[and(equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true), equals(steps('Monitoring').AVSDashboard.DeployDashboard, false))]",
-                            "label": "Select AVS Private Cloud",
-                            "resourceType": "Microsoft.AVS/privateClouds",
-                            "options": {
-                                "filter": {
-                                    "subscription": "onBasics",
-                                    "location": "onBasics"
-                                }
-                            }
-                        },
                         {
                             "name": "ActionGroupEmails",
                             "type": "Microsoft.Common.TextBox",
@@ -285,7 +272,7 @@
                                     "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
                                     "label": "Deploy New or Choose Existing Workspace",
                                     "toolTip": "Deploy New or Choose Existing Workspace",
-                                    "defaultValue": "No",
+                                    "defaultValue": "New",
                                     "constraints": {
                                         "required": true,
                                         "allowedValues": [
@@ -317,8 +304,8 @@
                                     "name": "existingWorkspaceSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, false)]",
-                                    "label": "Select the Existing AVS Private Cloud",
-                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "resourceType": "Microsoft.OperationalInsights/workspaces",
                                     "options": {
                                         "filter": {
                                             "subscription": "onBasics",
@@ -382,8 +369,8 @@
                 "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
                 "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
-                "PrivateCloudName": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').SelectSDDC.avsSelector.name, steps('Monitoring').avsSelector2.name)]",
-                "PrivateCloudResourceId": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').SelectSDDC.avsSelector.id, steps('Monitoring').avsSelector2.id)]",
+                "PrivateCloudName": "[steps('Monitoring').SelectSDDC.avsSelector.name]",
+                "PrivateCloudResourceId": "[steps('Monitoring').SelectSDDC.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
                 "DeployDiagnostics": "[steps('Monitoring').Diagnostics.DeployDiagnostics]",
                 "DeployAVSDiagnostics": "[steps('Monitoring').Diagnostics.AVSLogCollection]",
