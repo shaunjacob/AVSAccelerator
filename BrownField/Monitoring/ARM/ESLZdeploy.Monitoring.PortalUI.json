@@ -314,6 +314,19 @@
                                     }
                                 },
                                 {
+                                    "name": "existingWorkspaceSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, false)]",
+                                    "label": "Select the Existing AVS Private Cloud",
+                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
+                                {
                                     "name": "AVSLogCollection",
                                     "type": "Microsoft.Common.OptionsGroup",
                                     "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
