@@ -97,6 +97,27 @@
                             ]
                         },
                         {
+                            "name": "SelectSDDC",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Private Cloud",
+                            "elements": [
+                                {
+                                    "name": "avsSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true)), equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true))]",
+                                    "label": "Select AVS Private Cloud",
+                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "name": "AVSDashboard",
                             "type": "Microsoft.Common.Section",
                             "visible": true,
@@ -124,19 +145,6 @@
                                     }
                                 }
                             ]
-                        },                    
-                        {
-                            "name": "avsSelector",
-                            "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('Monitoring').AVSDashboard.DeployDashboard, true)]",
-                            "label": "Select AVS Private Cloud",
-                            "resourceType": "Microsoft.AVS/privateClouds",
-                            "options": {
-                                "filter": {
-                                    "subscription": "onBasics",
-                                    "location": "onBasics"
-                                }
-                            }
                         },
 						{
                             "name": "AVSAlerts",
@@ -274,7 +282,7 @@
                                 {
                                     "name": "WorkspaceExists",
                                     "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "",
+                                    "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
                                     "label": "Deploy New or Choose Existing Workspace",
                                     "toolTip": "Deploy New or Choose Existing Workspace",
                                     "defaultValue": "No",
@@ -295,7 +303,7 @@
                                 {
                                     "name": "WorkspaceName",
                                     "type": "Microsoft.Common.TextBox",
-                                    "visible": true,
+                                    "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, true)]",
                                     "label": "Workspace Name",
                                     "defaultValue": "",
                                     "toolTip": "Workspace Name",
@@ -308,7 +316,7 @@
                                 {
                                     "name": "AVSLogCollection",
                                     "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "",
+                                    "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
                                     "label": "Enable AVS Log Collection to Workspace",
                                     "toolTip": "Enable AVS Log Collection to Workspace",
                                     "defaultValue": "No",
@@ -329,7 +337,7 @@
                                 {
                                     "name": "ActivityLogCollection",
                                     "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "",
+                                    "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
                                     "label": "Enable Subscription Activity Log Collection to Workspace",
                                     "toolTip": "Enable Subscription Activity Log Collection to Workspace",
                                     "defaultValue": "No",
