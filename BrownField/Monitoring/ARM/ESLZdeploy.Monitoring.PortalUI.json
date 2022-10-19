@@ -378,7 +378,7 @@
             "parameters": {
                 "Prefix": "[steps('basics').avsDeploymentPrefix]",
                 "Location": "[steps('basics').avsDeploymentScope.location.name]",
-                "DeployDashbord": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
+                "DeployDashboard": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
                 "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
                 "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
