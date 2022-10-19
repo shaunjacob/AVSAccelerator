@@ -325,7 +325,7 @@
                                             "location": "onBasics"
                                         }
                                     }
-                                }
+                                },
                                 {
                                     "name": "AVSLogCollection",
                                     "type": "Microsoft.Common.OptionsGroup",
