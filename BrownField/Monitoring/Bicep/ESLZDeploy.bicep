@@ -28,7 +28,7 @@ param WorkspaceName string = ''
 
 param PrivateCloudName string = ''
 
-param PrivateCloudResourceId string = '/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/kk-avs-PrivateCloud/providers/Microsoft.AVS/privateClouds/kk-avs-SDDC'
+param PrivateCloudResourceId string = '/subscriptions/1abc1ab2-123a-bcd1-123a-1a234b56c78/resourceGroups/Sample-PrivateCloud/providers/Microsoft.AVS/privateClouds/Sample-SDDC'
 
 @description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
 param AlertEmails string = ''
