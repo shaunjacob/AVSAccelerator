@@ -243,6 +243,111 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "name": "Diagnostics",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "Diagnostics",
+                            "elements": [
+                                {
+                                    "name": "DeployDiagnostics",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy Diagnostics",
+                                    "toolTip": "Deploy Diagnostics",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "WorkspaceExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy New or Choose Existing Workspace",
+                                    "toolTip": "Deploy New or Choose Existing Workspace",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "WorkspaceName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": true,
+                                    "label": "Workspace Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Workspace Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Workspace"
+                                    }
+                                },
+                                {
+                                    "name": "AVSLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Enable AVS Log Collection to Workspace",
+                                    "toolTip": "Enable AVS Log Collection to Workspace",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ActivityLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Enable Subscription Activity Log Collection to Workspace",
+                                    "toolTip": "Enable Subscription Activity Log Collection to Workspace",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                            ]
                         }
                     ]
                 }
@@ -258,7 +363,11 @@
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
                 "PrivateCloudName": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.name, steps('Monitoring').avsSelector2.name)]",
                 "PrivateCloudResourceId": "[if(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), steps('Monitoring').avsSelector.id, steps('Monitoring').avsSelector2.id)]",
-                "AlertEmails": "[steps('Monitoring').ActionGroupEmails]"
+                "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
+                "DeployDiagnostics": "[steps('Monitoring').Diagnostics.DeployDiagnostics]",
+                "DeployAVSDiagnostics": "[steps('Monitoring').Diagnostics.AVSLogCollection]",
+                "DeployActivityLogDiagnostics": "[steps('Monitoring').Diagnostics.ActivityLogCollection]",
+                "WorkspaceName": "[steps('Monitoring').Diagnostics.WorkspaceName]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').avsDeploymentScope.location.name]",

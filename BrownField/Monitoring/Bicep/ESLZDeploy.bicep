@@ -3,13 +3,13 @@ targetScope = 'subscription'
 @description('The prefix to use on resources inside this template')
 @minLength(1)
 @maxLength(20)
-param Prefix string = 'SJAVS'
+param Prefix string = ''
 
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
 param Location string = deployment().location
 
 @description('Deploy AVS Dashboard')
-param DeployDashbord bool = false
+param DeployDashbord bool = true
 
 @description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
 param DeployMetricAlerts bool = false
@@ -19,6 +19,12 @@ param DeployServiceHealth bool = false
 
 @description('Deploy the Workbook for AVS')
 param DeployWorkbook bool = false
+
+@description('Deploy the Workbook for AVS')
+param DeployDiagnostics bool = true
+param DeployAVSDiagnostics bool = true
+param DeployActivityLogDiagnostics bool = true
+param WorkspaceName string = ''
 
 param PrivateCloudName string = ''
 
@@ -43,3 +49,17 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlert
     PrivateCloudResourceId : PrivateCloudResourceId
   }
 }
+
+module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
+  name: '${deploymentPrefix}-Diagnostics'
+  params: {
+    Location: Location
+    Prefix: Prefix
+    PrivateCloudName: PrivateCloudName
+    PrivateCloudResourceId: PrivateCloudResourceId
+    WorkspaceName: WorkspaceName
+    DeployAVSDiagnostics: DeployAVSDiagnostics
+    DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
+  }
+}
+
