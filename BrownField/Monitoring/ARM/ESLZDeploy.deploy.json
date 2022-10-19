@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.11.1.770",
-      "templateHash": "10966636962577511581"
+      "templateHash": "3690881035227439654"
     }
   },
   "parameters": {
@@ -25,7 +25,7 @@
         "description": "Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment"
       }
     },
-    "DeployDashbord": {
+    "DeployDashboard": {
       "type": "bool",
       "defaultValue": true,
       "metadata": {
@@ -93,7 +93,7 @@
   },
   "resources": [
     {
-      "condition": "[or(or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashbord')), parameters('DeployWorkbook'))]",
+      "condition": "[or(or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashboard')), parameters('DeployWorkbook'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-Monitoring', variables('deploymentPrefix'))]",
@@ -119,8 +119,8 @@
           "DeployServiceHealth": {
             "value": "[parameters('DeployServiceHealth')]"
           },
-          "DeployDashbord": {
-            "value": "[parameters('DeployDashbord')]"
+          "DeployDashboard": {
+            "value": "[parameters('DeployDashboard')]"
           },
           "DeployWorkbook": {
             "value": "[parameters('DeployWorkbook')]"
@@ -139,7 +139,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.11.1.770",
-              "templateHash": "17712314086142831581"
+              "templateHash": "5290804310298570190"
             }
           },
           "parameters": {
@@ -158,7 +158,7 @@
             "DeployServiceHealth": {
               "type": "bool"
             },
-            "DeployDashbord": {
+            "DeployDashboard": {
               "type": "bool"
             },
             "DeployWorkbook": {
@@ -476,7 +476,7 @@
               ]
             },
             {
-              "condition": "[parameters('DeployDashbord')]",
+              "condition": "[parameters('DeployDashboard')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-Dashboard', deployment().name)]",
