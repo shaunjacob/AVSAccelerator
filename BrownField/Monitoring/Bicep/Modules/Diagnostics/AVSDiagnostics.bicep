@@ -1,5 +1,6 @@
-param PrivateCloudName string = ''
+param PrivateCloudName string = 'SJAVSAUE-SDDC'
 param WorkspaceId string = ''
+param eventhubId string = ''
 
 resource PrivateCloud 'Microsoft.AVS/privateClouds@2021-12-01' existing = {
   name: PrivateCloudName
@@ -26,5 +27,7 @@ resource AVSDiagnostics 'Microsoft.Insights/diagnosticSettings@2021-05-01-previe
         enabled: true
       }
     ]
+    eventHubName: eventhubId
+    
   }
 }

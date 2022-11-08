@@ -240,7 +240,7 @@
                             ]
                         },
                         {
-                            "name": "Diagnostics",
+                            "name": "Logging and Diagnostics",
                             "type": "Microsoft.Common.Section",
                             "visible": true,
                             "label": "Diagnostics",
@@ -356,6 +356,122 @@
                                     }
                                 }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Diagnostics",
+                    "label": "Diagnostics",
+                    "elements": [
+                        {
+                            "name": "DeployDiagnostics",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "",
+                            "label": "Deploy Diagnostics",
+                            "toolTip": "Deploy Diagnostics",
+                            "defaultValue": "No",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "WorkspaceExists",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "label": "Deploy New or Choose Existing Workspace",
+                            "toolTip": "Deploy New or Choose Existing Workspace",
+                            "defaultValue": "New",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "New",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "Existing",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "WorkspaceName",
+                            "type": "Microsoft.Common.TextBox",
+                            "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, true)]",
+                            "label": "Workspace Name",
+                            "defaultValue": "",
+                            "toolTip": "Workspace Name",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Provide a name for your Workspace"
+                            }
+                        },
+                        {
+                            "name": "existingWorkspaceSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, false)]",
+                            "label": "Select the Existing Log Analytics Workspace",
+                            "resourceType": "Microsoft.OperationalInsights/workspaces",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "onBasics"
+                                }
+                            }
+                        },
+                        {
+                            "name": "AVSLogCollection",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "label": "Enable AVS Log Collection to Workspace",
+                            "toolTip": "Enable AVS Log Collection to Workspace",
+                            "defaultValue": "No",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ActivityLogCollection",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "label": "Enable Subscription Activity Log Collection to Workspace",
+                            "toolTip": "Enable Subscription Activity Log Collection to Workspace",
+                            "defaultValue": "No",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }
