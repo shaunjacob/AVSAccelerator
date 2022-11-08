@@ -340,7 +340,7 @@
                         {
                             "name": "Workspace",
                             "type": "Microsoft.Common.Section",
-                            "visible": true,
+                            "visible": "[or(equals(steps('Diagnostics').AVSLogCollection, true), equals(steps('Diagnostics').ActivityLogCollection, true))]",
                             "label": "Log Analytics Workspace Settings",
                             "elements": [
                                 {
@@ -383,6 +383,173 @@
                                     "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
                                     "label": "Select the Existing Log Analytics Workspace",
                                     "resourceType": "Microsoft.OperationalInsights/workspaces",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "StorageAccount",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Storage Account Settings",
+                            "elements": [
+                                {
+                                    "name": "StorageLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Archive to a storage account",
+                                    "toolTip": "Archive to a storage account",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "StorageAccountExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
+                                    "label": "Deploy New or Choose Existing Storage Account",
+                                    "toolTip": "Deploy New or Choose Existing Storage Account",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "StorageAccountName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
+                                    "label": "Workspace Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Workspace Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Workspace"
+                                    }
+                                },
+                                {
+                                    "name": "existingStorageAccountSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
+                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "resourceType": "Microsoft.Storage/storageAccounts"
+                                    // "options": {
+                                    //     "filter": {
+                                    //         "subscription": "onBasics",
+                                    //         "location": "onBasics"
+                                    //     }
+                                    // }
+                                },
+                                {
+                                    "name": "storageRetention",
+                                    "type": "Microsoft.Common.Slider",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
+                                    "label": "Retention Days",
+                                    "subLabel": "",
+                                    "toolTip": "Number of days to store logs in the storage account",
+                                    "min": 1,
+                                    "max": 365,
+                                    "defaultValue": 1,
+                                    "showStepMarkers": true,
+                                    "constraints": {
+                                        "required": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EventHub",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Event Hub Settings",
+                            "elements": [
+                                {
+                                    "name": "EventHubStream",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Stream to an Event Hub",
+                                    "toolTip": "Stream to an Event Hub",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "EventHubExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubStream, true)]",
+                                    "label": "Deploy New or Choose Existing EventHub",
+                                    "toolTip": "Deploy New or Choose Existing EventHub",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "StorageAccountName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, true)]",
+                                    "label": "Workspace Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Workspace Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Workspace"
+                                    }
+                                },
+                                {
+                                    "name": "existingStorageAccountSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, false)]",
+                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "resourceType": "Microsoft.EventHub/Namespaces",
                                     "options": {
                                         "filter": {
                                             "subscription": "onBasics",
