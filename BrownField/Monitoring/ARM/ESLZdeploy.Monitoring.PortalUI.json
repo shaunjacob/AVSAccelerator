@@ -570,8 +570,8 @@
                 "PrivateCloudResourceId": "[steps('Monitoring').SelectSDDC.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
-                "DeployAVSDiagnostics": "[steps('Diagnostics').AVSLogCollection]",
-                "DeployActivityLogDiagnostics": "[steps('Diagnostics').ActivityLogCollection]",
+                "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
+                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "WorkspaceName": "[steps('Diagnostics').Workspace.WorkspaceName]"
             },
             "kind": "Subscription",
