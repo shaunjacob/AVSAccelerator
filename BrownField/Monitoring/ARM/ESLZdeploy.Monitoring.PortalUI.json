@@ -105,7 +105,7 @@
                                 {
                                     "name": "avsSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true))]",
+                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true))]",
                                     "label": "Select AVS Private Cloud",
                                     "resourceType": "Microsoft.AVS/privateClouds",
                                     "options": {
@@ -290,9 +290,9 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "options": {
-                                "text": "Enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click through for more information",
+                                "text": "Enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click here for more information",
                                 "uri": "https://learn.microsoft.com/en-us/azure/azure-monitor/usage-estimated-costs",
-                                "style": "Info"
+                                "style": "Warning"
                             }
                         },
                         {
@@ -444,20 +444,20 @@
                                     "name": "StorageAccountName",
                                     "type": "Microsoft.Common.TextBox",
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
-                                    "label": "Workspace Name",
+                                    "label": "Storage Account Name",
                                     "defaultValue": "",
-                                    "toolTip": "Workspace Name",
+                                    "toolTip": "Storage Account Name",
                                     "constraints": {
                                         "required": true,
                                         "regex": "",
-                                        "validationMessage": "Provide a name for your Workspace"
+                                        "validationMessage": "Provide a name for your Storage Account"
                                     }
                                 },
                                 {
                                     "name": "existingStorageAccountSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
-                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "label": "Select the Existing Storage Account",
                                     "resourceType": "Microsoft.Storage/storageAccounts"
                                 },
                                 {
@@ -508,8 +508,8 @@
                                     "name": "EventHubExists",
                                     "type": "Microsoft.Common.OptionsGroup",
                                     "visible": "[equals(steps('Diagnostics').EventHub.EventHubStream, true)]",
-                                    "label": "Deploy New or Choose Existing EventHub",
-                                    "toolTip": "Deploy New or Choose Existing EventHub",
+                                    "label": "Deploy New or Choose Existing Event Hub",
+                                    "toolTip": "Deploy New or Choose Existing Event Hub",
                                     "defaultValue": "New",
                                     "constraints": {
                                         "required": true,
@@ -526,23 +526,23 @@
                                     }
                                 },
                                 {
-                                    "name": "StorageAccountName",
+                                    "name": "EventHubName",
                                     "type": "Microsoft.Common.TextBox",
                                     "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, true)]",
-                                    "label": "Workspace Name",
+                                    "label": "Event Hub Name",
                                     "defaultValue": "",
-                                    "toolTip": "Workspace Name",
+                                    "toolTip": "Event Hub Name",
                                     "constraints": {
                                         "required": true,
                                         "regex": "",
-                                        "validationMessage": "Provide a name for your Workspace"
+                                        "validationMessage": "Provide a name for your Event Hub"
                                     }
                                 },
                                 {
-                                    "name": "existingStorageAccountSelector",
+                                    "name": "existingEventHubSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, false)]",
-                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "label": "Select the Existing Event Hub",
                                     "resourceType": "Microsoft.EventHub/Namespaces",
                                     "options": {
                                         "filter": {
