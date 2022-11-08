@@ -382,13 +382,7 @@
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
                                     "label": "Select the Existing Log Analytics Workspace",
-                                    "resourceType": "Microsoft.OperationalInsights/workspaces",
-                                    "options": {
-                                        "filter": {
-                                            "subscription": "onBasics",
-                                            "location": "onBasics"
-                                        }
-                                    }
+                                    "resourceType": "Microsoft.OperationalInsights/workspaces"
                                 }
                             ]
                         },
