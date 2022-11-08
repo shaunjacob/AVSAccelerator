@@ -243,7 +243,7 @@
                 },
                 {
                     "name": "Diagnostics",
-                    "label": "Diagnostic Settings",
+                    "label": "Logging",
                     "elements": [
                         {
                             "name": "DiagnosticInfo1",
