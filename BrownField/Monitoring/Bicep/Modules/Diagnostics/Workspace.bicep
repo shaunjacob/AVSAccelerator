@@ -1,4 +1,4 @@
-param WorkspaceName string = ''
+param WorkspaceName string = 'sjtestlga001'
 param Location string = resourceGroup().location
 
 resource Workspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {

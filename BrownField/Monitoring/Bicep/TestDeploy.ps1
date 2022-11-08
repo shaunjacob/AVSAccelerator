@@ -2,3 +2,5 @@ az deployment sub create --name LevelUp-Lab23 --location australiaeast --templat
 
 
 az deployment group create --resource-group SJAVSAUE-PrivateCloud --template-file AVSDiagnostics.bicep
+az deployment group create --resource-group SJAVSAUE-PrivateCloud --template-file Workspace.bicep
+az deployment group create --resource-group SJAVSAUE-PrivateCloud --template-file EventHub.bicep

@@ -1,4 +1,4 @@
-param projectName string
+param eventHubNamespaceName string = 'sjeventhubtest01'
 
 @description('Specifies the Azure location for all resources.')
 param location string = resourceGroup().location
@@ -10,8 +10,6 @@ param location string = resourceGroup().location
 ])
 param eventHubSku string = 'Standard'
 
-var eventHubNamespaceName = '${projectName}ns'
-var eventHubName = projectName
 
 resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
   name: eventHubNamespaceName
@@ -27,13 +25,13 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2021-11-01' = {
   }
 }
 
-resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
-  parent: eventHubNamespace
-  name: eventHubName
-  properties: {
-    messageRetentionInDays: 7
-    partitionCount: 1
-  }
-}
+// resource eventHub 'Microsoft.EventHub/namespaces/eventhubs@2021-11-01' = {
+//   parent: eventHubNamespace
+//   name: eventHubName
+//   properties: {
+//     messageRetentionInDays: 7
+//     partitionCount: 1
+//   }
+// }
 
-output eventHub string = eventHub.id
+output eventHubNamespaceid string = eventHubNamespace.id

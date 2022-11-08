@@ -305,7 +305,7 @@
                         {
                             "name": "Workspace",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[or(equals(steps('Diagnostics').AVSLogCollection, true), equals(steps('Diagnostics').ActivityLogCollection, true))]",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "label": "Log Analytics Workspace Settings",
                             "elements": [
                                 {
