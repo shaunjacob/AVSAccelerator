@@ -246,6 +246,26 @@
                     "label": "Diagnostics",
                     "elements": [
                         {
+                            "name": "DiagnosticInfo1",
+                            "type": "Microsoft.Common.TextBlock",
+                            "options": {
+                                "text": "Diagnostic settings in Azure allow for the collection of resource and activity logs to either be stored to a storage account, to a Log Analytics Workspace or streamed to an Event Hub. This provides the ability to store and retrieve logs for future diagnosis or troubleshooting. In this deployment, you will select the Private Cloud you would to enable Diagnostic Settings for, specify or create a Log Analytics workspace and/or an Event Hub",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/en-us/azure/azure-vmware/configure-vmware-syslogs"
+                                }
+                            }
+                        },
+                        {
+                            "name": "DiagnosticInfo2",
+                            "type": "Microsoft.Common.InfoBox",
+                            "options": {
+                                "text": "Enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click through for more information",
+                                "uri": "https://learn.microsoft.com/en-us/azure/azure-monitor/usage-estimated-costs",
+                                "style": "Info"
+                            }
+                        },
+                        {
                             "name": "DeployDiagnostics",
                             "type": "Microsoft.Common.OptionsGroup",
                             "visible": "",
@@ -269,7 +289,7 @@
                         {
                             "name": "WorkspaceExists",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "label": "Deploy New or Choose Existing Workspace",
                             "toolTip": "Deploy New or Choose Existing Workspace",
                             "defaultValue": "New",
@@ -290,7 +310,7 @@
                         {
                             "name": "WorkspaceName",
                             "type": "Microsoft.Common.TextBox",
-                            "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, true)]",
+                            "visible": "[equals(steps('Diagnostics').WorkspaceExists, true)]",
                             "label": "Workspace Name",
                             "defaultValue": "",
                             "toolTip": "Workspace Name",
@@ -303,7 +323,7 @@
                         {
                             "name": "existingWorkspaceSelector",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[equals(steps('Monitoring').Diagnostics.WorkspaceExists, false)]",
+                            "visible": "[equals(steps('Diagnostics').WorkspaceExists, false)]",
                             "label": "Select the Existing Log Analytics Workspace",
                             "resourceType": "Microsoft.OperationalInsights/workspaces",
                             "options": {
@@ -316,7 +336,7 @@
                         {
                             "name": "AVSLogCollection",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "label": "Enable AVS Log Collection to Workspace",
                             "toolTip": "Enable AVS Log Collection to Workspace",
                             "defaultValue": "No",
@@ -337,7 +357,7 @@
                         {
                             "name": "ActivityLogCollection",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "visible": "[equals(steps('Monitoring').Diagnostics.DeployDiagnostics, true)]",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "label": "Enable Subscription Activity Log Collection to Workspace",
                             "toolTip": "Enable Subscription Activity Log Collection to Workspace",
                             "defaultValue": "No",
