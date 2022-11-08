@@ -290,7 +290,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
                             "options": {
-                                "text": "Enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click here for more information",
+                                "text": "Collecting logs and enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click here for more information",
                                 "uri": "https://learn.microsoft.com/en-us/azure/azure-monitor/usage-estimated-costs",
                                 "style": "Warning"
                             }
