@@ -459,12 +459,6 @@
                                     "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
                                     "label": "Select the Existing Log Analytics Workspace",
                                     "resourceType": "Microsoft.Storage/storageAccounts"
-                                    // "options": {
-                                    //     "filter": {
-                                    //         "subscription": "onBasics",
-                                    //         "location": "onBasics"
-                                    //     }
-                                    // }
                                 },
                                 {
                                     "name": "storageRetention",
