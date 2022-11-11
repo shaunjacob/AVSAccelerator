@@ -7,6 +7,10 @@ param PrivateCloudResourceId string = ''
 param WorkspaceName string = ''
 param DeployAVSDiagnostics bool
 param DeployActivityLogDiagnostics bool
+param EnableLogAnalytics bool
+param EnableStorageAccount bool
+param storageaccountName string = ''
+
 
 var PrivateCloudResourceGroupName = split(PrivateCloudResourceId,'/')[4]
 
@@ -28,12 +32,24 @@ module Workspace 'Diagnostics/Workspace.bicep' = {
   }
 }
 
+module Storage 'Diagnostics/Storage.bicep' = {
+  scope: OperationalResourceGroup
+  name: '${deployment().name}-Storage'
+  params: {
+    storageaccountName: storageaccountName
+    Location: Location
+  }
+}
+
 module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if (DeployAVSDiagnostics) {
   scope: PrivateCloudResourceGroup
   name: '${deployment().name}-AVSDiagnostics'
   params: {
     PrivateCloudName: PrivateCloudName
-    WorkspaceId: Workspace.outputs.WorkspaceId
+    Workspaceid: Workspace.outputs.WorkspaceId
+    StorageAccountid : Storage.outputs.StorageAccountid
+    EnableLogAnalytics : EnableLogAnalytics
+    EnableStorageAccount : EnableStorageAccount
   }
 }
 

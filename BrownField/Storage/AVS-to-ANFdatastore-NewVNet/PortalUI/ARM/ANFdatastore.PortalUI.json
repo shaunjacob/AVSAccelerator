@@ -1,0 +1,596 @@
+{
+    "$schema": "<relative path to createFormUI.schema.json>",
+    "view": {
+        "kind": "Form",
+        "properties": {
+            "title": "AVS Landing Zone Accelerator - Azure Netapp Files",
+            "steps": [
+                {
+                    "name": "basics",
+                    "label": "Azure core setup",
+                    "subLabel": {
+                        "preValidation": "Provide deployment prefix for the resource groups and resources that will be created.",
+                        "postValidation": "Done"
+                    },
+                    "bladeTitle": "avsBasics",
+                    "elements": [  
+                        {
+                            "name": "avsDeploymentScope",
+                            "type": "Microsoft.Common.ResourceScope",
+                            "location": {
+                                "resourceTypes": []
+                            }
+                        },                   
+                        {
+                            "name": "avsSharedServices",
+                            "type": "Microsoft.Common.InfoBox",
+                            "options": {
+                                "text": "The subscription and location selected in this step will be used to deploy the AVS Workload Landing Zone resources (Private Cloud, Virtual Networks, VMs etc.).",
+                                "style": "Info"
+                            }
+                        },
+                        {
+                            "name": "avsWorkloadSubscription",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "Deployment",
+                            "elements": [
+                                {
+                                    "name": "info",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "Azure AVS Landing Zones will create the resource group hierarchy under the subscriptions with the prefix provided at this step.",
+                                        "link": {
+                                            "label": "Learn more",
+                                            "uri": "https://docs.microsoft.com/azure/cloud-adoption-framework/ready/enterprise-scale/management-group-and-subscription-organization"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "avsDeploymentPrefix",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Deployment prefix",
+                            "toolTip": "Provide a prefix (max 8 characters) for the resource groups and resources created as part of AVS landing zones.",
+                            "placeholder": "Example: AVS",
+                            "defaultValue": "SJAVS",
+                            "constraints": {
+                                "required": true,
+                                "regex": "^[a-z0-9A-Z-]{1,8}$",
+                                "validationMessage": "The prefix must be 1-8 characters."
+                            }
+                        },
+                        {
+                            "name": "rbacInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": true,
+                            "options": {
+                                "text": "Azure AVS Landing Zones ARM deployment requires contributor access at the subscription scope. Visit this link to get more information on RBAC permissions and scopes.",
+                                "uri": "https://docs.microsoft.com/en-us/azure/role-based-access-control/scope-overview",
+                                "style": "Warning"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Storage",
+                    "label": "Storage",
+                    "elements": [
+                        {
+                            "name": "AVSBaseAlerts",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "Azure NetApp Files",
+                            "elements": [
+                                {
+                                    "name": "AVSAlertInfo1",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "Azure netapp files...",
+                                        "link": {
+                                            "label": "",
+                                            "uri": ""
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "SelectSDDC",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Private Cloud",
+                            "elements": [
+                                {
+                                    "name": "avsSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true))]",
+                                    "label": "Select AVS Private Cloud",
+                                    "resourceType": "Microsoft.AVS/privateClouds",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "AzureVNet",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "Azure Virtual Network",
+                            "elements": [
+                                {
+                                    "name": "VNetExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Virtual Network",
+                                    "toolTip": "Select New to deploy a new virtual network, or choose an existing VNet",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": false
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": true
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "vNetAddressSpace",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('azureNetwork').VNetExists, false)]",
+                                    "label": "Virtual Network address range",
+                                    "toolTip": "Virtual network in Azure Native to host the ExpressRoute Gateway, Jumpbox and Bastion for AVS Connectivity. Ensure this is not overlapping the AVS Private Cloud",
+                                    "defaultValue": "",
+                                    "placeholder": "Example: 192.168.0.0/22",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "^(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)(?:\/(1[0-9]|2[0-4]))$",
+                                        "validationMessage": "Invalid CIDR range. The address prefix must be in the range 10 to 24."
+                                    }
+                                }
+                            ]
+                        },
+						{
+                            "name": "AVSAlerts",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Alerts",
+                            "elements": [
+                                {
+                                    "name": "DeployAVSAlerts",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy AVS Alerts",
+                                    "toolTip": "Deploy AVS Alerts",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "DeployServiceHealth",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "Enable AVS Service Health Alerts",
+                            "label": "Enable Service Health alerts",
+                            "defaultValue": "No",
+                            "toolTip": "Enable Service Health alerts",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ActionGroupEmails",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Action Group Email",
+                            "visible": "[or(equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true), equals(steps('Monitoring').DeployServiceHealth, true))]",
+                            "toolTip": "Provide an email address to send the service health alerts to, email address must be in quotes",
+                            "placeholder": "Example: alerts@company.com",
+                            "defaultValue": "alerts@company.com",
+                            "constraints": {
+                                "required": true,
+                                "regex": "",
+                                "validationMessage": "Please provide a valid email address. Email must be in quotes"
+                            }
+                        },
+                        {
+                            "name": "AVSWorkbook",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Workbook",
+                            "elements": [
+                                {
+                                    "name": "DeployAVSWorkbook",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy AVS Workbook",
+                                    "toolTip": "Deploy AVS Workbook",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Diagnostics",
+                    "label": "Logging",
+                    "elements": [
+                        {
+                            "name": "DiagnosticInfo1",
+                            "type": "Microsoft.Common.Section",
+                            "visible": true,
+                            "label": "AVS Diagnostic Settings",
+                            "elements": [
+                                {
+                                    "name": "AVSAlertInfo1",
+                                    "type": "Microsoft.Common.TextBlock",
+                                    "options": {
+                                        "text": "Diagnostic settings in Azure allow for the collection of resource and activity logs to either be stored to a storage account, to a Log Analytics Workspace or streamed to an Event Hub. This provides the ability to store and retrieve logs for future diagnosis or troubleshooting. In this deployment, you will select the Private Cloud you would to enable Diagnostic Settings for, specify or create a Log Analytics workspace and/or an Event Hub",
+                                        "link": {
+                                            "label": "Learn more",
+                                            "uri": "https://learn.microsoft.com/en-us/azure/azure-vmware/configure-vmware-syslogs"
+                                        }        
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "DeployDiagnostics",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "visible": "",
+                            "label": "Deploy Diagnostic Settings",
+                            "toolTip": "Deploy Diagnostic Settings",
+                            "defaultValue": "No",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes",
+                                        "value": true
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": false
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "name": "DiagnosticInfo2",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "options": {
+                                "text": "Collecting logs and enabling diagnostic settings may incur additional charges such as storage, ingestion and retention. Click here for more information",
+                                "uri": "https://learn.microsoft.com/en-us/azure/azure-monitor/usage-estimated-costs",
+                                "style": "Warning"
+                            }
+                        },
+                        {
+                            "name": "avsSelector2",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true))]",
+                            "label": "Select AVS Private Cloud",
+                            "resourceType": "Microsoft.AVS/privateClouds"
+                        },
+                        {
+                            "name": "Workspace",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Log Analytics Workspace Settings",
+                            "elements": [
+                                {
+                                    "name": "AVSLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Send AVS Syslogs to a Log Analytics Workspace",
+                                    "toolTip": "Send AVS Logs to a Log Analytics Workspace",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "ActivityLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Send Subscription Activity Logs to a Log Analytics Workspace",
+                                    "toolTip": "Send Subscription Activity Logs to a Log Analytics Workspace",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "WorkspaceExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[or(equals(steps('Diagnostics').Workspace.AVSLogCollection, true), equals(steps('Diagnostics').Workspace.ActivityLogCollection, true))]",
+                                    "label": "Deploy New or Choose Existing Workspace",
+                                    "toolTip": "Deploy New or Choose Existing Workspace",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "WorkspaceName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
+                                    "label": "Workspace Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Workspace Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Workspace"
+                                    }
+                                },
+                                {
+                                    "name": "existingWorkspaceSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
+                                    "label": "Select the Existing Log Analytics Workspace",
+                                    "resourceType": "Microsoft.OperationalInsights/workspaces"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "StorageAccount",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Storage Account Settings",
+                            "elements": [
+                                {
+                                    "name": "StorageLogCollection",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Archive to a storage account",
+                                    "toolTip": "Archive to a storage account",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "StorageAccountExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
+                                    "label": "Deploy New or Choose Existing Storage Account",
+                                    "toolTip": "Deploy New or Choose Existing Storage Account",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "StorageAccountName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
+                                    "label": "Storage Account Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Storage Account Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Storage Account"
+                                    }
+                                },
+                                {
+                                    "name": "existingStorageAccountSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, false)]",
+                                    "label": "Select the Existing Storage Account",
+                                    "resourceType": "Microsoft.Storage/storageAccounts"
+                                },
+                                {
+                                    "name": "storageRetention",
+                                    "type": "Microsoft.Common.Slider",
+                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageLogCollection, true)]",
+                                    "label": "Retention Days",
+                                    "subLabel": "",
+                                    "toolTip": "Number of days to store logs in the storage account",
+                                    "min": 1,
+                                    "max": 365,
+                                    "defaultValue": 1,
+                                    "showStepMarkers": true,
+                                    "constraints": {
+                                        "required": true
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "EventHub",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Event Hub Settings",
+                            "elements": [
+                                {
+                                    "name": "EventHubStream",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                                    "label": "Stream to an Event Hub",
+                                    "toolTip": "Stream to an Event Hub",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "EventHubExists",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubStream, true)]",
+                                    "label": "Deploy New or Choose Existing Event Hub",
+                                    "toolTip": "Deploy New or Choose Existing Event Hub",
+                                    "defaultValue": "New",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "New",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "Existing",
+                                                "value": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "EventHubName",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, true)]",
+                                    "label": "Event Hub Name",
+                                    "defaultValue": "",
+                                    "toolTip": "Event Hub Name",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Provide a name for your Event Hub"
+                                    }
+                                },
+                                {
+                                    "name": "existingEventHubSelector",
+                                    "type": "Microsoft.Solutions.ResourceSelector",
+                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, false)]",
+                                    "label": "Select the Existing Event Hub",
+                                    "resourceType": "Microsoft.EventHub/Namespaces",
+                                    "options": {
+                                        "filter": {
+                                            "subscription": "onBasics",
+                                            "location": "onBasics"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "outputs": {
+            "parameters": {
+                "Prefix": "[steps('basics').avsDeploymentPrefix]",
+                "Location": "[steps('basics').avsDeploymentScope.location.name]",
+                "DeployDashboard": "[steps('Monitoring').AVSDashboard.DeployDashboard]",
+                "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
+                "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
+                "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
+                "PrivateCloudName": "[steps('Monitoring').SelectSDDC.avsSelector.name]",
+                "PrivateCloudResourceId": "[steps('Monitoring').SelectSDDC.avsSelector.id]",
+                "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
+                "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
+                "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
+                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
+                "WorkspaceName": "[steps('Diagnostics').Workspace.WorkspaceName]"
+            },
+            "kind": "Subscription",
+            "location": "[steps('basics').avsDeploymentScope.location.name]",
+            "subscriptionId": "[steps('basics').avsDeploymentScope.subscription.id]"
+        }
+    }
+}
