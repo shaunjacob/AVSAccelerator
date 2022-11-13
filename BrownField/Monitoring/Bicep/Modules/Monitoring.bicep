@@ -59,6 +59,7 @@ module Workbook 'Monitoring/Workbook.bicep' = if (DeployWorkbook) {
   name: '${deployment().name}-Workbook'
   params:{
     Location: PrimaryLocation
+    Prefix: Prefix
   }
 }
 

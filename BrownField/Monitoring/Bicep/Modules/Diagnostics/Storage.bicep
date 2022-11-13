@@ -1,9 +1,9 @@
-param storageaccountName string = ''
 param Location string
 
+var storageaccountname = 'avs${uniqueString(resourceGroup().id)}'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
-  name: storageaccountName
+  name: storageaccountname
   location: Location
   sku: {
     name: 'Standard_LRS'
@@ -11,9 +11,6 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2022-05-01' = {
   kind: 'StorageV2'
   properties: {
     accessTier: 'Hot'
-    allowBlobPublicAccess: true
-    allowSharedKeyAccess: true
-    dnsEndpointType: 'string'
   }
 }
 

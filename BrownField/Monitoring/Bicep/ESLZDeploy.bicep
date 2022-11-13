@@ -3,7 +3,7 @@ targetScope = 'subscription'
 @description('The prefix to use on resources inside this template')
 @minLength(1)
 @maxLength(20)
-param Prefix string = ''
+param Prefix string = 'SJAUETEST1'
 
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
 param Location string = deployment().location
@@ -12,26 +12,31 @@ param Location string = deployment().location
 param DeployDashboard bool = true
 
 @description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
-param DeployMetricAlerts bool = false
+param DeployMetricAlerts bool = true
 
 @description('Deploy Service Health Alerts for AVS')
-param DeployServiceHealth bool = false
+param DeployServiceHealth bool = true
+
+@description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
+param AlertEmails string = 'abc@live.com'
+
+
+param PrivateCloudName string = 'SJAVSAUE-SDDC'
+param PrivateCloudResourceId string = '/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC'
 
 @description('Deploy the Workbook for AVS')
-param DeployWorkbook bool = false
+param DeployWorkbook bool = true
 
-@description('Deploy the Workbook for AVS')
+//Diagnostic Module
 param DeployDiagnostics bool = true
 param DeployAVSDiagnostics bool = true
 param DeployActivityLogDiagnostics bool = true
-param WorkspaceName string = ''
-
-param PrivateCloudName string = ''
-
-param PrivateCloudResourceId string = '/subscriptions/1abc1ab2-123a-bcd1-123a-1a234b56c78/resourceGroups/Sample-PrivateCloud/providers/Microsoft.AVS/privateClouds/Sample-SDDC'
-
-@description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
-param AlertEmails string = ''
+param EnableLogAnalytics bool = true
+param EnableStorageAccount bool = true
+param ExistingWorkspaceId string = ''
+param ExistingStorageAccountId string = ''
+param DeployWorkspace bool = true
+param DeployStorageAccount bool = true
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
@@ -57,9 +62,14 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     Prefix: Prefix
     PrivateCloudName: PrivateCloudName
     PrivateCloudResourceId: PrivateCloudResourceId
-    WorkspaceName: WorkspaceName
     DeployAVSDiagnostics: DeployAVSDiagnostics
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
+    EnableLogAnalytics: EnableLogAnalytics
+    EnableStorageAccount: EnableStorageAccount
+    ExistingWorkspaceId: ExistingWorkspaceId
+    ExistingStorageAccountId: ExistingStorageAccountId
+    DeployWorkspace: DeployWorkspace
+    DeployStorageAccount: DeployStorageAccount
   }
 }
 

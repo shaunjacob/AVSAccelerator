@@ -1,10 +1,8 @@
-param Location string
-param Prefix string
+@description('The friendly name for the workbook that is used in the Gallery or Saved List.  This name must be unique within a resource group.')
+param workbookDisplayName string = 'Azure VMware Solution AVS'
 
 @description('The unique guid for this workbook instance')
 param workbookId string = newGuid()
-
-var WorkbookDisplayName = '${Prefix}-Workbook-v10-${uniqueString(deployment().name, Location)}'
 
 var workbookContent = {
   version: 'Notebook/1.0'
@@ -2156,19 +2154,26 @@ var workbookContent = {
     'Azure Monitor'
   ]
 }
+var varCuaid = '5de39fbe-0b6b-4acf-b01c-cbf2cb8638fc'
 
 resource workbookId_resource 'microsoft.insights/workbooks@2021-03-08' = {
   name: workbookId
-  location: Location
+  location: resourceGroup().location
   kind: 'shared'
   properties: {
-    displayName: WorkbookDisplayName
+    displayName: workbookDisplayName
     serializedData: string(workbookContent)
     version: '1.0'
     sourceId: 'Azure Monitor'
     category: 'workbook'
   }
   dependsOn: []
+}
+
+module pid_varCuaid_location './nested_pid_varCuaid_location.bicep' = {
+  name: 'pid-${varCuaid}-${uniqueString(resourceGroup().location)}'
+  params: {
+  }
 }
 
 output workbookId string = workbookId_resource.id
