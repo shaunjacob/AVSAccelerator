@@ -4,14 +4,14 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.11.1.770",
-      "templateHash": "756668761076483306"
+      "version": "0.12.40.16777",
+      "templateHash": "7605394472639211150"
     }
   },
   "parameters": {
     "Prefix": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "SJAUETEST1",
       "maxLength": 20,
       "minLength": 1,
       "metadata": {
@@ -34,31 +34,43 @@
     },
     "DeployMetricAlerts": {
       "type": "bool",
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "Deploy Azure Monitor metric alerts for your AVS Private Cloud"
       }
     },
     "DeployServiceHealth": {
       "type": "bool",
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "Deploy Service Health Alerts for AVS"
       }
     },
+    "AlertEmails": {
+      "type": "string",
+      "defaultValue": "abc@live.com",
+      "metadata": {
+        "description": "Email addresses to be added to the alerting action group. Use the format [\"name1@domain.com\",\"name2@domain.com\"]."
+      }
+    },
+    "PrivateCloudName": {
+      "type": "string",
+      "defaultValue": "SJAVSAUE-SDDC"
+    },
+    "PrivateCloudResourceId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC"
+    },
     "DeployWorkbook": {
       "type": "bool",
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "Deploy the Workbook for AVS"
       }
     },
     "DeployDiagnostics": {
       "type": "bool",
-      "defaultValue": true,
-      "metadata": {
-        "description": "Deploy the Workbook for AVS"
-      }
+      "defaultValue": true
     },
     "DeployAVSDiagnostics": {
       "type": "bool",
@@ -68,24 +80,29 @@
       "type": "bool",
       "defaultValue": true
     },
-    "WorkspaceName": {
+    "EnableLogAnalytics": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "EnableStorageAccount": {
+      "type": "bool",
+      "defaultValue": true
+    },
+    "ExistingWorkspaceId": {
       "type": "string",
       "defaultValue": ""
     },
-    "PrivateCloudName": {
+    "ExistingStorageAccountId": {
       "type": "string",
       "defaultValue": ""
     },
-    "PrivateCloudResourceId": {
-      "type": "string",
-      "defaultValue": "/subscriptions/1caa5ab4-523f-4851-952b-1b689c48fae9/resourceGroups/kk-avs-PrivateCloud/providers/Microsoft.AVS/privateClouds/kk-avs-SDDC"
+    "DeployWorkspace": {
+      "type": "bool",
+      "defaultValue": true
     },
-    "AlertEmails": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Email addresses to be added to the alerting action group. Use the format [\"name1@domain.com\",\"name2@domain.com\"]."
-      }
+    "DeployStorageAccount": {
+      "type": "bool",
+      "defaultValue": true
     }
   },
   "variables": {
@@ -138,8 +155,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "5290804310298570190"
+              "version": "0.12.40.16777",
+              "templateHash": "8641259078747916027"
             }
           },
           "parameters": {
@@ -203,8 +220,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "11875579815958193345"
+                      "version": "0.12.40.16777",
+                      "templateHash": "9310811489133476840"
                     }
                   },
                   "parameters": {
@@ -274,8 +291,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "4934483348062533657"
+                      "version": "0.12.40.16777",
+                      "templateHash": "16153728326675910729"
                     }
                   },
                   "parameters": {
@@ -410,8 +427,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "14397663925538479246"
+                      "version": "0.12.40.16777",
+                      "templateHash": "13119261199227016473"
                     }
                   },
                   "parameters": {
@@ -503,8 +520,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "2498412483469298556"
+                      "version": "0.12.40.16777",
+                      "templateHash": "16284408710072717924"
                     }
                   },
                   "parameters": {
@@ -847,6 +864,9 @@
                 "parameters": {
                   "Location": {
                     "value": "[parameters('PrimaryLocation')]"
+                  },
+                  "Prefix": {
+                    "value": "[parameters('Prefix')]"
                   }
                 },
                 "template": {
@@ -855,12 +875,15 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "5840794265381522541"
+                      "version": "0.12.40.16777",
+                      "templateHash": "1369612828836823398"
                     }
                   },
                   "parameters": {
                     "Location": {
+                      "type": "string"
+                    },
+                    "Prefix": {
                       "type": "string"
                     },
                     "workbookId": {
@@ -872,7 +895,7 @@
                     }
                   },
                   "variables": {
-                    "WorkbookDisplayName": "[format('AVS-Workbook-v10-{0}', uniqueString(deployment().name, parameters('Location')))]",
+                    "WorkbookDisplayName": "[format('{0}-Workbook-v10-{1}', parameters('Prefix'), uniqueString(deployment().name, parameters('Location')))]",
                     "workbookContent": {
                       "version": "Notebook/1.0",
                       "items": [
@@ -891,7 +914,7 @@
                                 "type": 4,
                                 "isRequired": true,
                                 "value": {
-                                  "durationMs": 172800000
+                                  "durationMs": 14400000
                                 },
                                 "typeSettings": {
                                   "selectableValues": [
@@ -1056,7 +1079,7 @@
                         {
                           "type": 1,
                           "content": {
-                            "json": "# Change Log\r\n\r\n### Version 1\r\nThis is the origional version of the AVS workbooks and features:\r\n- A summary of the AVS soltuons deployed\r\n- Metrics performance view\r\n- Activity section related to AVS\r\n\r\nVersion 2\r\nAdded VMware resource view\r\n\r\n### Version 3 \r\nAdded VM Information \r\n\r\n### Version 4\r\nAdded Alert information\r\n\r\n### Version 5\r\nAdded help for configuring Alerts\r\n\r\n### Version 6\r\n- Added Advisor recommendations\r\n- Added impact filter for Advisor recommendations\r\n- Added status VM tools\r\n\r\n### Version 7\r\nAdded help for Activity tab view\r\n\r\n### Version 8\r\n- Added syslog information\r\n- Enabled more info layout  for syslog\r\n- Presented workspace parameter in general as visible instead of hidden\r\n\r\n### Version 9\r\nAdded map location view including filter for AVS instace and VM views\r\n\r\n### Version 10\r\n- Added AVS quota map and information\r\n- Added additional paramater to filter AVS instance at root level for summary and locations views\r\n- Added vCenter filter to VM view\r\n- bugfixes and performance enhancements"
+                            "json": "# Change Log\r\n\r\n### Version 1\r\nThis is the original version of the AVS workbooks and features:\r\n- A summary of the AVS soltuons deployed\r\n- Metrics performance view\r\n- Activity section related to AVS\r\n\r\n### Version 2\r\nAdded VMware resource view\r\n\r\n### Version 3 \r\nAdded VM Information \r\n\r\n### Version 4\r\nAdded Alert information\r\n\r\n### Version 5\r\nAdded help for configuring Alerts\r\n\r\n### Version 6\r\n- Added Advisor recommendations\r\n- Added impact filter for Advisor recommendations\r\n- Added status VM tools\r\n\r\n### Version 7\r\nAdded help for Activity tab view\r\n\r\n### Version 8\r\n- Added syslog information\r\n- Enabled more info layout  for syslog\r\n- Presented workspace parameter in general as visible instead of hidden\r\n\r\n### Version 9\r\nAdded map location view including filter for AVS instace and VM views\r\n\r\n### Version 10\r\n- Added AVS quota map and information\r\n- Added additional paramater to filter AVS instance at root level for summary and locations views\r\n- Added vCenter filter to VM view\r\n- Bugfixes and performance enhancements"
                           },
                           "conditionalVisibility": {
                             "parameterName": "ChangeLog",
@@ -1293,7 +1316,7 @@
                                         ],
                                         "timeContextFromParameter": "TimeRange",
                                         "timeContext": {
-                                          "durationMs": 14400000
+                                          "durationMs": 172800000
                                         },
                                         "metrics": [
                                           {
@@ -1326,7 +1349,7 @@
                                         ],
                                         "timeContextFromParameter": "TimeRange",
                                         "timeContext": {
-                                          "durationMs": 14400000
+                                          "durationMs": 172800000
                                         },
                                         "metrics": [
                                           {
@@ -1359,7 +1382,7 @@
                                         ],
                                         "timeContextFromParameter": "TimeRange",
                                         "timeContext": {
-                                          "durationMs": 14400000
+                                          "durationMs": 172800000
                                         },
                                         "metrics": [
                                           {
@@ -2670,7 +2693,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "f16d9346-a225-4205-93ce-3a21d223e579",
@@ -2682,7 +2706,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "ea8281bf-abfb-430b-ac91-e0cbabc74568",
@@ -2694,7 +2719,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "f5fd95e4-fc19-48a1-9091-5968dfe54741",
@@ -2706,7 +2732,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "632a9f3f-d2ef-41b4-9cfa-b47ee8b4b505",
@@ -2718,7 +2745,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "59ccceb3-74da-4b17-8ad1-ad9befd8db21",
@@ -2730,7 +2758,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "3b0ec634-2f2c-49cb-8193-50b0d8ea4c3c",
@@ -2742,7 +2771,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "ca440088-1260-4a72-9540-4bd7d9304718",
@@ -2754,7 +2784,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "93ad664b-8ae2-4c92-8a4b-094237d01df9",
@@ -2779,7 +2810,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "f4760aef-ad3e-4b47-9e68-611242bfe019",
@@ -2791,7 +2823,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "8f661698-07c6-4e17-ac26-5b3bf0d6c0b9",
@@ -2803,7 +2836,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "613f2d38-69c8-4cac-98fb-4601c2a084d0",
@@ -2815,7 +2849,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "4d91dcc2-cd6a-4b54-ac12-e55df518979b",
@@ -2827,7 +2862,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "1ccf2914-19a8-44c0-a59b-0912fe38294a",
@@ -2839,7 +2875,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "45318b9a-d335-4585-be14-6d1a7e28c525",
@@ -2851,7 +2888,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "b115ff88-763a-4e60-ba5d-df9e2c98e8c3",
@@ -2863,7 +2901,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "b6034f71-ded9-40ee-8b1c-eeb03a82bfe8",
@@ -2875,7 +2914,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "07ba4c6c-3eba-4d88-8158-fa18f45e73fc",
@@ -2887,7 +2927,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "e102f6df-36a0-4bd2-9634-b8b5fdcd9a52",
@@ -2899,7 +2940,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "a8098363-78a2-464f-8fc1-49e9d34afcdf",
@@ -2911,7 +2953,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "id": "b0bafe2e-6c7a-4e00-b2b9-44bdc2711489",
@@ -2923,7 +2966,8 @@
                                       "timeContext": {
                                         "durationMs": 86400000
                                       },
-                                      "queryType": 12
+                                      "queryType": 12,
+                                      "value": null
                                     },
                                     {
                                       "version": "KqlParameterItem/1.0",
@@ -2935,7 +2979,8 @@
                                         "durationMs": 86400000
                                       },
                                       "queryType": 12,
-                                      "id": "4a6521de-68e7-4079-8e63-672737025eac"
+                                      "id": "4a6521de-68e7-4079-8e63-672737025eac",
+                                      "value": null
                                     }
                                   ],
                                   "style": "pills",
@@ -3058,14 +3103,29 @@
           "PrivateCloudResourceId": {
             "value": "[parameters('PrivateCloudResourceId')]"
           },
-          "WorkspaceName": {
-            "value": "[parameters('WorkspaceName')]"
-          },
           "DeployAVSDiagnostics": {
             "value": "[parameters('DeployAVSDiagnostics')]"
           },
           "DeployActivityLogDiagnostics": {
             "value": "[parameters('DeployActivityLogDiagnostics')]"
+          },
+          "EnableLogAnalytics": {
+            "value": "[parameters('EnableLogAnalytics')]"
+          },
+          "EnableStorageAccount": {
+            "value": "[parameters('EnableStorageAccount')]"
+          },
+          "ExistingWorkspaceId": {
+            "value": "[parameters('ExistingWorkspaceId')]"
+          },
+          "ExistingStorageAccountId": {
+            "value": "[parameters('ExistingStorageAccountId')]"
+          },
+          "DeployWorkspace": {
+            "value": "[parameters('DeployWorkspace')]"
+          },
+          "DeployStorageAccount": {
+            "value": "[parameters('DeployStorageAccount')]"
           }
         },
         "template": {
@@ -3074,35 +3134,53 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.11.1.770",
-              "templateHash": "2986699767416033328"
+              "version": "0.12.40.16777",
+              "templateHash": "9106360717292720659"
             }
           },
           "parameters": {
             "Location": {
               "type": "string",
-              "defaultValue": ""
+              "defaultValue": "australiaeast"
             },
             "Prefix": {
               "type": "string",
-              "defaultValue": ""
+              "defaultValue": "sjavs"
             },
             "PrivateCloudName": {
               "type": "string",
-              "defaultValue": ""
+              "defaultValue": "SJAVSAUE-SDDC"
             },
             "PrivateCloudResourceId": {
               "type": "string",
-              "defaultValue": ""
-            },
-            "WorkspaceName": {
-              "type": "string",
-              "defaultValue": ""
+              "defaultValue": "/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC"
             },
             "DeployAVSDiagnostics": {
-              "type": "bool"
+              "type": "bool",
+              "defaultValue": true
             },
             "DeployActivityLogDiagnostics": {
+              "type": "bool",
+              "defaultValue": true
+            },
+            "EnableLogAnalytics": {
+              "type": "bool",
+              "defaultValue": true
+            },
+            "EnableStorageAccount": {
+              "type": "bool",
+              "defaultValue": true
+            },
+            "ExistingWorkspaceId": {
+              "type": "string"
+            },
+            "ExistingStorageAccountId": {
+              "type": "string"
+            },
+            "DeployWorkspace": {
+              "type": "bool"
+            },
+            "DeployStorageAccount": {
               "type": "bool"
             }
           },
@@ -3117,6 +3195,7 @@
               "location": "[parameters('Location')]"
             },
             {
+              "condition": "[parameters('DeployWorkspace')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-Workspace', deployment().name)]",
@@ -3127,9 +3206,62 @@
                 },
                 "mode": "Incremental",
                 "parameters": {
-                  "WorkspaceName": {
-                    "value": "[parameters('WorkspaceName')]"
+                  "Location": {
+                    "value": "[parameters('Location')]"
                   },
+                  "Prefix": {
+                    "value": "[parameters('Prefix')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.12.40.16777",
+                      "templateHash": "8881033461838862562"
+                    }
+                  },
+                  "parameters": {
+                    "Prefix": {
+                      "type": "string"
+                    },
+                    "Location": {
+                      "type": "string"
+                    }
+                  },
+                  "resources": [
+                    {
+                      "type": "Microsoft.OperationalInsights/workspaces",
+                      "apiVersion": "2022-10-01",
+                      "name": "[format('{0}-Workspace', parameters('Prefix'))]",
+                      "location": "[parameters('Location')]"
+                    }
+                  ],
+                  "outputs": {
+                    "WorkspaceId": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix')))]"
+                    }
+                  }
+                }
+              },
+              "dependsOn": [
+                "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+              ]
+            },
+            {
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-Storage', deployment().name)]",
+              "resourceGroup": "[format('{0}-Operational', parameters('Prefix'))]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
                   "Location": {
                     "value": "[parameters('Location')]"
                   }
@@ -3140,32 +3272,41 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "1555510393213119305"
+                      "version": "0.12.40.16777",
+                      "templateHash": "4029383951596435329"
                     }
                   },
                   "parameters": {
-                    "WorkspaceName": {
-                      "type": "string",
-                      "defaultValue": ""
-                    },
                     "Location": {
-                      "type": "string",
-                      "defaultValue": "[resourceGroup().location]"
+                      "type": "string"
                     }
+                  },
+                  "variables": {
+                    "storageaccountname": "[format('avs{0}', uniqueString(resourceGroup().id))]"
                   },
                   "resources": [
                     {
-                      "type": "Microsoft.OperationalInsights/workspaces",
-                      "apiVersion": "2022-10-01",
-                      "name": "[parameters('WorkspaceName')]",
-                      "location": "[parameters('Location')]"
+                      "type": "Microsoft.Storage/storageAccounts",
+                      "apiVersion": "2022-05-01",
+                      "name": "[variables('storageaccountname')]",
+                      "location": "[parameters('Location')]",
+                      "sku": {
+                        "name": "Standard_LRS"
+                      },
+                      "kind": "StorageV2",
+                      "properties": {
+                        "accessTier": "Hot"
+                      }
                     }
                   ],
                   "outputs": {
-                    "WorkspaceId": {
+                    "StorageAccountName": {
                       "type": "string",
-                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('WorkspaceName'))]"
+                      "value": "[variables('storageaccountname')]"
+                    },
+                    "StorageAccountid": {
+                      "type": "string",
+                      "value": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageaccountname'))]"
                     }
                   }
                 }
@@ -3189,8 +3330,17 @@
                   "PrivateCloudName": {
                     "value": "[parameters('PrivateCloudName')]"
                   },
-                  "WorkspaceId": {
-                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))).outputs.WorkspaceId.value]"
+                  "Workspaceid": {
+                    "value": "[if(parameters('DeployWorkspace'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2020-10-01').outputs.WorkspaceId.value, parameters('ExistingWorkspaceId'))]"
+                  },
+                  "StorageAccountid": {
+                    "value": "[if(parameters('DeployStorageAccount'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2020-10-01').outputs.StorageAccountid.value, parameters('ExistingStorageAccountId'))]"
+                  },
+                  "EnableLogAnalytics": {
+                    "value": "[parameters('EnableLogAnalytics')]"
+                  },
+                  "EnableStorageAccount": {
+                    "value": "[parameters('EnableStorageAccount')]"
                   }
                 },
                 "template": {
@@ -3199,8 +3349,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "9505153334166003196"
+                      "version": "0.12.40.16777",
+                      "templateHash": "9596801605856340609"
                     }
                   },
                   "parameters": {
@@ -3208,19 +3358,30 @@
                       "type": "string",
                       "defaultValue": ""
                     },
-                    "WorkspaceId": {
+                    "Workspaceid": {
                       "type": "string",
                       "defaultValue": ""
+                    },
+                    "StorageAccountid": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
+                    "EnableLogAnalytics": {
+                      "type": "bool"
+                    },
+                    "EnableStorageAccount": {
+                      "type": "bool"
                     }
                   },
                   "resources": [
                     {
+                      "condition": "[parameters('EnableLogAnalytics')]",
                       "type": "Microsoft.Insights/diagnosticSettings",
                       "apiVersion": "2021-05-01-preview",
                       "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
-                      "name": "CollectAVSLogs",
+                      "name": "Logs-to-Workspace",
                       "properties": {
-                        "workspaceId": "[parameters('WorkspaceId')]",
+                        "workspaceId": "[parameters('Workspaceid')]",
                         "metrics": [
                           {
                             "category": "AllMetrics",
@@ -3229,12 +3390,38 @@
                         ],
                         "logs": [
                           {
-                            "categoryGroup": "audit",
+                            "category": "VMwareSyslog",
                             "enabled": true
-                          },
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "condition": "[parameters('EnableStorageAccount')]",
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
+                      "name": "Logs-to-StorageAccount",
+                      "properties": {
+                        "storageAccountId": "[parameters('StorageAccountid')]",
+                        "metrics": [
                           {
-                            "categoryGroup": "allLogs",
-                            "enabled": true
+                            "category": "AllMetrics",
+                            "enabled": true,
+                            "retentionPolicy": {
+                              "days": 1,
+                              "enabled": true
+                            }
+                          }
+                        ],
+                        "logs": [
+                          {
+                            "category": "VMwareSyslog",
+                            "enabled": true,
+                            "retentionPolicy": {
+                              "days": 1,
+                              "enabled": true
+                            }
                           }
                         ]
                       }
@@ -3243,6 +3430,7 @@
                 }
               },
               "dependsOn": [
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name))]",
                 "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
               ]
             },
@@ -3259,7 +3447,7 @@
                 "mode": "Incremental",
                 "parameters": {
                   "WorkspaceId": {
-                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))).outputs.WorkspaceId.value]"
+                    "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2020-10-01').outputs.WorkspaceId.value]"
                   }
                 },
                 "template": {
@@ -3268,8 +3456,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.11.1.770",
-                      "templateHash": "16684444536445682892"
+                      "version": "0.12.40.16777",
+                      "templateHash": "12377308064552492671"
                     }
                   },
                   "parameters": {
