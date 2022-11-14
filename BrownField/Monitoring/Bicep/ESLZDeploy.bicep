@@ -32,16 +32,15 @@ param DeployWorkbook bool = false
 
 //Diagnostic Module
 param DeployDiagnostics bool = false
-param DeployAVSDiagnostics bool = false
+param DeployAVSLogsWorkspace bool = false
 param DeployActivityLogDiagnostics bool = false
-param EnableLogAnalytics bool = false
-param EnableStorageAccount bool = false
+param DeployAVSLogsStorage bool = false
 param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
 param DeployWorkspace bool = false
 param DeployStorageAccount bool = false
 param DiagnosticsPrivateCloudName string = ''
-param DiagnosticsPrivateCloudResourceId string = ''
+//param DiagnosticsPrivateCloudResourceId string = ''
 
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
@@ -67,11 +66,9 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     Location: Location
     Prefix: Prefix
     PrivateCloudName: DiagnosticsPrivateCloudName
-    PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
-    DeployAVSDiagnostics: DeployAVSDiagnostics
+    DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
-    EnableLogAnalytics: EnableLogAnalytics
-    EnableStorageAccount: EnableStorageAccount
+    DeployAVSLogsStorage: DeployAVSLogsStorage
     ExistingWorkspaceId: ExistingWorkspaceId
     ExistingStorageAccountId: ExistingStorageAccountId
     DeployWorkspace: DeployWorkspace

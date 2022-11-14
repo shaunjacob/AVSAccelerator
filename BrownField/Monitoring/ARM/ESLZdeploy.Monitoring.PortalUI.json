@@ -412,8 +412,8 @@
                                     "name": "StorageLogCollection",
                                     "type": "Microsoft.Common.OptionsGroup",
                                     "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
-                                    "label": "Archive to a storage account",
-                                    "toolTip": "Archive to a storage account",
+                                    "label": "Send AVS Logs to a storage account",
+                                    "toolTip": "Send AVS Logs to a storage account",
                                     "defaultValue": "No",
                                     "constraints": {
                                         "required": true,
@@ -448,19 +448,6 @@
                                                 "value": false
                                             }
                                         ]
-                                    }
-                                },
-                                {
-                                    "name": "StorageAccountName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": "[equals(steps('Diagnostics').StorageAccount.StorageAccountExists, true)]",
-                                    "label": "Storage Account Name",
-                                    "defaultValue": "",
-                                    "toolTip": "Storage Account Name",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": "Provide a name for your Storage Account"
                                     }
                                 },
                                 {
@@ -504,10 +491,15 @@
                 "PrivateCloudResourceId": "[steps('Monitoring').MonitoringInputs.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').MonitoringInputs.ActionGroupEmails]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
-                "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
+                "DeployAVSLogsWorkspace": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
                 "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
-                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]"
+                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
+                "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
+                "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector]",
+                "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector]",
+                "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
+                "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').avsDeploymentScope.location.name]",
