@@ -80,7 +80,7 @@
                         {
                             "name": "AVSBaseAlerts",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": true,
                             "label": "AVS Monitoring and Alerts",
                             "elements": [
                                 {
@@ -100,7 +100,7 @@
                         {
                             "name": "DeployMonitoring",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "visible": "",
+                            "visible": true,
                             "label": "Deploy Monitoring and Alerts",
                             "toolTip": "Deploy Monitoring and Alerts",
                             "defaultValue": "No",
@@ -121,7 +121,7 @@
                         {
                             "name": "SelectSDDC",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "AVS Private Cloud",
                             "elements": [
                                 {
@@ -142,7 +142,7 @@
                         {
                             "name": "AVSDashboard",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "AVS Dashboard",
                             "elements": [
                                 {
@@ -171,7 +171,7 @@
 						{
                             "name": "AVSAlerts",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "AVS Alerts",
                             "elements": [
                                 {
@@ -200,7 +200,7 @@
                         {
                             "name": "DeployServiceHealth",
                             "type": "Microsoft.Common.OptionsGroup",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "Enable Service Health alerts",
                             "defaultValue": "No",
                             "toolTip": "Enable Service Health alerts",
@@ -235,7 +235,7 @@
                         {
                             "name": "AVSWorkbook",
                             "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployMonitoring, true)]",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "AVS Workbook",
                             "elements": [
                                 {
