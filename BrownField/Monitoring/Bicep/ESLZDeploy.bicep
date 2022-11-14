@@ -40,7 +40,7 @@ param ExistingStorageAccountId string = ''
 param DeployWorkspace bool = false
 param DeployStorageAccount bool = false
 param DiagnosticsPrivateCloudName string = ''
-//param DiagnosticsPrivateCloudResourceId string = ''
+param DiagnosticsPrivateCloudResourceId string = ''
 
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
@@ -66,6 +66,7 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     Location: Location
     Prefix: Prefix
     PrivateCloudName: DiagnosticsPrivateCloudName
+    PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
     DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage

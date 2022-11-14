@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "3880579178641540306"
+      "templateHash": "9865351067863028329"
     }
   },
   "parameters": {
@@ -108,6 +108,10 @@
       "defaultValue": false
     },
     "DiagnosticsPrivateCloudName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "DiagnosticsPrivateCloudResourceId": {
       "type": "string",
       "defaultValue": ""
     }
@@ -3107,6 +3111,9 @@
           "PrivateCloudName": {
             "value": "[parameters('DiagnosticsPrivateCloudName')]"
           },
+          "PrivateCloudResourceId": {
+            "value": "[parameters('DiagnosticsPrivateCloudResourceId')]"
+          },
           "DeployAVSLogsWorkspace": {
             "value": "[parameters('DeployAVSLogsWorkspace')]"
           },
@@ -3136,7 +3143,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "4848747775551098050"
+              "templateHash": "1016273662096129287"
             }
           },
           "parameters": {
@@ -3149,6 +3156,10 @@
               "defaultValue": ""
             },
             "PrivateCloudName": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "PrivateCloudResourceId": {
               "type": "string",
               "defaultValue": ""
             },
@@ -3177,6 +3188,9 @@
               "type": "bool"
             }
           },
+          "variables": {
+            "PrivateCloudResourceGroupName": "[split(parameters('PrivateCloudResourceId'), '/')[4]]"
+          },
           "resources": [
             {
               "type": "Microsoft.Resources/resourceGroups",
@@ -3185,7 +3199,7 @@
               "location": "[parameters('Location')]"
             },
             {
-              "condition": "[or(parameters('DeployAVSLogsWorkspace'), parameters('DeployWorkspace'))]",
+              "condition": "[parameters('DeployWorkspace')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-Workspace', deployment().name)]",
@@ -3201,18 +3215,6 @@
                   },
                   "Prefix": {
                     "value": "[parameters('Prefix')]"
-                  },
-                  "PrivateCloudName": {
-                    "value": "[parameters('PrivateCloudName')]"
-                  },
-                  "DeployAVSLogsWorkspace": {
-                    "value": "[parameters('DeployAVSLogsWorkspace')]"
-                  },
-                  "DeployWorkspace": {
-                    "value": "[parameters('DeployWorkspace')]"
-                  },
-                  "ExistingWorkspaceId": {
-                    "value": "[parameters('ExistingWorkspaceId')]"
                   }
                 },
                 "template": {
@@ -3222,7 +3224,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "1180159156074312201"
+                      "templateHash": "8881033461838862562"
                     }
                   },
                   "parameters": {
@@ -3231,60 +3233,20 @@
                     },
                     "Location": {
                       "type": "string"
-                    },
-                    "PrivateCloudName": {
-                      "type": "string",
-                      "defaultValue": ""
-                    },
-                    "DeployWorkspace": {
-                      "type": "bool"
-                    },
-                    "DeployAVSLogsWorkspace": {
-                      "type": "bool"
-                    },
-                    "ExistingWorkspaceId": {
-                      "type": "string",
-                      "defaultValue": ""
                     }
                   },
                   "resources": [
                     {
-                      "condition": "[parameters('DeployWorkspace')]",
                       "type": "Microsoft.OperationalInsights/workspaces",
                       "apiVersion": "2022-10-01",
                       "name": "[format('{0}-Workspace', parameters('Prefix'))]",
                       "location": "[parameters('Location')]"
-                    },
-                    {
-                      "condition": "[parameters('DeployAVSLogsWorkspace')]",
-                      "type": "Microsoft.Insights/diagnosticSettings",
-                      "apiVersion": "2021-05-01-preview",
-                      "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
-                      "name": "Logs-to-Workspace",
-                      "properties": {
-                        "workspaceId": "[if(parameters('DeployWorkspace'), resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix'))), parameters('ExistingWorkspaceId'))]",
-                        "metrics": [
-                          {
-                            "category": "AllMetrics",
-                            "enabled": true
-                          }
-                        ],
-                        "logs": [
-                          {
-                            "category": "VMwareSyslog",
-                            "enabled": true
-                          }
-                        ]
-                      },
-                      "dependsOn": [
-                        "[resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix')))]"
-                      ]
                     }
                   ],
                   "outputs": {
                     "WorkspaceId": {
                       "type": "string",
-                      "value": "[if(parameters('DeployWorkspace'), resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix'))), parameters('ExistingWorkspaceId'))]"
+                      "value": "[resourceId('Microsoft.OperationalInsights/workspaces', format('{0}-Workspace', parameters('Prefix')))]"
                     }
                   }
                 }
@@ -3294,7 +3256,7 @@
               ]
             },
             {
-              "condition": "[parameters('DeployAVSLogsStorage')]",
+              "condition": "[parameters('DeployStorageAccount')]",
               "type": "Microsoft.Resources/deployments",
               "apiVersion": "2020-10-01",
               "name": "[format('{0}-Storage', deployment().name)]",
@@ -3307,15 +3269,6 @@
                 "parameters": {
                   "Location": {
                     "value": "[parameters('Location')]"
-                  },
-                  "PrivateCloudName": {
-                    "value": "[parameters('PrivateCloudName')]"
-                  },
-                  "DeployStorageAccount": {
-                    "value": "[parameters('DeployStorageAccount')]"
-                  },
-                  "ExistingStorageAccountId": {
-                    "value": "[parameters('ExistingStorageAccountId')]"
                   }
                 },
                 "template": {
@@ -3325,23 +3278,12 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "155646667171663451"
+                      "templateHash": "4029383951596435329"
                     }
                   },
                   "parameters": {
                     "Location": {
                       "type": "string"
-                    },
-                    "PrivateCloudName": {
-                      "type": "string",
-                      "defaultValue": ""
-                    },
-                    "DeployStorageAccount": {
-                      "type": "bool"
-                    },
-                    "ExistingStorageAccountId": {
-                      "type": "string",
-                      "defaultValue": ""
                     }
                   },
                   "variables": {
@@ -3349,7 +3291,6 @@
                   },
                   "resources": [
                     {
-                      "condition": "[parameters('DeployStorageAccount')]",
                       "type": "Microsoft.Storage/storageAccounts",
                       "apiVersion": "2022-05-01",
                       "name": "[variables('storageaccountname')]",
@@ -3361,38 +3302,6 @@
                       "properties": {
                         "accessTier": "Hot"
                       }
-                    },
-                    {
-                      "type": "Microsoft.Insights/diagnosticSettings",
-                      "apiVersion": "2021-05-01-preview",
-                      "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
-                      "name": "Logs-to-StorageAccount",
-                      "properties": {
-                        "storageAccountId": "[if(parameters('DeployStorageAccount'), resourceId('Microsoft.Storage/storageAccounts', variables('storageaccountname')), parameters('ExistingStorageAccountId'))]",
-                        "metrics": [
-                          {
-                            "category": "AllMetrics",
-                            "enabled": true,
-                            "retentionPolicy": {
-                              "days": 1,
-                              "enabled": true
-                            }
-                          }
-                        ],
-                        "logs": [
-                          {
-                            "category": "VMwareSyslog",
-                            "enabled": true,
-                            "retentionPolicy": {
-                              "days": 1,
-                              "enabled": true
-                            }
-                          }
-                        ]
-                      },
-                      "dependsOn": [
-                        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageaccountname'))]"
-                      ]
                     }
                   ],
                   "outputs": {
@@ -3409,6 +3318,125 @@
               },
               "dependsOn": [
                 "[subscriptionResourceId('Microsoft.Resources/resourceGroups', format('{0}-Operational', parameters('Prefix')))]"
+              ]
+            },
+            {
+              "condition": "[or(parameters('DeployAVSLogsWorkspace'), parameters('DeployAVSLogsStorage'))]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2020-10-01",
+              "name": "[format('{0}-AVSDiagnostics', deployment().name)]",
+              "resourceGroup": "[variables('PrivateCloudResourceGroupName')]",
+              "properties": {
+                "expressionEvaluationOptions": {
+                  "scope": "inner"
+                },
+                "mode": "Incremental",
+                "parameters": {
+                  "PrivateCloudName": {
+                    "value": "[parameters('PrivateCloudName')]"
+                  },
+                  "Workspaceid": {
+                    "value": "[if(parameters('DeployWorkspace'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name)), '2020-10-01').outputs.WorkspaceId.value, parameters('ExistingWorkspaceId'))]"
+                  },
+                  "StorageAccountid": {
+                    "value": "[if(parameters('DeployStorageAccount'), reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name)), '2020-10-01').outputs.StorageAccountid.value, parameters('ExistingStorageAccountId'))]"
+                  },
+                  "DeployAVSLogsWorkspace": {
+                    "value": "[parameters('DeployAVSLogsWorkspace')]"
+                  },
+                  "DeployAVSLogsStorage": {
+                    "value": "[parameters('DeployAVSLogsStorage')]"
+                  }
+                },
+                "template": {
+                  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                  "contentVersion": "1.0.0.0",
+                  "metadata": {
+                    "_generator": {
+                      "name": "bicep",
+                      "version": "0.12.40.16777",
+                      "templateHash": "3066717181249119031"
+                    }
+                  },
+                  "parameters": {
+                    "PrivateCloudName": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
+                    "Workspaceid": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
+                    "StorageAccountid": {
+                      "type": "string",
+                      "defaultValue": ""
+                    },
+                    "DeployAVSLogsWorkspace": {
+                      "type": "bool"
+                    },
+                    "DeployAVSLogsStorage": {
+                      "type": "bool"
+                    }
+                  },
+                  "resources": [
+                    {
+                      "condition": "[parameters('DeployAVSLogsWorkspace')]",
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
+                      "name": "Logs-to-Workspace",
+                      "properties": {
+                        "workspaceId": "[parameters('Workspaceid')]",
+                        "metrics": [
+                          {
+                            "category": "AllMetrics",
+                            "enabled": true
+                          }
+                        ],
+                        "logs": [
+                          {
+                            "category": "VMwareSyslog",
+                            "enabled": true
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "condition": "[parameters('DeployAVSLogsStorage')]",
+                      "type": "Microsoft.Insights/diagnosticSettings",
+                      "apiVersion": "2021-05-01-preview",
+                      "scope": "[format('Microsoft.AVS/privateClouds/{0}', parameters('PrivateCloudName'))]",
+                      "name": "Logs-to-StorageAccount",
+                      "properties": {
+                        "storageAccountId": "[parameters('StorageAccountid')]",
+                        "metrics": [
+                          {
+                            "category": "AllMetrics",
+                            "enabled": true,
+                            "retentionPolicy": {
+                              "days": 1,
+                              "enabled": true
+                            }
+                          }
+                        ],
+                        "logs": [
+                          {
+                            "category": "VMwareSyslog",
+                            "enabled": true,
+                            "retentionPolicy": {
+                              "days": 1,
+                              "enabled": true
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "dependsOn": [
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Storage', deployment().name))]",
+                "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, format('{0}-Operational', parameters('Prefix'))), 'Microsoft.Resources/deployments', format('{0}-Workspace', deployment().name))]"
               ]
             },
             {
