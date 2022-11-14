@@ -496,8 +496,8 @@
                 "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
-                "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector]",
-                "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector]",
+                "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
+                "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",
                 "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
                 "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]"
             },
