@@ -122,7 +122,7 @@
                             "name": "SelectSDDC",
                             "type": "Microsoft.Common.Section",
                             "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
-                            "label": "AVS Private Cloud",
+                            "label": "",
                             "elements": [
                                 {
                                     "name": "avsSelector",
@@ -135,6 +135,49 @@
                                             "subscription": "onBasics",
                                             "location": "onBasics"
                                         }
+                                    }
+                                },
+                                {
+                                    "name": "ActionGroupEmails",
+                                    "type": "Microsoft.Common.TextBox",
+                                    "label": "Action Group Email",
+                                    "visible": "[or(equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true), equals(steps('Monitoring').DeployServiceHealth, true))]",
+                                    "toolTip": "Provide an email address to send the service health alerts to, email address must be in quotes",
+                                    "placeholder": "Example: alerts@company.com",
+                                    "defaultValue": "alerts@company.com",
+                                    "constraints": {
+                                        "required": true,
+                                        "regex": "",
+                                        "validationMessage": "Please provide a valid email address. Email must be in quotes"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "AVSWorkbook",
+                            "type": "Microsoft.Common.Section",
+                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
+                            "label": "AVS Workbook",
+                            "elements": [
+                                {
+                                    "name": "DeployAVSWorkbook",
+                                    "type": "Microsoft.Common.OptionsGroup",
+                                    "visible": "",
+                                    "label": "Deploy AVS Workbook",
+                                    "toolTip": "Deploy AVS Workbook",
+                                    "defaultValue": "No",
+                                    "constraints": {
+                                        "required": true,
+                                        "allowedValues": [
+                                            {
+                                                "label": "Yes",
+                                                "value": true
+                                            },
+                                            {
+                                                "label": "No",
+                                                "value": false
+                                            }
+                                        ]
                                     }
                                 }
                             ]
@@ -217,49 +260,6 @@
                                     }
                                 ]
                             }
-                        },
-                        {
-                            "name": "ActionGroupEmails",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Action Group Email",
-                            "visible": "[or(equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true), equals(steps('Monitoring').DeployServiceHealth, true))]",
-                            "toolTip": "Provide an email address to send the service health alerts to, email address must be in quotes",
-                            "placeholder": "Example: alerts@company.com",
-                            "defaultValue": "alerts@company.com",
-                            "constraints": {
-                                "required": true,
-                                "regex": "",
-                                "validationMessage": "Please provide a valid email address. Email must be in quotes"
-                            }
-                        },
-                        {
-                            "name": "AVSWorkbook",
-                            "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
-                            "label": "AVS Workbook",
-                            "elements": [
-                                {
-                                    "name": "DeployAVSWorkbook",
-                                    "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "",
-                                    "label": "Deploy AVS Workbook",
-                                    "toolTip": "Deploy AVS Workbook",
-                                    "defaultValue": "No",
-                                    "constraints": {
-                                        "required": true,
-                                        "allowedValues": [
-                                            {
-                                                "label": "Yes",
-                                                "value": true
-                                            },
-                                            {
-                                                "label": "No",
-                                                "value": false
-                                            }
-                                        ]
-                                    }
-                                }
-                            ]
                         }
                     ]
                 },
@@ -499,82 +499,6 @@
                                     }
                                 }
                             ]
-                        },
-                        {
-                            "name": "EventHub",
-                            "type": "Microsoft.Common.Section",
-                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
-                            "label": "Event Hub Settings",
-                            "elements": [
-                                {
-                                    "name": "EventHubStream",
-                                    "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
-                                    "label": "Stream to an Event Hub",
-                                    "toolTip": "Stream to an Event Hub",
-                                    "defaultValue": "No",
-                                    "constraints": {
-                                        "required": true,
-                                        "allowedValues": [
-                                            {
-                                                "label": "Yes",
-                                                "value": true
-                                            },
-                                            {
-                                                "label": "No",
-                                                "value": false
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "name": "EventHubExists",
-                                    "type": "Microsoft.Common.OptionsGroup",
-                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubStream, true)]",
-                                    "label": "Deploy New or Choose Existing Event Hub",
-                                    "toolTip": "Deploy New or Choose Existing Event Hub",
-                                    "defaultValue": "New",
-                                    "constraints": {
-                                        "required": true,
-                                        "allowedValues": [
-                                            {
-                                                "label": "New",
-                                                "value": true
-                                            },
-                                            {
-                                                "label": "Existing",
-                                                "value": false
-                                            }
-                                        ]
-                                    }
-                                },
-                                {
-                                    "name": "EventHubName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, true)]",
-                                    "label": "Event Hub Name",
-                                    "defaultValue": "",
-                                    "toolTip": "Event Hub Name",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": "Provide a name for your Event Hub"
-                                    }
-                                },
-                                {
-                                    "name": "existingEventHubSelector",
-                                    "type": "Microsoft.Solutions.ResourceSelector",
-                                    "visible": "[equals(steps('Diagnostics').EventHub.EventHubExists, false)]",
-                                    "label": "Select the Existing Event Hub",
-                                    "resourceType": "Microsoft.EventHub/Namespaces",
-                                    "options": {
-                                        "filter": {
-                                            "subscription": "onBasics",
-                                            "location": "onBasics"
-                                        }
-                                    }
-                                }
-                            ]
                         }
                     ]
                 }
@@ -594,6 +518,8 @@
                 "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
                 "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
+                "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
+                "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "WorkspaceName": "[steps('Diagnostics').Workspace.WorkspaceName]"
             },

@@ -8,6 +8,9 @@ param Prefix string = 'SJAUETEST1'
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
 param Location string = deployment().location
 
+@description('Deploy AVS Monitoring')
+param DeployMonitoring bool = true
+
 @description('Deploy AVS Dashboard')
 param DeployDashboard bool = true
 
@@ -37,10 +40,13 @@ param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
 param DeployWorkspace bool = true
 param DeployStorageAccount bool = true
+param DiagnosticsPrivateCloudName string = ''
+param DiagnosticsPrivateCloudResourceId string = ''
+
 
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
 
-module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth) || (DeployDashboard) || (DeployWorkbook)) {
+module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)) {
   name: '${deploymentPrefix}-Monitoring'
   params: {
     AlertEmails: AlertEmails
@@ -60,8 +66,8 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
   params: {
     Location: Location
     Prefix: Prefix
-    PrivateCloudName: PrivateCloudName
-    PrivateCloudResourceId: PrivateCloudResourceId
+    PrivateCloudName: DiagnosticsPrivateCloudName
+    PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
     DeployAVSDiagnostics: DeployAVSDiagnostics
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     EnableLogAnalytics: EnableLogAnalytics
