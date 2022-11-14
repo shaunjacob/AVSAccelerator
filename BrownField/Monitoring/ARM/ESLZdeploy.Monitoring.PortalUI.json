@@ -464,7 +464,7 @@
                                     "label": "Retention Days",
                                     "subLabel": "",
                                     "toolTip": "Number of days to store logs in the storage account",
-                                    "min": 1,
+                                    "min": 0,
                                     "max": 365,
                                     "defaultValue": 1,
                                     "showStepMarkers": true,
