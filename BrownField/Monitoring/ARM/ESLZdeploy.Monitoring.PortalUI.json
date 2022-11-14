@@ -320,8 +320,8 @@
                         {
                             "name": "avsSelector2",
                             "type": "Microsoft.Solutions.ResourceSelector",
-                            "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployDashboard, true), equals(steps('Monitoring').AVSAlerts.DeployAVSAlerts, true))]",
-                            "label": "Select AVS Private Cloud",
+                            "visible": "[equals(steps('Diagnostics').DeployDiagnostics, true)]",
+                            "label": "Select the AVS Private Cloud to enable diagnostic settings",
                             "resourceType": "Microsoft.AVS/privateClouds"
                         },
                         {
