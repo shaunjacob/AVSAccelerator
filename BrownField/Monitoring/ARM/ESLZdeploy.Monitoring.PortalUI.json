@@ -119,7 +119,7 @@
                             }
                         },
                         {
-                            "name": "SelectSDDC",
+                            "name": "MonitoringInputs",
                             "type": "Microsoft.Common.Section",
                             "visible": "[equals(steps('Monitoring').DeployMonitoring, true)]",
                             "label": "",
@@ -513,9 +513,9 @@
                 "DeployMetricAlerts": "[steps('Monitoring').AVSAlerts.DeployAVSAlerts]",
                 "DeployServiceHealth": "[steps('Monitoring').DeployServiceHealth]",
                 "DeployWorkbook": "[steps('Monitoring').AVSWorkbook.DeployAVSWorkbook]",
-                "PrivateCloudName": "[steps('Monitoring').SelectSDDC.avsSelector.name]",
-                "PrivateCloudResourceId": "[steps('Monitoring').SelectSDDC.avsSelector.id]",
-                "AlertEmails": "[steps('Monitoring').ActionGroupEmails]",
+                "PrivateCloudName": "[steps('Monitoring').MonitoringInputs.avsSelector.name]",
+                "PrivateCloudResourceId": "[steps('Monitoring').MonitoringInputs.avsSelector.id]",
+                "AlertEmails": "[steps('Monitoring').MonitoringInputs.ActionGroupEmails]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
                 "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
