@@ -394,19 +394,6 @@
                                     }
                                 },
                                 {
-                                    "name": "WorkspaceName",
-                                    "type": "Microsoft.Common.TextBox",
-                                    "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, true)]",
-                                    "label": "Workspace Name",
-                                    "defaultValue": "",
-                                    "toolTip": "Workspace Name",
-                                    "constraints": {
-                                        "required": true,
-                                        "regex": "",
-                                        "validationMessage": "Provide a name for your Workspace"
-                                    }
-                                },
-                                {
                                     "name": "existingWorkspaceSelector",
                                     "type": "Microsoft.Solutions.ResourceSelector",
                                     "visible": "[equals(steps('Diagnostics').Workspace.WorkspaceExists, false)]",
@@ -520,8 +507,7 @@
                 "DeployAVSDiagnostics": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
                 "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
-                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
-                "WorkspaceName": "[steps('Diagnostics').Workspace.WorkspaceName]"
+                "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').avsDeploymentScope.location.name]",
