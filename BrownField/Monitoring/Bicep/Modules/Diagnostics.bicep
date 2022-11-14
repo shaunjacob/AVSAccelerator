@@ -1,13 +1,13 @@
 targetScope = 'subscription'
 
-param Location string = 'australiaeast'
-param Prefix string = 'sjavs'
-param PrivateCloudName string = 'SJAVSAUE-SDDC'
-param PrivateCloudResourceId string = '/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC'
-param DeployAVSDiagnostics bool = true
-param DeployActivityLogDiagnostics bool = true
-param EnableLogAnalytics bool = true
-param EnableStorageAccount bool = true
+param Location string = ''
+param Prefix string = ''
+param PrivateCloudName string = ''
+param PrivateCloudResourceId string = ''
+param DeployAVSDiagnostics bool = false
+param DeployActivityLogDiagnostics bool = false
+param EnableLogAnalytics bool = false
+param EnableStorageAccount bool = false
 param ExistingWorkspaceId string
 param ExistingStorageAccountId string
 param DeployWorkspace bool

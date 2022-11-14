@@ -3,43 +3,43 @@ targetScope = 'subscription'
 @description('The prefix to use on resources inside this template')
 @minLength(1)
 @maxLength(20)
-param Prefix string = 'SJAUETEST1'
+param Prefix string = ''
 
 @description('Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment')
 param Location string = deployment().location
 
 @description('Deploy AVS Monitoring')
-param DeployMonitoring bool = true
+param DeployMonitoring bool = false
 
 @description('Deploy AVS Dashboard')
-param DeployDashboard bool = true
+param DeployDashboard bool = false
 
 @description('Deploy Azure Monitor metric alerts for your AVS Private Cloud')
-param DeployMetricAlerts bool = true
+param DeployMetricAlerts bool = false
 
 @description('Deploy Service Health Alerts for AVS')
-param DeployServiceHealth bool = true
+param DeployServiceHealth bool = false
 
 @description('Email addresses to be added to the alerting action group. Use the format ["name1@domain.com","name2@domain.com"].')
-param AlertEmails string = 'abc@live.com'
+param AlertEmails string = ''
 
 
-param PrivateCloudName string = 'SJAVSAUE-SDDC'
-param PrivateCloudResourceId string = '/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC'
+param PrivateCloudName string = ''
+param PrivateCloudResourceId string = ''
 
 @description('Deploy the Workbook for AVS')
-param DeployWorkbook bool = true
+param DeployWorkbook bool = false
 
 //Diagnostic Module
-param DeployDiagnostics bool = true
-param DeployAVSDiagnostics bool = true
-param DeployActivityLogDiagnostics bool = true
-param EnableLogAnalytics bool = true
-param EnableStorageAccount bool = true
+param DeployDiagnostics bool = false
+param DeployAVSDiagnostics bool = false
+param DeployActivityLogDiagnostics bool = false
+param EnableLogAnalytics bool = false
+param EnableStorageAccount bool = false
 param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
-param DeployWorkspace bool = true
-param DeployStorageAccount bool = true
+param DeployWorkspace bool = false
+param DeployStorageAccount bool = false
 param DiagnosticsPrivateCloudName string = ''
 param DiagnosticsPrivateCloudResourceId string = ''
 

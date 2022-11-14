@@ -5,13 +5,13 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "7605394472639211150"
+      "templateHash": "954474418068683496"
     }
   },
   "parameters": {
     "Prefix": {
       "type": "string",
-      "defaultValue": "SJAUETEST1",
+      "defaultValue": "",
       "maxLength": 20,
       "minLength": 1,
       "metadata": {
@@ -25,68 +25,75 @@
         "description": "Optional: The location the private cloud should be deployed to, by default this will be the location of the deployment"
       }
     },
+    "DeployMonitoring": {
+      "type": "bool",
+      "defaultValue": false,
+      "metadata": {
+        "description": "Deploy AVS Monitoring"
+      }
+    },
     "DeployDashboard": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "Deploy AVS Dashboard"
       }
     },
     "DeployMetricAlerts": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "Deploy Azure Monitor metric alerts for your AVS Private Cloud"
       }
     },
     "DeployServiceHealth": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "Deploy Service Health Alerts for AVS"
       }
     },
     "AlertEmails": {
       "type": "string",
-      "defaultValue": "abc@live.com",
+      "defaultValue": "",
       "metadata": {
         "description": "Email addresses to be added to the alerting action group. Use the format [\"name1@domain.com\",\"name2@domain.com\"]."
       }
     },
     "PrivateCloudName": {
       "type": "string",
-      "defaultValue": "SJAVSAUE-SDDC"
+      "defaultValue": ""
     },
     "PrivateCloudResourceId": {
       "type": "string",
-      "defaultValue": "/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC"
+      "defaultValue": ""
     },
     "DeployWorkbook": {
       "type": "bool",
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "Deploy the Workbook for AVS"
       }
     },
     "DeployDiagnostics": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "DeployAVSDiagnostics": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "DeployActivityLogDiagnostics": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "EnableLogAnalytics": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "EnableStorageAccount": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "ExistingWorkspaceId": {
       "type": "string",
@@ -98,11 +105,19 @@
     },
     "DeployWorkspace": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
     },
     "DeployStorageAccount": {
       "type": "bool",
-      "defaultValue": true
+      "defaultValue": false
+    },
+    "DiagnosticsPrivateCloudName": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "DiagnosticsPrivateCloudResourceId": {
+      "type": "string",
+      "defaultValue": ""
     }
   },
   "variables": {
@@ -110,7 +125,7 @@
   },
   "resources": [
     {
-      "condition": "[or(or(or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth')), parameters('DeployDashboard')), parameters('DeployWorkbook'))]",
+      "condition": "[parameters('DeployMonitoring')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2020-10-01",
       "name": "[format('{0}-Monitoring', variables('deploymentPrefix'))]",
@@ -3098,10 +3113,10 @@
             "value": "[parameters('Prefix')]"
           },
           "PrivateCloudName": {
-            "value": "[parameters('PrivateCloudName')]"
+            "value": "[parameters('DiagnosticsPrivateCloudName')]"
           },
           "PrivateCloudResourceId": {
-            "value": "[parameters('PrivateCloudResourceId')]"
+            "value": "[parameters('DiagnosticsPrivateCloudResourceId')]"
           },
           "DeployAVSDiagnostics": {
             "value": "[parameters('DeployAVSDiagnostics')]"
@@ -3135,41 +3150,41 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "9106360717292720659"
+              "templateHash": "6998744785252370060"
             }
           },
           "parameters": {
             "Location": {
               "type": "string",
-              "defaultValue": "australiaeast"
+              "defaultValue": ""
             },
             "Prefix": {
               "type": "string",
-              "defaultValue": "sjavs"
+              "defaultValue": ""
             },
             "PrivateCloudName": {
               "type": "string",
-              "defaultValue": "SJAVSAUE-SDDC"
+              "defaultValue": ""
             },
             "PrivateCloudResourceId": {
               "type": "string",
-              "defaultValue": "/subscriptions/3360bc25-f24a-4221-9129-2207e9adb5bc/resourceGroups/SJAVSAUE-PrivateCloud/providers/Microsoft.AVS/privateClouds/SJAVSAUE-SDDC"
+              "defaultValue": ""
             },
             "DeployAVSDiagnostics": {
               "type": "bool",
-              "defaultValue": true
+              "defaultValue": false
             },
             "DeployActivityLogDiagnostics": {
               "type": "bool",
-              "defaultValue": true
+              "defaultValue": false
             },
             "EnableLogAnalytics": {
               "type": "bool",
-              "defaultValue": true
+              "defaultValue": false
             },
             "EnableStorageAccount": {
               "type": "bool",
-              "defaultValue": true
+              "defaultValue": false
             },
             "ExistingWorkspaceId": {
               "type": "string"
