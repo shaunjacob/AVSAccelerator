@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "9865351067863028329"
+      "templateHash": "18176885351006190530"
     }
   },
   "parameters": {
@@ -27,38 +27,23 @@
     },
     "DeployMonitoring": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Deploy AVS Monitoring"
-      }
+      "defaultValue": false
     },
     "DeployDashboard": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Deploy AVS Dashboard"
-      }
+      "defaultValue": false
     },
     "DeployMetricAlerts": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Deploy Azure Monitor metric alerts for your AVS Private Cloud"
-      }
+      "defaultValue": false
     },
     "DeployServiceHealth": {
       "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Deploy Service Health Alerts for AVS"
-      }
+      "defaultValue": false
     },
     "AlertEmails": {
       "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Email addresses to be added to the alerting action group. Use the format [\"name1@domain.com\",\"name2@domain.com\"]."
-      }
+      "defaultValue": ""
     },
     "PrivateCloudName": {
       "type": "string",
@@ -68,12 +53,17 @@
       "type": "string",
       "defaultValue": ""
     },
-    "DeployWorkbook": {
-      "type": "bool",
-      "defaultValue": false,
-      "metadata": {
-        "description": "Deploy the Workbook for AVS"
-      }
+    "CPUUsageThreshold": {
+      "type": "int"
+    },
+    "MemoryUsageThreshold": {
+      "type": "int"
+    },
+    "StorageUsageThreshold": {
+      "type": "int"
+    },
+    "StorageCriticalThreshold": {
+      "type": "int"
     },
     "DeployDiagnostics": {
       "type": "bool",
@@ -91,13 +81,9 @@
       "type": "bool",
       "defaultValue": false
     },
-    "ExistingWorkspaceId": {
-      "type": "string",
-      "defaultValue": ""
-    },
-    "ExistingStorageAccountId": {
-      "type": "string",
-      "defaultValue": ""
+    "DeployWorkbook": {
+      "type": "bool",
+      "defaultValue": false
     },
     "DeployWorkspace": {
       "type": "bool",
@@ -106,6 +92,14 @@
     "DeployStorageAccount": {
       "type": "bool",
       "defaultValue": false
+    },
+    "ExistingWorkspaceId": {
+      "type": "string",
+      "defaultValue": ""
+    },
+    "ExistingStorageAccountId": {
+      "type": "string",
+      "defaultValue": ""
     },
     "DiagnosticsPrivateCloudName": {
       "type": "string",
@@ -138,7 +132,7 @@
           "Prefix": {
             "value": "[parameters('Prefix')]"
           },
-          "PrimaryLocation": {
+          "Location": {
             "value": "[parameters('Location')]"
           },
           "DeployMetricAlerts": {
@@ -158,6 +152,18 @@
           },
           "PrivateCloudResourceId": {
             "value": "[parameters('PrivateCloudResourceId')]"
+          },
+          "CPUUsageThreshold": {
+            "value": "[parameters('CPUUsageThreshold')]"
+          },
+          "MemoryUsageThreshold": {
+            "value": "[parameters('MemoryUsageThreshold')]"
+          },
+          "StorageUsageThreshold": {
+            "value": "[parameters('StorageUsageThreshold')]"
+          },
+          "StorageCriticalThreshold": {
+            "value": "[parameters('StorageCriticalThreshold')]"
           }
         },
         "template": {
@@ -167,14 +173,14 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "8641259078747916027"
+              "templateHash": "17897359122617599950"
             }
           },
           "parameters": {
             "Prefix": {
               "type": "string"
             },
-            "PrimaryLocation": {
+            "Location": {
               "type": "string"
             },
             "AlertEmails": {
@@ -197,6 +203,18 @@
             },
             "PrivateCloudResourceId": {
               "type": "string"
+            },
+            "CPUUsageThreshold": {
+              "type": "int"
+            },
+            "MemoryUsageThreshold": {
+              "type": "int"
+            },
+            "StorageUsageThreshold": {
+              "type": "int"
+            },
+            "StorageCriticalThreshold": {
+              "type": "int"
             }
           },
           "resources": [
@@ -204,7 +222,7 @@
               "type": "Microsoft.Resources/resourceGroups",
               "apiVersion": "2021-04-01",
               "name": "[format('{0}-Operational', parameters('Prefix'))]",
-              "location": "[parameters('PrimaryLocation')]"
+              "location": "[parameters('Location')]"
             },
             {
               "condition": "[or(parameters('DeployMetricAlerts'), parameters('DeployServiceHealth'))]",
@@ -294,6 +312,18 @@
                   },
                   "PrivateCloudResourceId": {
                     "value": "[parameters('PrivateCloudResourceId')]"
+                  },
+                  "CPUUsageThreshold": {
+                    "value": "[parameters('CPUUsageThreshold')]"
+                  },
+                  "MemoryUsageThreshold": {
+                    "value": "[parameters('MemoryUsageThreshold')]"
+                  },
+                  "StorageUsageThreshold": {
+                    "value": "[parameters('StorageUsageThreshold')]"
+                  },
+                  "StorageCriticalThreshold": {
+                    "value": "[parameters('StorageCriticalThreshold')]"
                   }
                 },
                 "template": {
@@ -303,7 +333,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "16153728326675910729"
+                      "templateHash": "16434716623814106512"
                     }
                   },
                   "parameters": {
@@ -315,6 +345,18 @@
                     },
                     "PrivateCloudResourceId": {
                       "type": "string"
+                    },
+                    "CPUUsageThreshold": {
+                      "type": "int"
+                    },
+                    "MemoryUsageThreshold": {
+                      "type": "int"
+                    },
+                    "StorageUsageThreshold": {
+                      "type": "int"
+                    },
+                    "StorageCriticalThreshold": {
+                      "type": "int"
                     }
                   },
                   "variables": {
@@ -324,7 +366,7 @@
                         "Description": "CPU Usage per Cluster",
                         "Metric": "EffectiveCpuAverage",
                         "SplitDimension": "clustername",
-                        "Threshold": 80,
+                        "Threshold": "[parameters('CPUUsageThreshold')]",
                         "Severity": 2
                       },
                       {
@@ -332,7 +374,7 @@
                         "Description": "Memory Usage per Cluster",
                         "Metric": "UsageAverage",
                         "SplitDimension": "clustername",
-                        "Threshold": 80,
+                        "Threshold": "[parameters('MemoryUsageThreshold')]",
                         "Severity": 2
                       },
                       {
@@ -340,7 +382,7 @@
                         "Description": "Storage Usage per Datastore",
                         "Metric": "DiskUsedPercentage",
                         "SplitDimension": "dsname",
-                        "Threshold": 70,
+                        "Threshold": "[parameters('StorageUsageThreshold')]",
                         "Severity": 2
                       },
                       {
@@ -348,7 +390,7 @@
                         "Description": "Storage Usage per Datastore",
                         "Metric": "DiskUsedPercentage",
                         "SplitDimension": "dsname",
-                        "Threshold": 75,
+                        "Threshold": "[parameters('StorageCriticalThreshold')]",
                         "Severity": 0
                       }
                     ]
@@ -516,7 +558,7 @@
                 "mode": "Incremental",
                 "parameters": {
                   "Location": {
-                    "value": "[parameters('PrimaryLocation')]"
+                    "value": "[parameters('Location')]"
                   },
                   "PrivateCloudResourceId": {
                     "value": "[parameters('PrivateCloudResourceId')]"
@@ -874,7 +916,7 @@
                 "mode": "Incremental",
                 "parameters": {
                   "Location": {
-                    "value": "[parameters('PrimaryLocation')]"
+                    "value": "[parameters('Location')]"
                   },
                   "Prefix": {
                     "value": "[parameters('Prefix')]"
@@ -3108,12 +3150,6 @@
           "Prefix": {
             "value": "[parameters('Prefix')]"
           },
-          "PrivateCloudName": {
-            "value": "[parameters('DiagnosticsPrivateCloudName')]"
-          },
-          "PrivateCloudResourceId": {
-            "value": "[parameters('DiagnosticsPrivateCloudResourceId')]"
-          },
           "DeployAVSLogsWorkspace": {
             "value": "[parameters('DeployAVSLogsWorkspace')]"
           },
@@ -3123,17 +3159,23 @@
           "DeployAVSLogsStorage": {
             "value": "[parameters('DeployAVSLogsStorage')]"
           },
-          "ExistingWorkspaceId": {
-            "value": "[parameters('ExistingWorkspaceId')]"
-          },
-          "ExistingStorageAccountId": {
-            "value": "[parameters('ExistingStorageAccountId')]"
-          },
           "DeployWorkspace": {
             "value": "[parameters('DeployWorkspace')]"
           },
           "DeployStorageAccount": {
             "value": "[parameters('DeployStorageAccount')]"
+          },
+          "PrivateCloudName": {
+            "value": "[parameters('DiagnosticsPrivateCloudName')]"
+          },
+          "PrivateCloudResourceId": {
+            "value": "[parameters('DiagnosticsPrivateCloudResourceId')]"
+          },
+          "ExistingWorkspaceId": {
+            "value": "[parameters('ExistingWorkspaceId')]"
+          },
+          "ExistingStorageAccountId": {
+            "value": "[parameters('ExistingStorageAccountId')]"
           }
         },
         "template": {

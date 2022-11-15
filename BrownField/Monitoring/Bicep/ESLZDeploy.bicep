@@ -61,15 +61,15 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
   params: {
     Location: Location
     Prefix: Prefix
-    PrivateCloudName: DiagnosticsPrivateCloudName
-    PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
     DeployAVSLogsWorkspace: DeployAVSLogsWorkspace
     DeployActivityLogDiagnostics: DeployActivityLogDiagnostics
     DeployAVSLogsStorage: DeployAVSLogsStorage
-    ExistingWorkspaceId: ExistingWorkspaceId
-    ExistingStorageAccountId: ExistingStorageAccountId
     DeployWorkspace: DeployWorkspace
     DeployStorageAccount: DeployStorageAccount
+    PrivateCloudName: DiagnosticsPrivateCloudName
+    PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
+    ExistingWorkspaceId: ExistingWorkspaceId
+    ExistingStorageAccountId: ExistingStorageAccountId
   }
 }
 
