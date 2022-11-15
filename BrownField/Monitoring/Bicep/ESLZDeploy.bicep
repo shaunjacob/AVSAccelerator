@@ -14,12 +14,12 @@ param DeployDashboard bool = false
 param DeployMetricAlerts bool = false
 param DeployServiceHealth bool = false
 param AlertEmails string = ''
+param PrivateCloudName string = ''
+param PrivateCloudResourceId string = ''
 param CPUUsageThreshold int
 param MemoryUsageThreshold int
 param StorageUsageThreshold int
 param StorageCriticalThreshold int
-param PrivateCloudName string = ''
-param PrivateCloudResourceId string = ''
 
 //Diagnostic Module Parameters
 param DeployDiagnostics bool = false
@@ -27,10 +27,10 @@ param DeployAVSLogsWorkspace bool = false
 param DeployActivityLogDiagnostics bool = false
 param DeployAVSLogsStorage bool = false
 param DeployWorkbook bool = false
-param ExistingWorkspaceId string = ''
-param ExistingStorageAccountId string = ''
 param DeployWorkspace bool = false
 param DeployStorageAccount bool = false
+param ExistingWorkspaceId string = ''
+param ExistingStorageAccountId string = ''
 param DiagnosticsPrivateCloudName string = ''
 param DiagnosticsPrivateCloudResourceId string = ''
 
@@ -42,7 +42,7 @@ module OperationalMonitoring 'Modules/Monitoring.bicep' = if ((DeployMonitoring)
   params: {
     AlertEmails: AlertEmails
     Prefix: Prefix
-    PrimaryLocation: Location
+    Location: Location
     DeployMetricAlerts : DeployMetricAlerts
     DeployServiceHealth : DeployServiceHealth
     DeployDashboard : DeployDashboard

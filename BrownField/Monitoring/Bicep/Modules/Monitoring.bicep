@@ -1,7 +1,7 @@
 targetScope = 'subscription'
 
 param Prefix string
-param PrimaryLocation string
+param Location string
 param AlertEmails string
 param DeployMetricAlerts bool
 param DeployServiceHealth bool
@@ -17,7 +17,7 @@ param StorageCriticalThreshold int
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: '${Prefix}-Operational'
-  location: PrimaryLocation
+  location: Location
 }
 
 module ActionGroup 'Monitoring/ActionGroup.bicep' = if ((DeployMetricAlerts) || (DeployServiceHealth)) {
@@ -57,7 +57,7 @@ module Dashboard 'Monitoring/Dashboard.bicep' = if (DeployDashboard) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-Dashboard'
   params:{
-    Location: PrimaryLocation
+    Location: Location
     PrivateCloudResourceId: PrivateCloudResourceId
     PrivateCloudName: PrivateCloudName
   }
@@ -67,7 +67,7 @@ module Workbook 'Monitoring/Workbook.bicep' = if (DeployWorkbook) {
   scope: OperationalResourceGroup
   name: '${deployment().name}-Workbook'
   params:{
-    Location: PrimaryLocation
+    Location: Location
     Prefix: Prefix
   }
 }
