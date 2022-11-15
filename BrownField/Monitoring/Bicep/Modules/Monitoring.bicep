@@ -9,6 +9,11 @@ param DeployDashboard bool
 param DeployWorkbook bool
 param PrivateCloudName string
 param PrivateCloudResourceId string
+param CPUUsageThreshold int
+param MemoryUsageThreshold int
+param StorageUsageThreshold int
+param StorageCriticalThreshold int
+
 
 resource OperationalResourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   name: '${Prefix}-Operational'
@@ -31,6 +36,10 @@ module PrimaryMetricAlerts 'Monitoring/MetricAlerts.bicep' = if (DeployMetricAle
     ActionGroupResourceId: ((DeployMetricAlerts) || (DeployServiceHealth)) ? ActionGroup.outputs.ActionGroupResourceId : ''
     AlertPrefix: PrivateCloudName
     PrivateCloudResourceId: PrivateCloudResourceId
+    CPUUsageThreshold: CPUUsageThreshold
+    MemoryUsageThreshold: MemoryUsageThreshold
+    StorageUsageThreshold: StorageUsageThreshold
+    StorageCriticalThreshold: StorageCriticalThreshold
   }
 }
 
