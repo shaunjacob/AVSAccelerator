@@ -216,7 +216,7 @@
                                 {
                                     "name": "ActionGroupEmails",
                                     "type": "Microsoft.Common.TextBox",
-                                    "label": "Action Group Email",
+                                    "label": "Email Address to send the alerts to",
                                     "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true), equals(steps('Monitoring').AVSDashboard.DeployServiceHealth, true))]",
                                     "toolTip": "Provide an email address to send the service health alerts to, email address must be in quotes",
                                     "placeholder": "Example: alerts@contoso.com",
@@ -225,6 +225,16 @@
                                         "required": true,
                                         "regex": "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",
                                         "validationMessage": "Please provide a valid email address"
+                                    }
+                                },
+                                {
+                                    "name": "MetricAlertInfo1",
+                                    "type": "Microsoft.Common.InfoBox",
+                                    "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
+                                    "options": {
+                                        "icon": "None",
+                                        "text": "The default values below are set as a reference only, use the sliders to adjust as required",
+                                        "style": "Info"
                                     }
                                 },
                                 {
