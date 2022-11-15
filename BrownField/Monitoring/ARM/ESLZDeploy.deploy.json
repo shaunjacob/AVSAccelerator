@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "10484345979463495407"
+      "templateHash": "1033163242534837905"
     }
   },
   "parameters": {
@@ -54,16 +54,20 @@
       "defaultValue": ""
     },
     "CPUUsageThreshold": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 80
     },
     "MemoryUsageThreshold": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 80
     },
     "StorageUsageThreshold": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 70
     },
     "StorageCriticalThreshold": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 80
     },
     "DeployDiagnostics": {
       "type": "bool",
@@ -110,7 +114,8 @@
       "defaultValue": ""
     },
     "StorageRetentionDays": {
-      "type": "int"
+      "type": "int",
+      "defaultValue": 1
     }
   },
   "variables": {
