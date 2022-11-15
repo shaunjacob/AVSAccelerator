@@ -274,7 +274,7 @@
                                 {
                                     "name": "ActionGroupEmails",
                                     "type": "Microsoft.Common.TextBox",
-                                    "label": "Email Address to send the alerts to",
+                                    "label": "Email address to send the alerts to",
                                     "visible": "[or(equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true), equals(steps('Monitoring').AVSDashboard.DeployServiceHealth, true))]",
                                     "toolTip": "Provide an email address to send the service health alerts to",
                                     "placeholder": "Example: alerts@contoso.com",
