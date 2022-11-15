@@ -3,7 +3,7 @@
     "view": {
         "kind": "Form",
         "properties": {
-            "title": "AVS Landing Zone Accelerator - Monitoring",
+            "title": "AVS Landing Zone Accelerator - Monitoring and Logging",
             "steps": [
                 {
                     "name": "basics",
