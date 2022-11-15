@@ -296,7 +296,7 @@
                                     }
                                 },
                                 {
-                                    "name": "cpuUsageTheshold",
+                                    "name": "cpuUsageThreshold",
                                     "type": "Microsoft.Common.Slider",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
                                     "label": "CPU Usage % per Cluster (Sev 2 Alert)",
@@ -311,7 +311,7 @@
                                     }
                                 },
                                 {
-                                    "name": "memoryUsageTheshold",
+                                    "name": "memoryUsageThreshold",
                                     "type": "Microsoft.Common.Slider",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
                                     "label": "Memory Usage % Threshold (Sev 2 Alert)",
@@ -326,7 +326,7 @@
                                     }
                                 },
                                 {
-                                    "name": "storageUsageTheshold",
+                                    "name": "storageUsageThreshold",
                                     "type": "Microsoft.Common.Slider",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
                                     "label": "Storage Usage % Threshold (Sev 2 Alert)",
@@ -341,7 +341,7 @@
                                     }
                                 },
                                 {
-                                    "name": "storageCriticalTheshold",
+                                    "name": "storageCriticalThreshold",
                                     "type": "Microsoft.Common.Slider",
                                     "visible": "[equals(steps('Monitoring').AVSDashboard.DeployAVSAlerts, true)]",
                                     "label": "Storage Critical % Threshold (Sev 0 Alert)",
@@ -388,7 +388,7 @@
                             "visible": "",
                             "label": "Deploy Diagnostic Settings",
                             "toolTip": "Deploy Diagnostic Settings",
-                            "defaultValue": "No",
+                            "defaultValue": "No (Skip)",
                             "constraints": {
                                 "required": true,
                                 "allowedValues": [
@@ -397,7 +397,7 @@
                                         "value": true
                                     },
                                     {
-                                        "label": "No",
+                                        "label": "No (Skip)",
                                         "value": false
                                     }
                                 ]
@@ -586,20 +586,21 @@
                 "PrivateCloudName": "[steps('Monitoring').MonitoringInputs.avsSelector.name]",
                 "PrivateCloudResourceId": "[steps('Monitoring').MonitoringInputs.avsSelector.id]",
                 "AlertEmails": "[steps('Monitoring').MonitoringInputs.ActionGroupEmails]",
-                "CPUUsageThreshold": "[steps('Monitoring').MonitoringInputs.cpuUsageTheshold]",
-                "MemoryUsageThreshold": "[steps('Monitoring').MonitoringInputs.memoryUsageTheshold]",
-                "StorageUsageThreshold": "[steps('Monitoring').MonitoringInputs.storageUsageTheshold]",
-                "StorageCriticalThreshold": "[steps('Monitoring').MonitoringInputs.storageCriticalTheshold]",
+                "CPUUsageThreshold": "[steps('Monitoring').MonitoringInputs.cpuUsageThreshold]",
+                "MemoryUsageThreshold": "[steps('Monitoring').MonitoringInputs.memoryUsageThreshold]",
+                "StorageUsageThreshold": "[steps('Monitoring').MonitoringInputs.storageUsageThreshold]",
+                "StorageCriticalThreshold": "[steps('Monitoring').MonitoringInputs.storageCriticalThreshold]",
                 "DeployDiagnostics": "[steps('Diagnostics').DeployDiagnostics]",
                 "DeployAVSLogsWorkspace": "[steps('Diagnostics').Workspace.AVSLogCollection]",
                 "DiagnosticsPrivateCloudName": "[steps('Diagnostics').avsSelector2.name]",
                 "DiagnosticsPrivateCloudResourceId": "[steps('Diagnostics').avsSelector2.id]",
                 "DeployActivityLogDiagnostics": "[steps('Diagnostics').Workspace.ActivityLogCollection]",
                 "DeployAVSLogsStorage": "[steps('Diagnostics').StorageAccount.StorageLogCollection]",
+                "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
                 "ExistingWorkspaceId": "[steps('Diagnostics').Workspace.existingWorkspaceSelector.id]",
                 "ExistingStorageAccountId": "[steps('Diagnostics').StorageAccount.existingStorageAccountSelector.id]",
-                "DeployWorkspace": "[steps('Diagnostics').Workspace.WorkspaceExists]",
-                "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]"
+                "DeployStorageAccount": "[steps('Diagnostics').StorageAccount.StorageAccountExists]",
+                "StorageRetentionDays": "[steps('Diagnostics').StorageAccount.storageRetention]"
             },
             "kind": "Subscription",
             "location": "[steps('basics').avsDeploymentScope.location.name]",

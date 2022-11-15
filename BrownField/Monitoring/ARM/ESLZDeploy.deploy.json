@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.12.40.16777",
-      "templateHash": "18176885351006190530"
+      "templateHash": "10484345979463495407"
     }
   },
   "parameters": {
@@ -108,6 +108,9 @@
     "DiagnosticsPrivateCloudResourceId": {
       "type": "string",
       "defaultValue": ""
+    },
+    "StorageRetentionDays": {
+      "type": "int"
     }
   },
   "variables": {
@@ -3176,6 +3179,9 @@
           },
           "ExistingStorageAccountId": {
             "value": "[parameters('ExistingStorageAccountId')]"
+          },
+          "StorageRetentionDays": {
+            "value": "[parameters('StorageRetentionDays')]"
           }
         },
         "template": {
@@ -3185,7 +3191,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.12.40.16777",
-              "templateHash": "1016273662096129287"
+              "templateHash": "15519860138785116855"
             }
           },
           "parameters": {
@@ -3222,6 +3228,9 @@
             },
             "ExistingStorageAccountId": {
               "type": "string"
+            },
+            "StorageRetentionDays": {
+              "type": "int"
             },
             "DeployWorkspace": {
               "type": "bool"
@@ -3388,6 +3397,9 @@
                   },
                   "DeployAVSLogsStorage": {
                     "value": "[parameters('DeployAVSLogsStorage')]"
+                  },
+                  "StorageRetentionDays": {
+                    "value": "[parameters('StorageRetentionDays')]"
                   }
                 },
                 "template": {
@@ -3397,7 +3409,7 @@
                     "_generator": {
                       "name": "bicep",
                       "version": "0.12.40.16777",
-                      "templateHash": "3066717181249119031"
+                      "templateHash": "9459285330418887098"
                     }
                   },
                   "parameters": {
@@ -3412,6 +3424,9 @@
                     "StorageAccountid": {
                       "type": "string",
                       "defaultValue": ""
+                    },
+                    "StorageRetentionDays": {
+                      "type": "int"
                     },
                     "DeployAVSLogsWorkspace": {
                       "type": "bool"
@@ -3456,7 +3471,7 @@
                             "category": "AllMetrics",
                             "enabled": true,
                             "retentionPolicy": {
-                              "days": 1,
+                              "days": "[parameters('StorageRetentionDays')]",
                               "enabled": true
                             }
                           }
@@ -3466,7 +3481,7 @@
                             "category": "VMwareSyslog",
                             "enabled": true,
                             "retentionPolicy": {
-                              "days": 1,
+                              "days": "[parameters('StorageRetentionDays')]",
                               "enabled": true
                             }
                           }

@@ -9,6 +9,7 @@ param DeployActivityLogDiagnostics bool = false
 param DeployAVSLogsStorage bool = false
 param ExistingWorkspaceId string
 param ExistingStorageAccountId string
+param StorageRetentionDays int
 param DeployWorkspace bool
 param DeployStorageAccount bool
 
@@ -50,6 +51,7 @@ module AVSDiagnostics 'Diagnostics/AVSDiagnostics.bicep' = if ((DeployAVSLogsWor
     StorageAccountid : DeployStorageAccount ? Storage.outputs.StorageAccountid : ExistingStorageAccountId
     DeployAVSLogsWorkspace : DeployAVSLogsWorkspace
     DeployAVSLogsStorage : DeployAVSLogsStorage
+    StorageRetentionDays : StorageRetentionDays
   }
 }
 

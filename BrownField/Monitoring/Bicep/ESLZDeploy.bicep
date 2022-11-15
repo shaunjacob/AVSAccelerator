@@ -33,6 +33,7 @@ param ExistingWorkspaceId string = ''
 param ExistingStorageAccountId string = ''
 param DiagnosticsPrivateCloudName string = ''
 param DiagnosticsPrivateCloudResourceId string = ''
+param StorageRetentionDays int
 
 //Variables
 var deploymentPrefix = 'AVS-${uniqueString(deployment().name, Location)}'
@@ -70,6 +71,7 @@ module Diagnostics 'Modules/Diagnostics.bicep' = if ((DeployDiagnostics)) {
     PrivateCloudResourceId: DiagnosticsPrivateCloudResourceId
     ExistingWorkspaceId: ExistingWorkspaceId
     ExistingStorageAccountId: ExistingStorageAccountId
+    StorageRetentionDays: StorageRetentionDays
   }
 }
 
